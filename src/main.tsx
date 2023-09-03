@@ -3,26 +3,26 @@ import ReactDOM from "react-dom/client";
 import { App } from "./App.tsx";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Edit } from "./pages/edit.tsx";
-import { Dashboard } from "./pages/dashboard.tsx";
-import { View } from "./pages/view.tsx";
-import { List } from "./pages/list.tsx";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { appRoutes } from "./routes";
+
+const client = new ApolloClient({
+  uri: import.meta.env.VITE_API_URL,
+  cache: new InMemoryCache(),
+});
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [
-      { path: "/", element: <Dashboard /> },
-      { path: "/edit", element: <Edit /> },
-      { path: "/view", element: <View /> },
-      { path: "/list", element: <List /> },
-    ],
+    children: appRoutes,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ApolloProvider client={client}>
+      <RouterProvider router={router} />
+    </ApolloProvider>
   </React.StrictMode>
 );

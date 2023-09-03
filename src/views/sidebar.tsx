@@ -5,19 +5,34 @@ import { useNavigate } from "react-router-dom";
 export const AppSidebar = () => {
   const navigate = useNavigate();
 
+  const sidebarItems = [
+    {
+      icon: HiChartPie,
+      onClick: () => navigate("/"),
+      className: "cursor-pointer",
+      children: <p>Dashboard</p>,
+    },
+    {
+      onClick: () => navigate("/list"),
+      icon: HiClipboardCheck,
+      className: "cursor-pointer",
+      children: <p>Todos</p>,
+    },
+  ];
+
   return (
     <Sidebar aria-label="Default sidebar example">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          <Sidebar.Item icon={HiChartPie} onClick={() => navigate("/")}>
-            <p>Dashboard</p>
-          </Sidebar.Item>
-          <Sidebar.Item
-            onClick={() => navigate("/list")}
-            icon={HiClipboardCheck}
-          >
-            <p>Todos</p>
-          </Sidebar.Item>
+          {sidebarItems.map((item) => (
+            <Sidebar.Item
+              icon={item.icon}
+              onClick={item.onClick}
+              className={item.className}
+            >
+              {item.children}
+            </Sidebar.Item>
+          ))}
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
