@@ -7,16 +7,22 @@ export const AppNavbar = () => {
 
   return (
     <Navbar
-      className="bg-slate-200"
+      className="bg-sky-100"
       fluid
       theme={{
         inner: { base: "m-0 flex justify-between w-full items-center" },
       }}
     >
-      <span className="text-xl font-semibold dark:text-white m-0">
-        My Todos
-      </span>
-      <Button size="xs" onClick={() => navigate("/add")}>
+      <div className="flex row items-center">
+        <img
+          className="w-10 h-10 mr-2"
+          src="https://res.cloudinary.com/the-devoyage/image/upload/v1693794214/TriceraTasks_1_xyr72r.png"
+        />
+        <span className="text-xl font-semibold dark:text-white m-0 text-sky-700">
+          TriceraTask
+        </span>
+      </div>
+      <Button size="xs" onClick={() => navigate("/create")}>
         <HiPlus />
       </Button>
     </Navbar>

@@ -1,0 +1,17 @@
+mutation UpdateTodos($update_todos_input: update_todos_input!) {
+  update_todos(update_todos_input: $update_todos_input) {
+    id
+    title
+    description
+    completed
+  }
+}
+
+query GetTodo($get_todo_input: get_todo_input!) {
+  get_todo(get_todo_input: $get_todo_input) {
+    id
+    title
+    description
+    completed
+  }
+}

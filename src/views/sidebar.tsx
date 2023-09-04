@@ -9,13 +9,11 @@ export const AppSidebar = () => {
     {
       icon: HiChartPie,
       onClick: () => navigate("/"),
-      className: "cursor-pointer",
       children: <p>Dashboard</p>,
     },
     {
       onClick: () => navigate("/list"),
       icon: HiClipboardCheck,
-      className: "cursor-pointer",
       children: <p>Todos</p>,
     },
   ];
@@ -24,11 +22,12 @@ export const AppSidebar = () => {
     <Sidebar aria-label="Default sidebar example">
       <Sidebar.Items>
         <Sidebar.ItemGroup>
-          {sidebarItems.map((item) => (
+          {sidebarItems.map((item, i) => (
             <Sidebar.Item
+              key={i}
               icon={item.icon}
               onClick={item.onClick}
-              className={item.className}
+              className="cursor-pointer"
             >
               {item.children}
             </Sidebar.Item>
