@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Chart from "react-apexcharts";
-import { GetTodosQuery } from "src/pages/list/list.generated";
+import { GetTodosQuery } from "src/pages/list/graphql.generated";
 import dayjs from "src/utils/dayjs";
 
 interface TodosCompletedProps {

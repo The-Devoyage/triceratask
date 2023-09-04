@@ -39,12 +39,18 @@ export const List = () => {
     <Table hoverable>
       <Table.Head>
         <Table.HeadCell className="w-5">ID</Table.HeadCell>
-        <Table.HeadCell className="w-3/5">Title</Table.HeadCell>
-        <Table.HeadCell>Created At</Table.HeadCell>
-        <Table.HeadCell>Updated At</Table.HeadCell>
+        <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
+        <Table.HeadCell className="hidden md:table-cell">
+          Created At
+        </Table.HeadCell>
+        <Table.HeadCell className="hidden md:table-cell">
+          Updated At
+        </Table.HeadCell>
         <Table.HeadCell className="text-center">
           <Tooltip content="Show Completed" theme={{ target: "w-full" }}>
+            Show Completed
             <Checkbox
+              className="ml-2"
               onChange={(e) => {
                 handleFilter(e.target.checked);
               }}

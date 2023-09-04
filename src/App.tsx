@@ -37,9 +37,9 @@ export const App = () => (
   >
     <div className="h-screen">
       <AppNavbar />
-      <div className="flex flex-row h-full w-full">
+      <div className="flex flex-row h-full w-full relative">
         <AppSidebar />
-        <div className="container p-4">
+        <div className="container p-4 w-full">
           <Outlet />
         </div>
       </div>
