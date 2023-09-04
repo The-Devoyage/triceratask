@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import { Badge, Checkbox, Table, Tooltip } from "flowbite-react";
-import dayjs from "src/utils/dayjs";
-import { useNavigate } from "react-router-dom";
-import { useGetTodosLazyQuery } from "./list.generated";
+import { Checkbox, Table, Tooltip } from "flowbite-react";
+import { TodosListBody } from "./components";
+import { useGetTodosLazyQuery } from "./graphql.generated";
 
 export const List = () => {
-  const navigate = useNavigate();
-  const [getTodos, { data }] = useGetTodosLazyQuery();
+  const [getTodos, { data, loading }] = useGetTodosLazyQuery();
 
   useEffect(() => {
     getTodos({
@@ -15,6 +13,7 @@ export const List = () => {
           completed: false,
         },
       },
+      fetchPolicy: "cache-and-network",
     });
   }, [getTodos]);
 
@@ -53,57 +52,7 @@ export const List = () => {
           </Tooltip>
         </Table.HeadCell>
       </Table.Head>
-      <Table.Body>
-        {data?.get_todos?.map((todo) => (
-          <Table.Row
-            key={todo?.id}
-            className="cursor-pointer"
-            onClick={() => navigate(`/edit/${todo?.id}}`)}
-          >
-            <Table.Cell>{todo?.id}</Table.Cell>
-            <Table.Cell>{todo?.title}</Table.Cell>
-            <Table.Cell>
-              <Tooltip
-                content={dayjs
-                  .tz(todo?.created_at)
-                  .local()
-                  .format("MMMM D, YYYY h:mm A")}
-              >
-                {dayjs.tz().to(dayjs.tz(todo?.created_at))}
-              </Tooltip>
-            </Table.Cell>
-            <Table.Cell>
-              <Tooltip
-                content={dayjs
-                  .tz(todo?.updated_at)
-                  .local()
-                  .format("MMMM D, YYYY h:mm A")}
-              >
-                {dayjs.tz().to(dayjs.tz(todo?.updated_at))}
-              </Tooltip>
-            </Table.Cell>
-            <Table.Cell className="text-center">
-              <Badge
-                color={todo?.completed ? "success" : "info"}
-                className="flex justify-center"
-              >
-                <Tooltip
-                  content={
-                    todo?.completed
-                      ? dayjs
-                          .tz(todo?.completed_at)
-                          .local()
-                          .format("MMMM D, YYYY h:mm A")
-                      : "No due date set."
-                  }
-                >
-                  {todo?.completed ? "Completed" : "Pending"}
-                </Tooltip>
-              </Badge>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
+      <TodosListBody todos={data?.get_todos} loading={loading} />
     </Table>
   );
 };

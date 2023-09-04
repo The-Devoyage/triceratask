@@ -28,8 +28,6 @@ export const Add = () => {
       onCompleted: () => {
         navigate("/list");
       },
-      awaitRefetchQueries: true,
-      refetchQueries: ["GetTodos"],
     });
   };
 

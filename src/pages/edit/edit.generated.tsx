@@ -9,7 +9,7 @@ export type UpdateTodosMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', id: number, title: string, description: string, completed: boolean }> };
+export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', id: number, title: string, description: string, completed: boolean, completed_at?: string | null }> };
 
 export type GetTodoQueryVariables = Types.Exact<{
   get_todo_input: Types.Get_Todo_Input;
@@ -26,6 +26,7 @@ export const UpdateTodosDocument = gql`
     title
     description
     completed
+    completed_at
   }
 }
     `;

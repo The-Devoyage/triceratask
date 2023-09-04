@@ -4,6 +4,7 @@ mutation UpdateTodos($update_todos_input: update_todos_input!) {
     title
     description
     completed
+    completed_at
   }
 }
 

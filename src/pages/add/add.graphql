@@ -1,5 +1,11 @@
 mutation CreateTodo($create_todo_input: create_todo_input!) {
   create_todo(create_todo_input: $create_todo_input) {
     id
+    title
+    description
+    completed
+    completed_at
+    created_at
+    updated_at
   }
 }

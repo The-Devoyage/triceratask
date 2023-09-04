@@ -60,6 +60,7 @@ export type Create_Todo_Input = {
 
 export type Get_Todo_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -67,6 +68,7 @@ export type Get_Todo_Input = {
 
 export type Get_Todos_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -92,6 +94,7 @@ export type Update_Todos_Input = {
 
 export type Update_Todos_Query_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;

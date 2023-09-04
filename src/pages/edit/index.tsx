@@ -16,13 +16,7 @@ export const Edit = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm<Update_Todos_Input>();
-  const [updateTodo] = useUpdateTodosMutation({
-    onCompleted: () => {
-      navigate("/list");
-    },
-    refetchQueries: ["GetTodos"],
-    awaitRefetchQueries: true,
-  });
+  const [updateTodo] = useUpdateTodosMutation();
   const { data } = useGetTodoQuery({
     variables: { get_todo_input: { id: parseInt(id!) } },
   });
@@ -45,6 +39,7 @@ export const Edit = () => {
           completed: values.completed,
         },
       },
+      onCompleted: () => navigate("/list"),
     });
   };
 

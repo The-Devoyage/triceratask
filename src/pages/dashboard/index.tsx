@@ -1,12 +1,11 @@
 import { Card } from "flowbite-react";
 import { TodoStats, TodosCompletedChart } from "./components";
-import { useGetTodosQuery } from "../list/list.generated";
+import { useGetTodosQuery } from "../list/graphql.generated";
 
 export const Dashboard = () => {
   const { data } = useGetTodosQuery({ variables: { get_todos_input: {} } });
   const todos = data?.get_todos ?? [];
 
-  //account for smaller screen sizes
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
