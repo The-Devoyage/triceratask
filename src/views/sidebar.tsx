@@ -3,6 +3,7 @@ import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";
 import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { appRoutes } from "src/routes";
 import { sidebarHiddenVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
 
@@ -27,11 +28,11 @@ export const AppSidebar = () => {
   const sidebarItems = [
     {
       icon: HiChartPie,
-      onClick: () => handleNavigate("/"),
+      onClick: () => handleNavigate(appRoutes.dashboard.path),
       children: <p>Dashboard</p>,
     },
     {
-      onClick: () => handleNavigate("/list"),
+      onClick: () => handleNavigate(appRoutes.listTodos.path),
       icon: HiClipboardCheck,
       children: <p>Todos</p>,
     },

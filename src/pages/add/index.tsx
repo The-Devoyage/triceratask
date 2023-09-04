@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { useCreateTodoMutation } from "./add.generated";
 import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
+import { appRoutes } from "src/routes";
 
 export const Add = () => {
   const { register, handleSubmit } = useForm<Create_Todo_Input>();
@@ -26,7 +27,7 @@ export const Add = () => {
         },
       },
       onCompleted: () => {
-        navigate("/list");
+        navigate(appRoutes.listTodos.path);
       },
     });
   };

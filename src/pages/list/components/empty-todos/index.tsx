@@ -1,6 +1,7 @@
 import { Button, Table } from "flowbite-react";
 import { HiClipboardCheck, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { appRoutes } from "src/routes";
 
 export const EmptyTodos = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const EmptyTodos = () => {
           <HiClipboardCheck className="h-20 w-20 text-gray-400 mb-3" />
           <Button
             className="flex justify-center items-center"
-            onClick={() => navigate("/create")}
+            onClick={() => navigate(appRoutes.createTodo.path)}
           >
             <HiPlus className="h-5 mr-2" />
             Create Todo

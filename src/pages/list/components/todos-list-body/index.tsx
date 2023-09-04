@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 import { EmptyTodos, TodosLoading } from "../";
 import { GetTodosQuery } from "../../graphql.generated";
+import { appRoutes } from "src/routes";
 
 interface Props {
   todos?: GetTodosQuery["get_todos"];
@@ -24,7 +25,12 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
           <Table.Row
             key={todo?.id}
             className="cursor-pointer"
-            onClick={() => navigate(`/edit/${todo?.id}}`)}
+            onClick={() => {
+              console.log(appRoutes.editTodo.path.replace(":id", "12345"));
+              navigate(
+                appRoutes.editTodo.path.replace(":id", todo?.id.toString())
+              );
+            }}
           >
             <Table.Cell>{todo?.id}</Table.Cell>
             <Table.Cell>{todo?.title}</Table.Cell>

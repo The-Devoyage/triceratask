@@ -2,6 +2,7 @@ import { useReactiveVar } from "@apollo/client";
 import { Button, Navbar } from "flowbite-react";
 import { HiMenu, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { appRoutes } from "src/routes";
 import { sidebarHiddenVar } from "src/state";
 
 export const AppNavbar = () => {
@@ -29,8 +30,9 @@ export const AppNavbar = () => {
           TriceraTask
         </span>
       </div>
-      <Button size="xs" onClick={() => navigate("/create")}>
-        <HiPlus />
+      <Button size="sm" onClick={() => navigate(appRoutes.createTodo.path)}>
+        <HiPlus className="h-5 md:mr-2" />
+        <span className="hidden md:block">New Todo</span>
       </Button>
     </Navbar>
   );

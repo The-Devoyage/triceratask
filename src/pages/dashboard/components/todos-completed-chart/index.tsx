@@ -41,7 +41,16 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
         },
         chart: {
           id: "line",
+          dropShadow: {
+            enabled: true,
+            color: "#000",
+            top: 18,
+            left: 7,
+            blur: 10,
+            opacity: 0.2,
+          },
         },
+        colors: ["#0369a1"],
         xaxis: {
           categories: xAxisLabelsSorted,
         },

@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useGetTodoQuery, useUpdateTodosMutation } from "./edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { Update_Todos_Input } from "src/types/generated";
+import { appRoutes } from "src/routes";
 
 export const Edit = () => {
   const { id } = useParams<{ id: string }>();
@@ -39,7 +40,7 @@ export const Edit = () => {
           completed: values.completed,
         },
       },
-      onCompleted: () => navigate("/list"),
+      onCompleted: () => navigate(appRoutes.listTodos.path),
     });
   };
 
