@@ -14,5 +14,6 @@ query GetTodo($get_todo_input: get_todo_input!) {
     title
     description
     completed
+    completed_at
   }
 }

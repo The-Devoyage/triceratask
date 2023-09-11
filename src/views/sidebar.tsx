@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";
 import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
+import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
-import { sidebarHiddenVar } from "src/state";
+import { isLoggedInVar, sidebarHiddenVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
 
 export const AppSidebar = () => {
@@ -38,17 +40,34 @@ export const AppSidebar = () => {
     },
   ];
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    isLoggedInVar(false);
+    navigate(appRoutes.login.path);
+  };
+
+  if (!isLoggedInVar()) return null;
+
   return (
     <Sidebar
+      style={{
+        height: "calc(100vh - 60px)",
+      }}
       hidden={hidden}
-      className="absolute md:relative z-50"
+      className="absolute md:sticky top-[60px] z-50"
       theme={{
         root: {
-          inner: "bg-neutral-100 h-screen z-50",
+          collapsed: {
+            on: "w-16",
+            off: "w-64",
+          },
+          inner:
+            "h-full overflow-y-auto overflow-x-hidden bg-neutral-50 py-4 px-3 dark:bg-gray-800",
         },
       }}
     >
-      <Sidebar.Items>
+      <Sidebar.Items className="flex flex-col justify-between h-full">
         <Sidebar.ItemGroup>
           {sidebarItems.map((item, i) => (
             <Sidebar.Item
@@ -60,6 +79,15 @@ export const AppSidebar = () => {
               {item.children}
             </Sidebar.Item>
           ))}
+        </Sidebar.ItemGroup>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item
+            icon={FiLogOut}
+            onClick={handleLogout}
+            className="cursor-pointer"
+          >
+            <p>Logout</p>
+          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

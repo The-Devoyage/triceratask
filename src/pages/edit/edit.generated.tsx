@@ -16,7 +16,7 @@ export type GetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', id: number, title: string, description: string, completed: boolean } };
+export type GetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', id: number, title: string, description: string, completed: boolean, completed_at?: string | null } };
 
 
 export const UpdateTodosDocument = gql`
@@ -63,6 +63,7 @@ export const GetTodoDocument = gql`
     title
     description
     completed
+    completed_at
   }
 }
     `;

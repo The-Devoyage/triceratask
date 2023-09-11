@@ -2,11 +2,27 @@
 name = "todos"
 port = 5555
 
+[service.cors]
+allow_methods = [{method = "POST"}]
+allow_headers = ["Authorization", "Content-Type"]
+
 [[service.data_sources]]
 [service.data_sources.SQL]
-name = "devoyage_platform"
+name = "triceratask_ds"
 uri = "sqlite:/home/nickisyourfan/Desktop/DEV/my-todo-app/api/todos.db"
 dialect = "SQLITE"
+
+# [[service.guards]]
+# name = "invalid_access_key"
+# if_expr = "headers(\"Authorization\") != \"h7AOof/MvCBYhVbr3FKMafvFu+AsZ8y80/+GKOuf7GwSY8HppzjWymf163J7NsDE\""
+# then_msg = "Invalid Access Key - Permission Denied"
+
+[service.auth]
+requesting_party = "localhost"
+requesting_party_name = "triceratask.com"
+requesting_party_origin = "http://localhost:5173" #Origin of the client. http://localhost:5173
+identifier = "username"
+data_source = "triceratask_ds"
 
 [[service.entities]]
 name = "todo"

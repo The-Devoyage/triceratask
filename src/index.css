@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root {
+  height: calc(100vh - 60px);
+}
+
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+.gradient-background {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+  background: linear-gradient(
+    45deg,
+    rgba(0, 118, 179, 0.7),
+    rgba(142, 224, 104, 0.7),
+    rgba(0, 118, 179, 0.7),
+    rgba(142, 224, 104, 0.7)
+  );
+  background-size: 150% 125%;
+  animation: gradientAnimation 10s linear infinite alternate;
+}
+
+.gradient-background-dark {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: -1;
+  background: linear-gradient(
+    45deg,
+    rgba(173, 216, 230, 0.7),
+    rgba(72, 61, 139, 0.7),
+    rgba(0, 118, 179, 0.7),
+    rgba(142, 224, 104, 0.7)
+  );
+  background-size: 150% 125%;
+  animation: gradientAnimation 10s linear infinite alternate;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}

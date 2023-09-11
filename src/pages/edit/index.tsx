@@ -40,7 +40,7 @@ export const Edit = () => {
           completed: values.completed,
         },
       },
-      onCompleted: () => navigate(appRoutes.listTodos.path),
+      onCompleted: () => navigate(appRoutes.viewTodo.path.replace(":id", id!)),
     });
   };
 

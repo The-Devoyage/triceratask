@@ -37,7 +37,9 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
     <Chart
       options={{
         stroke: {
-          curve: "stepline",
+          curve: "smooth",
+          width: 8,
+          lineCap: "round",
         },
         chart: {
           id: "line",
@@ -51,6 +53,9 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
           },
         },
         colors: ["#0369a1"],
+        grid: {
+          show: false,
+        },
         xaxis: {
           categories: xAxisLabelsSorted,
         },
@@ -62,7 +67,11 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
         },
       ]}
       type="line"
-      style={{ margin: "0 auto", minHeight: "300px", width: "100%" }}
+      style={{
+        margin: "0 auto",
+        minHeight: "300px",
+        width: "100%",
+      }}
     />
   );
 };

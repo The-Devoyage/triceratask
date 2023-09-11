@@ -11,7 +11,7 @@ export const TodoStats: FC<TodoStatsProps> = ({ total, label, onClick }) => {
   return (
     <Card
       onClick={onClick && onClick}
-      className={onClick ? "cursor-pointer" : ""}
+      className={onClick ? "cursor-pointer hover:shadow-xl" : ""}
     >
       <h4 className="text-xl font-bold">{label}</h4>
       <p className="text-4xl font-bold">{total}</p>

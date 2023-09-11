@@ -1,13 +1,66 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App.tsx";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+  from,
+} from "@apollo/client";
 import { appRoutes } from "./routes";
+import { setContext } from "@apollo/client/link/context";
+import { onError } from "@apollo/client/link/error";
+import "./index.css";
+import { toastsVar } from "./state/index.ts";
+import { v4 as uuidv4 } from "uuid";
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  console.log("Has Error");
+  const toasts = toastsVar();
+  if (graphQLErrors) {
+    console.log("graphQLErrors", graphQLErrors);
+    graphQLErrors.forEach(({ message }) => {
+      toastsVar([
+        ...toasts,
+        {
+          id: uuidv4(),
+          type: "error",
+          message,
+        },
+      ]);
+    });
+  }
+  if (networkError) {
+    console.log("networkError", networkError);
+    toastsVar([
+      ...toasts,
+      {
+        id: uuidv4(),
+        type: "error",
+        message: networkError.message,
+      },
+    ]);
+  }
+});
+
+const httpLink = createHttpLink({
+  uri: import.meta.env.VITE_API_URL,
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? token : "",
+    },
+  };
+});
 
 const client = new ApolloClient({
-  uri: import.meta.env.VITE_API_URL,
+  link: from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache(),
 });
 

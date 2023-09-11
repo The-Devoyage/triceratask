@@ -17,12 +17,25 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   create_todo: Todo;
+  register_finish: Scalars['Boolean']['output'];
+  register_start: Scalars['String']['output'];
   update_todos: Array<Todo>;
 };
 
 
 export type MutationCreate_TodoArgs = {
   create_todo_input: Create_Todo_Input;
+};
+
+
+export type MutationRegister_FinishArgs = {
+  identifier: Scalars['String']['input'];
+  public_key: Scalars['String']['input'];
+};
+
+
+export type MutationRegister_StartArgs = {
+  identifier: Scalars['String']['input'];
 };
 
 
