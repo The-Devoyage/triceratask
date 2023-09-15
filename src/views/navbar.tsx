@@ -60,8 +60,7 @@ export const AppNavbar = () => {
         </Button>
       ) : (
         <Button
-          className="hidden md:block"
-          size="sm"
+          className="hidden md:block ml-1"
           onClick={() => navigate(appRoutes.login.path)}
         >
           <span>Login</span>

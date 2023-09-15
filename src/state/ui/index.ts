@@ -9,5 +9,4 @@ export interface ToastItem {
   type: "success" | "error" | "warning" | "info";
   message: string;
 }
-
 export const toastsVar = makeVar<ToastItem[]>([]);

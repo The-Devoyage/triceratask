@@ -17,8 +17,8 @@ import { toastsVar } from "./state/index.ts";
 import { v4 as uuidv4 } from "uuid";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  console.log("Has Error");
   const toasts = toastsVar();
+
   if (graphQLErrors) {
     console.log("graphQLErrors", graphQLErrors);
     graphQLErrors.forEach(({ message }) => {
@@ -32,6 +32,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       ]);
     });
   }
+
   if (networkError) {
     console.log("networkError", networkError);
     toastsVar([

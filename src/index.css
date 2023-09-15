@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  height: calc(100vh - 60px);
-}
-
 body {
   font-family: "Raleway", sans-serif;
 }

@@ -1,5 +1,6 @@
 import { Edit, List, Dashboard, View, Add, Login, Register } from "./pages";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
+import { PublicOnly } from "./utils/PublicOnly";
 
 export const appRoutes = {
   dashboard: {
@@ -42,6 +43,20 @@ export const appRoutes = {
       </ProtectedRoute>
     ),
   },
-  login: { path: "/login", element: <Login /> },
-  register: { path: "/register", element: <Register /> },
+  login: {
+    path: "/login",
+    element: (
+      <PublicOnly>
+        <Login />
+      </PublicOnly>
+    ),
+  },
+  register: {
+    path: "/register",
+    element: (
+      <PublicOnly>
+        <Register />
+      </PublicOnly>
+    ),
+  },
 };

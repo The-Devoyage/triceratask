@@ -1,6 +1,8 @@
+import { useReactiveVar } from "@apollo/client";
 import { FC } from "react";
 import Chart from "react-apexcharts";
 import { GetTodosQuery } from "src/pages/list/graphql.generated";
+import { darkModeVar } from "src/state";
 import dayjs from "src/utils/dayjs";
 
 interface TodosCompletedProps {
@@ -11,9 +13,10 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
   const last7Days = todos.filter((todo) => {
     if (!todo.completed || !todo.completed_at) return false;
     const lastWeek = dayjs().subtract(7, "day");
-    const todoDate = dayjs(todo.completed_at);
+    const todoDate = dayjs.tz(todo.completed_at).local();
     return todoDate.isAfter(lastWeek);
   });
+  const darkMode = useReactiveVar(darkModeVar);
 
   const sortTodos = <T,>(arr: T[]) => {
     const today = dayjs().day();
@@ -25,7 +28,7 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
 
   const data = last7Days.reduce(
     (acc, todo) => {
-      const todoDay = dayjs(todo.completed_at).day();
+      const todoDay = dayjs.tz(todo.completed_at).local().day();
       acc[todoDay] += 1;
       return acc;
     },
@@ -36,28 +39,37 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
   return (
     <Chart
       options={{
-        stroke: {
-          curve: "smooth",
-          width: 8,
-          lineCap: "round",
-        },
         chart: {
-          id: "line",
-          dropShadow: {
-            enabled: true,
-            color: "#000",
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 0.2,
+          toolbar: {
+            show: false,
           },
         },
-        colors: ["#0369a1"],
-        grid: {
+        colors: ["#0369a1", "#f87171"],
+        tooltip: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "stepline",
+        },
+        yaxis: {
+          show: false,
+        },
+        legend: {
           show: false,
         },
         xaxis: {
           categories: xAxisLabelsSorted,
+          labels: {
+            style: {
+              colors: darkMode ? "#fff" : "#000",
+            },
+          },
+          axisTicks: {
+            show: false,
+          },
+          axisBorder: {
+            show: false,
+          },
         },
       }}
       series={[
@@ -65,8 +77,13 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
           name: "Todos Completed",
           data: sortedData,
         },
+        {
+          name: "Todos todo",
+          //NOTE: Hardcoded data.
+          data: [1, 3, 4, 0, 0, 2, 1],
+        },
       ]}
-      type="line"
+      type="bar"
       style={{
         margin: "0 auto",
         minHeight: "300px",

@@ -42,7 +42,7 @@ export const App = () => {
           card: {
             root: {
               base:
-                "bg-white rounded-lg shadow-lg dark:bg-slate-800 text-slate-600 dark:text-slate-400",
+                "bg-white rounded-lg shadow-lg dark:bg-slate-800 text-slate-600 dark:text-slate-200",
             },
           },
         },

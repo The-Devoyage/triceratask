@@ -8,11 +8,20 @@ import {
 import { Base64 } from "js-base64";
 import { CallToAction, LogoCard } from "../components";
 import { LoginCard } from "../components/login-card";
+import { useToaster } from "src/utils/useToaster";
+import { appRoutes } from "src/routes";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
-  const { register, handleSubmit } = useForm<RegisterStartMutationVariables>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<RegisterStartMutationVariables>();
   const [registerStart] = useRegisterStartMutation();
   const [registerFinish] = useRegisterFinishMutation();
+  const toaster = useToaster();
+  const navigate = useNavigate();
 
   const onSubmit = (data: RegisterStartMutationVariables) => {
     registerStart({
@@ -65,6 +74,14 @@ export const Register = () => {
               variables: {
                 identifier: data.identifier,
                 public_key: JSON.stringify(jsonCredential),
+              },
+              onCompleted: () => {
+                toaster.addToast(
+                  "success",
+                  "Welcome to Triceratask. Login to continue."
+                );
+                reset();
+                navigate(appRoutes.login.path);
               },
             });
           }

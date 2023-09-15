@@ -17,7 +17,7 @@ export const Dashboard = () => {
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
         <Card>
           <div className="flex flex-row justify-between">
-            <h4 className="text-xl font-bold">Todos Completed</h4>
+            <h4 className="text-xl font-bold">My Todos</h4>
             <Badge>This Week</Badge>
           </div>
           <TodosCompletedChart todos={todos} />

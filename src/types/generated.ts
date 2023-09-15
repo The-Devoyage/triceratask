@@ -16,10 +16,23 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  authenticate_finish: Authenticate_Success;
+  authenticate_start: Scalars['String']['output'];
   create_todo: Todo;
   register_finish: Scalars['Boolean']['output'];
   register_start: Scalars['String']['output'];
   update_todos: Array<Todo>;
+};
+
+
+export type MutationAuthenticate_FinishArgs = {
+  identifier: Scalars['String']['input'];
+  public_key: Scalars['String']['input'];
+};
+
+
+export type MutationAuthenticate_StartArgs = {
+  identifier: Scalars['String']['input'];
 };
 
 
@@ -63,6 +76,12 @@ export type QueryGet_TodosArgs = {
 export type _Service = {
   __typename?: '_Service';
   sdl?: Maybe<Scalars['String']['output']>;
+};
+
+export type Authenticate_Success = {
+  __typename?: 'authenticate_success';
+  token: Scalars['String']['output'];
+  user_id: Scalars['String']['output'];
 };
 
 export type Create_Todo_Input = {

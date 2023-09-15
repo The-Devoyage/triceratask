@@ -7,6 +7,9 @@ import {
 } from "../edit/edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
+import { BsFillCheckSquareFill } from "react-icons/bs";
+import { AiFillEdit } from "react-icons/ai";
+import { TbCheckbox } from "react-icons/tb";
 
 export const View = () => {
   const { id } = useParams<{ id: string }>();
@@ -65,36 +68,41 @@ export const View = () => {
 
   return (
     <div className="grid grid-cols-12 gap-4">
-      <div className="col-span-1 md:col-span-8">
+      <div className="col-span-12 md:col-span-8">
         <Card>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-start">
             <h1 className="text-3xl font-bold">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />
           </div>
           <p>{todo?.description}</p>
-          <div className="border-t border-gray-200 mt-4 pt-4 flex justify-start">
-            <Button
-              color="success"
-              size="sm"
-              onClick={handleUpdate}
-              isProcessing={updating}
-            >
-              Complete
-            </Button>
-            <Button
-              color="indigo"
-              size="sm"
-              className="ml-2"
-              onClick={() =>
-                navigate(appRoutes.editTodo.path.replace(":id", id!))
-              }
-            >
-              Edit
-            </Button>
+          <div className="border-t border-gray-200 mt-4 pt-4 flex justify-end">
+            <Button.Group>
+              <Button
+                color="indigo"
+                onClick={() =>
+                  navigate(appRoutes.editTodo.path.replace(":id", id!))
+                }
+              >
+                <AiFillEdit className="h-6" />
+              </Button>
+              <Button
+                color={todo?.completed ? "info" : "success"}
+                onClick={handleUpdate}
+                isProcessing={updating}
+                disabled={todo?.completed}
+                className="border-l"
+              >
+                {todo?.completed ? (
+                  <BsFillCheckSquareFill className="h-6" />
+                ) : (
+                  <TbCheckbox className="h-6" />
+                )}
+              </Button>
+            </Button.Group>
           </div>
         </Card>
       </div>
-      <Card className="col-span-1 md:col-span-4">
+      <Card className="col-span-12 md:col-span-4">
         <TodoTimeline />
       </Card>
     </div>

@@ -11,11 +11,13 @@ import { useCreateTodoMutation } from "./add.generated";
 import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
+import { useToaster } from "src/utils/useToaster";
 
 export const Add = () => {
   const { register, handleSubmit } = useForm<Create_Todo_Input>();
   const navigate = useNavigate();
   const [createTodo] = useCreateTodoMutation();
+  const toaster = useToaster();
 
   const onValid = (values: Create_Todo_Input) => {
     createTodo({
@@ -28,6 +30,7 @@ export const Add = () => {
       },
       onCompleted: () => {
         navigate(appRoutes.listTodos.path);
+        toaster.addToast("success", "Todo created successfully!");
       },
     });
   };

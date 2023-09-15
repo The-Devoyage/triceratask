@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";

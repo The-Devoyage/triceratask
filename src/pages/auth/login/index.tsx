@@ -4,19 +4,110 @@ import { isLoggedInVar } from "src/state";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
 import { CallToAction, LogoCard, RegisterCard } from "../components";
+import { useToaster } from "src/utils/useToaster";
+import { Base64 } from "js-base64";
+import {
+  AuthenticateStartMutationVariables,
+  useAuthenticateFinishMutation,
+  useAuthenticateStartMutation,
+} from "./graphql.generated";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<{
-    username: string;
-    password: string;
-  }>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm<AuthenticateStartMutationVariables>();
+  const [authenticateStart] = useAuthenticateStartMutation();
+  const [authenticateFinish] = useAuthenticateFinishMutation();
+  const toaster = useToaster();
 
-  const onSubmit = (data: { username: string; password: string }) => {
-    localStorage.setItem("username", data.username);
-    localStorage.setItem("token", data.password);
-    isLoggedInVar(true);
-    navigate(appRoutes.dashboard.path);
+  const onSubmit = (data: AuthenticateStartMutationVariables) => {
+    authenticateStart({
+      variables: data,
+      onCompleted: async (authenticate_start_mutation) => {
+        const credentialRequestOptions = (authenticate_start_mutation.authenticate_start as unknown) as CredentialRequestOptions;
+
+        const credential = await navigator.credentials.get({
+          publicKey: {
+            ...credentialRequestOptions.publicKey,
+            challenge: Base64.toUint8Array(
+              (credentialRequestOptions.publicKey
+                ?.challenge as unknown) as string
+            ),
+            allowCredentials: credentialRequestOptions.publicKey?.allowCredentials?.map(
+              (c) => ({
+                ...c,
+                id: Base64.toUint8Array((c.id as unknown) as string),
+              })
+            ),
+          },
+        });
+
+        if (credential instanceof PublicKeyCredential) {
+          const response = credential.response as AuthenticatorAssertionResponse;
+
+          if (!response.userHandle) {
+            toaster.addToast("error", "User handle is missing!");
+            return;
+          }
+
+          const jsonCredential = {
+            id: credential.id,
+            type: credential.type,
+            rawId: Base64.fromUint8Array(
+              new Uint8Array(credential.rawId),
+              true
+            ),
+            extensions: credential.getClientExtensionResults(),
+            response: {
+              authenticatorData: Base64.fromUint8Array(
+                new Uint8Array(response.authenticatorData),
+                true
+              ),
+              clientDataJSON: Base64.fromUint8Array(
+                new Uint8Array(response.clientDataJSON),
+                true
+              ),
+              signature: Base64.fromUint8Array(
+                new Uint8Array(response.signature),
+                true
+              ),
+              userHandle: Base64.fromUint8Array(
+                new Uint8Array(response.userHandle),
+                true
+              ),
+            },
+          };
+
+          authenticateFinish({
+            variables: {
+              public_key: JSON.stringify(jsonCredential),
+              identifier: data.identifier,
+            },
+            onCompleted: (authenticate_finish_mutation) => {
+              localStorage.setItem("username", data.identifier);
+              localStorage.setItem(
+                "user_id",
+                authenticate_finish_mutation.authenticate_finish.user_id
+              );
+              localStorage.setItem(
+                "token",
+                authenticate_finish_mutation.authenticate_finish.token
+              );
+              isLoggedInVar(true);
+              navigate(appRoutes.dashboard.path);
+              toaster.addToast("info", "Logged in successfully!");
+            },
+          });
+        } else {
+          toaster.addToast("error", "Something went wrong!");
+          isLoggedInVar(false);
+          reset();
+        }
+      },
+    });
   };
 
   return (
@@ -29,9 +120,7 @@ export const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-2xl">Login</h1>
             <Label>Username</Label>
-            <TextInput {...register("username")} />
-            <Label>Password</Label>
-            <TextInput {...register("password")} />
+            <TextInput {...register("identifier")} />
             <div className="flex flex-row justify-end pt-4 mt-4">
               <Button type="submit" color="info">
                 Login

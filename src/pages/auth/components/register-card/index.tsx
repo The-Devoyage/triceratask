@@ -12,25 +12,23 @@ export const RegisterCard = () => {
   return (
     <Card className="col-span-3 md:col-span-1">
       <h1 className="text-2xl">Start Tackeling Your Goals</h1>
-      <p className="text-gray-500">
-        Create an account and start tracking your goals.
-      </p>
+      <p>Create an account and start tracking your goals.</p>
       <div className="grid grid-cols-4 gap-4 mt-4">
         <div className="flex flex-col items-center">
           <IoCreate className="text-4xl text-sky-700" />
-          <span className="text-gray-500">Create</span>
+          <span>Create</span>
         </div>
         <div className="flex flex-col items-center">
           <MdOutlineAddTask className="text-4xl text-sky-700" />
-          <span className="text-gray-500">Complete</span>
+          <span>Complete</span>
         </div>
         <div className="flex flex-col items-center">
           <LuRepeat2 className="text-4xl text-sky-700" />
-          <span className="text-gray-500">Repeat</span>
+          <span>Repeat</span>
         </div>
         <div className="flex flex-col items-center">
           <TbRulerMeasure className="text-4xl text-sky-700" />
-          <span className="text-gray-500">Track</span>
+          <span>Track</span>
         </div>
       </div>
       <Button

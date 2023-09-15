@@ -25,11 +25,11 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
         color={todo?.completed ? "success" : "indigo"}
         icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
         size="sm"
-        className="px-4"
+        className="px-2 rounded-md"
         theme={{
           icon: {
             size: {
-              sm: "h-8 w-8",
+              sm: "h-6 w-6",
             },
           },
         }}

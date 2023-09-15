@@ -36,4 +36,12 @@ fields = [
   { name = "completed_at", scalar = "String", required = false, exclude_from_input = ["CreateOne", "UpdateMany"] }
 ]
 
+[service.entities.data_source]
+from = "triceratask_ds"
+[service.entities.data_source.resolvers]
+[service.entities.data_source.resolvers.find_many]
+[[service.entities.data_source.resolvers.find_many.guards]]
+name = "Permissions Error"
+if_expr = "token_data(\"user_id\") == \"1\""
+then_msg = "Permission Denied"
 
