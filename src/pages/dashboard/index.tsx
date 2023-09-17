@@ -3,11 +3,16 @@ import { TodoStats, TodosCompletedChart } from "./components";
 import { useGetTodosQuery } from "../list/graphql.generated";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
+import { userUuidVar } from "src/state";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { data } = useGetTodosQuery({
-    variables: { get_todos_input: {} },
+    variables: {
+      get_todos_input: {
+        created_by: userUuidVar(),
+      },
+    },
     fetchPolicy: "cache-and-network",
   });
   const todos = data?.get_todos ?? [];

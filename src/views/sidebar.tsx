@@ -5,7 +5,7 @@ import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
-import { isLoggedInVar, sidebarHiddenVar } from "src/state";
+import { isLoggedInVar, sidebarHiddenVar, userUuidVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
 
 export const AppSidebar = () => {
@@ -41,8 +41,10 @@ export const AppSidebar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem("user_uuid");
+    localStorage.removeItem("identifier");
     isLoggedInVar(false);
+    userUuidVar(null);
     navigate(appRoutes.login.path);
   };
 

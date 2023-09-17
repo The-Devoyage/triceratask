@@ -10,14 +10,16 @@ import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { TbCheckbox } from "react-icons/tb";
+import { userUuidVar } from "src/state";
 
 export const View = () => {
-  const { id } = useParams<{ id: string }>();
+  const { uuid } = useParams<{ uuid: string }>();
   const [updateTodos, { loading: updating }] = useUpdateTodosMutation();
   const { data, loading } = useGetTodoQuery({
     variables: {
       get_todo_input: {
-        id: parseInt(id!),
+        uuid,
+        created_by: userUuidVar(),
       },
     },
   });
@@ -29,7 +31,7 @@ export const View = () => {
       variables: {
         update_todos_input: {
           query: {
-            id: parseInt(id!),
+            uuid,
           },
           completed: true,
         },
@@ -80,7 +82,7 @@ export const View = () => {
               <Button
                 color="indigo"
                 onClick={() =>
-                  navigate(appRoutes.editTodo.path.replace(":id", id!))
+                  navigate(appRoutes.editTodo.path.replace(":uuid", uuid!))
                 }
               >
                 <AiFillEdit className="h-6" />

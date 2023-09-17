@@ -10,7 +10,7 @@ export const AUTHENTICATE_FINISH = gql`
   mutation AuthenticateFinish($identifier: String!, $public_key: String!) {
     authenticate_finish(identifier: $identifier, public_key: $public_key) {
       token
-      user_id
+      user_uuid
     }
   }
 `;

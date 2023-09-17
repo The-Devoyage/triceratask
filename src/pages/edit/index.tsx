@@ -12,14 +12,15 @@ import { useGetTodoQuery, useUpdateTodosMutation } from "./edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { Update_Todos_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
+import { userUuidVar } from "src/state";
 
 export const Edit = () => {
-  const { id } = useParams<{ id: string }>();
+  const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm<Update_Todos_Input>();
   const [updateTodo] = useUpdateTodosMutation();
   const { data } = useGetTodoQuery({
-    variables: { get_todo_input: { id: parseInt(id!) } },
+    variables: { get_todo_input: { uuid, created_by: userUuidVar() } },
   });
 
   useEffect(() => {
@@ -34,13 +35,14 @@ export const Edit = () => {
     updateTodo({
       variables: {
         update_todos_input: {
-          query: { id: parseInt(id!) },
+          query: { uuid, created_by: userUuidVar() },
           title: values.title,
           description: values.description,
           completed: values.completed,
         },
       },
-      onCompleted: () => navigate(appRoutes.viewTodo.path.replace(":id", id!)),
+      onCompleted: () =>
+        navigate(appRoutes.viewTodo.path.replace(":uuid", uuid!)),
     });
   };
 

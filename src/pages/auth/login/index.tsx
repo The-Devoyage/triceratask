@@ -1,6 +1,6 @@
 import { Button, Label, TextInput, Card } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { isLoggedInVar } from "src/state";
+import { isLoggedInVar, userUuidVar } from "src/state";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
 import { CallToAction, LogoCard, RegisterCard } from "../components";
@@ -89,14 +89,17 @@ export const Login = () => {
             onCompleted: (authenticate_finish_mutation) => {
               localStorage.setItem("username", data.identifier);
               localStorage.setItem(
-                "user_id",
-                authenticate_finish_mutation.authenticate_finish.user_id
+                "user_uuid",
+                authenticate_finish_mutation.authenticate_finish.user_uuid
               );
               localStorage.setItem(
                 "token",
                 authenticate_finish_mutation.authenticate_finish.token
               );
               isLoggedInVar(true);
+              userUuidVar(
+                authenticate_finish_mutation.authenticate_finish.user_uuid
+              );
               navigate(appRoutes.dashboard.path);
               toaster.addToast("info", "Logged in successfully!");
             },

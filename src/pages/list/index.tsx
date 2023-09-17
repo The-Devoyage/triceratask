@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Checkbox, Table, Tooltip } from "flowbite-react";
 import { TodosListBody } from "./components";
 import { useGetTodosLazyQuery } from "./graphql.generated";
+import { userUuidVar } from "src/state";
 
 export const List = () => {
   const [getTodos, { data, loading }] = useGetTodosLazyQuery();
@@ -11,6 +12,7 @@ export const List = () => {
       variables: {
         get_todos_input: {
           completed: false,
+          created_by: userUuidVar(),
         },
       },
       fetchPolicy: "cache-and-network",
@@ -23,13 +25,16 @@ export const List = () => {
         variables: {
           get_todos_input: {
             completed: false,
+            created_by: userUuidVar(),
           },
         },
       });
     } else {
       getTodos({
         variables: {
-          get_todos_input: {},
+          get_todos_input: {
+            created_by: userUuidVar(),
+          },
         },
       });
     }
@@ -38,7 +43,6 @@ export const List = () => {
   return (
     <Table hoverable>
       <Table.Head>
-        <Table.HeadCell className="w-5">ID</Table.HeadCell>
         <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
         <Table.HeadCell className="hidden md:table-cell">
           Created At

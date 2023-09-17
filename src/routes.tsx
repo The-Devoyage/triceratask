@@ -12,7 +12,7 @@ export const appRoutes = {
     ),
   },
   editTodo: {
-    path: "/todos/:id/edit",
+    path: "/todos/:uuid/edit",
     element: (
       <ProtectedRoute>
         <Edit />
@@ -20,7 +20,7 @@ export const appRoutes = {
     ),
   },
   viewTodo: {
-    path: "/todos/:id",
+    path: "/todos/:uuid",
     element: (
       <ProtectedRoute>
         <View />

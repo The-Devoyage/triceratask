@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
+import { userUuidVar } from "src/state";
 
 export const Add = () => {
   const { register, handleSubmit } = useForm<Create_Todo_Input>();
@@ -26,6 +27,8 @@ export const Add = () => {
           title: values.title,
           description: values.description,
           completed: values.completed ?? false,
+          created_by: userUuidVar() ?? "",
+          updated_by: userUuidVar() ?? "",
         },
       },
       onCompleted: () => {

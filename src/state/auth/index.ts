@@ -1,7 +1,7 @@
 import { makeVar } from "@apollo/client";
 
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
+const userUuid = localStorage.getItem("user_uuid");
 
 export const isLoggedInVar = makeVar(token ? true : false);
-export const userIdVar = makeVar(userId);
+export const userUuidVar = makeVar(userUuid);

@@ -22,15 +22,14 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
     <Table.Body>
       {todos?.map((todo) => (
         <Table.Row
-          key={todo?.id}
+          key={todo?.uuid}
           className="cursor-pointer"
           onClick={() => {
             navigate(
-              appRoutes.viewTodo.path.replace(":id", todo?.id.toString())
+              appRoutes.viewTodo.path.replace(":uuid", todo?.uuid.toString())
             );
           }}
         >
-          <Table.Cell>{todo?.id}</Table.Cell>
           <Table.Cell>{todo?.title}</Table.Cell>
           <Table.Cell className="hidden md:table-cell">
             <Tooltip
@@ -52,7 +51,7 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
               {dayjs.tz().to(dayjs.tz(todo?.updated_at))}
             </Tooltip>
           </Table.Cell>
-          <Table.Cell className="flex align-center justify-center">
+          <Table.Cell className="flex align-center justify-center align-center h-full">
             <TodoStatusBadge todo={todo} />
           </Table.Cell>
         </Table.Row>

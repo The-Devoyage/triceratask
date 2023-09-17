@@ -81,40 +81,48 @@ export type _Service = {
 export type Authenticate_Success = {
   __typename?: 'authenticate_success';
   token: Scalars['String']['output'];
-  user_id: Scalars['String']['output'];
+  user_uuid: Scalars['String']['output'];
 };
 
 export type Create_Todo_Input = {
   completed: Scalars['Boolean']['input'];
+  created_by: Scalars['String']['input'];
   description: Scalars['String']['input'];
   title: Scalars['String']['input'];
+  updated_by: Scalars['String']['input'];
 };
 
 export type Get_Todo_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Get_Todos_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Todo = {
   __typename?: 'todo';
   completed: Scalars['Boolean']['output'];
   completed_at?: Maybe<Scalars['String']['output']>;
+  completed_by?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['String']['output'];
+  created_by: Scalars['String']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
+  updated_by: Scalars['String']['output'];
+  uuid: Scalars['String']['output'];
 };
 
 export type Update_Todos_Input = {
@@ -122,12 +130,14 @@ export type Update_Todos_Input = {
   description?: InputMaybe<Scalars['String']['input']>;
   query: Update_Todos_Query_Input;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Update_Todos_Query_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
-  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
 };
