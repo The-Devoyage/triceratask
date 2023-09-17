@@ -1,4 +1,5 @@
-import { Flowbite } from "flowbite-react";
+import { useState } from "react";
+import { Alert, Flowbite } from "flowbite-react";
 import { AppNavbar } from "./views/navbar";
 import { AppSidebar } from "./views/sidebar";
 import { Outlet } from "react-router-dom";
@@ -15,6 +16,7 @@ export interface Todo {
 }
 
 export const App = () => {
+  const [showAlert, setShowAlert] = useState(true);
   const darkMode = useReactiveVar(darkModeVar);
 
   return (
@@ -48,6 +50,16 @@ export const App = () => {
         },
       }}
     >
+      {showAlert && (
+        <Alert color="warning" onDismiss={() => setShowAlert(false)}>
+          <span>
+            <p>
+              <span className="font-bold mr-2">Alpha Release</span>
+              Expect bugs and missing features.
+            </p>
+          </span>
+        </Alert>
+      )}
       <div className={`h-full ${darkMode && "dark"}`}>
         <div
           className={
