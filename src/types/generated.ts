@@ -19,8 +19,10 @@ export type Mutation = {
   authenticate_finish: Authenticate_Success;
   authenticate_start: Scalars['String']['output'];
   create_todo: Todo;
+  create_todo_history: Todo_History;
   register_finish: Scalars['Boolean']['output'];
   register_start: Scalars['String']['output'];
+  update_todo_historys: Array<Todo_History>;
   update_todos: Array<Todo>;
 };
 
@@ -41,6 +43,11 @@ export type MutationCreate_TodoArgs = {
 };
 
 
+export type MutationCreate_Todo_HistoryArgs = {
+  create_todo_history_input: Create_Todo_History_Input;
+};
+
+
 export type MutationRegister_FinishArgs = {
   identifier: Scalars['String']['input'];
   public_key: Scalars['String']['input'];
@@ -52,6 +59,11 @@ export type MutationRegister_StartArgs = {
 };
 
 
+export type MutationUpdate_Todo_HistorysArgs = {
+  update_todo_historys_input: Update_Todo_Historys_Input;
+};
+
+
 export type MutationUpdate_TodosArgs = {
   update_todos_input: Update_Todos_Input;
 };
@@ -60,12 +72,24 @@ export type Query = {
   __typename?: 'Query';
   _service: _Service;
   get_todo: Todo;
+  get_todo_history: Todo_History;
+  get_todo_historys: Array<Todo_History>;
   get_todos: Array<Todo>;
 };
 
 
 export type QueryGet_TodoArgs = {
   get_todo_input: Get_Todo_Input;
+};
+
+
+export type QueryGet_Todo_HistoryArgs = {
+  get_todo_history_input: Get_Todo_History_Input;
+};
+
+
+export type QueryGet_Todo_HistorysArgs = {
+  get_todo_historys_input: Get_Todo_Historys_Input;
 };
 
 
@@ -84,12 +108,37 @@ export type Authenticate_Success = {
   user_uuid: Scalars['String']['output'];
 };
 
+export type Create_Todo_History_Input = {
+  created_by: Scalars['String']['input'];
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property: Scalars['String']['input'];
+};
+
 export type Create_Todo_Input = {
   completed: Scalars['Boolean']['input'];
   created_by: Scalars['String']['input'];
   description: Scalars['String']['input'];
   title: Scalars['String']['input'];
   updated_by: Scalars['String']['input'];
+};
+
+export type Get_Todo_History_Input = {
+  created_by?: InputMaybe<Scalars['String']['input']>;
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property?: InputMaybe<Scalars['String']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Todo_Historys_Input = {
+  created_by?: InputMaybe<Scalars['String']['input']>;
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property?: InputMaybe<Scalars['String']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Get_Todo_Input = {
@@ -118,11 +167,45 @@ export type Todo = {
   created_at: Scalars['String']['output'];
   created_by: Scalars['String']['output'];
   description: Scalars['String']['output'];
+  history: Array<Todo_History>;
   id: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
   updated_by: Scalars['String']['output'];
   uuid: Scalars['String']['output'];
+};
+
+
+export type TodoHistoryArgs = {
+  history: Get_Todo_Historys_Input;
+};
+
+export type Todo_History = {
+  __typename?: 'todo_history';
+  created_at: Scalars['String']['output'];
+  created_by: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  new_value?: Maybe<Scalars['String']['output']>;
+  old_value?: Maybe<Scalars['String']['output']>;
+  property: Scalars['String']['output'];
+  todo_uuid: Scalars['String']['output'];
+  uuid: Scalars['String']['output'];
+};
+
+export type Update_Todo_Historys_Input = {
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property?: InputMaybe<Scalars['String']['input']>;
+  query: Update_Todo_Historys_Query_Input;
+};
+
+export type Update_Todo_Historys_Query_Input = {
+  created_by?: InputMaybe<Scalars['String']['input']>;
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property?: InputMaybe<Scalars['String']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Update_Todos_Input = {

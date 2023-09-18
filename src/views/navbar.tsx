@@ -53,10 +53,10 @@ export const AppNavbar = () => {
       {isLoggedIn ? (
         <Button
           onClick={() => navigate(appRoutes.createTodo.path)}
-          className="ml-1"
+          className="ml-1 flex items-center justify-center"
         >
-          <HiPlus className="h-5 md:mr-2" />
-          <span className="hidden md:block">New Todo</span>
+          <HiPlus className="md:mr-1 h-4" />
+          <span className="hidden md:flex items-center">Todo</span>
         </Button>
       ) : (
         <Button

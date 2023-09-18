@@ -1,27 +1,30 @@
-import { Button, Card } from "flowbite-react";
+import { Alert, Button, Card } from "flowbite-react";
 import { TodoTimeline } from "./components";
 import { Empty, Loader, TodoStatusBadge } from "src/components";
-import {
-  useGetTodoQuery,
-  useUpdateTodosMutation,
-} from "../edit/edit.generated";
+import { useUpdateTodosMutation } from "../edit/edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { TbCheckbox } from "react-icons/tb";
 import { userUuidVar } from "src/state";
+import { useGetTodoWithHistoryQuery } from "./graphql.generated";
+import { LuPartyPopper } from "react-icons/lu";
 
 export const View = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const [updateTodos, { loading: updating }] = useUpdateTodosMutation();
-  const { data, loading } = useGetTodoQuery({
+  const { data, loading, refetch, called } = useGetTodoWithHistoryQuery({
     variables: {
       get_todo_input: {
         uuid,
         created_by: userUuidVar(),
       },
+      get_todo_historys_input: {
+        todo_uuid: uuid,
+      },
     },
+    fetchPolicy: "cache-and-network",
   });
   const todo = data?.get_todo;
   const navigate = useNavigate();
@@ -32,14 +35,18 @@ export const View = () => {
         update_todos_input: {
           query: {
             uuid,
+            created_by: userUuidVar(),
           },
           completed: true,
         },
       },
+      onCompleted: () => {
+        refetch();
+      },
     });
   };
 
-  if (loading)
+  if (loading && !called)
     return (
       <Card>
         <Loader message="Loading this level of success takes a second..." />
@@ -105,7 +112,10 @@ export const View = () => {
         </Card>
       </div>
       <Card className="col-span-12 md:col-span-4">
-        <TodoTimeline />
+        <TodoTimeline todo={todo} />
+        <Alert color="info" icon={LuPartyPopper}>
+          Hooray, you are off to a great start!
+        </Alert>
       </Card>
     </div>
   );

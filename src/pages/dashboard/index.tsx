@@ -28,15 +28,28 @@ export const Dashboard = () => {
           <TodosCompletedChart todos={todos} />
         </Card>
         <div className="grid grid-cols-2 gap-4">
-          <TodoStats label="Total Todos" total={todos.length ?? 0} />
+          <TodoStats
+            label="Total Todos"
+            total={todos.length ?? 0}
+            onClick={() =>
+              navigate(appRoutes.listTodos.path, { state: { completed: null } })
+            }
+          />
           <TodoStats
             label="Not Complete"
             total={todos.filter((todo) => !todo.completed).length ?? 0}
-            onClick={() => navigate(appRoutes.listTodos.path)}
+            onClick={() =>
+              navigate(appRoutes.listTodos.path, {
+                state: { completed: false },
+              })
+            }
           />
           <TodoStats
             label="Complete"
             total={todos.filter((t) => t.completed).length}
+            onClick={() =>
+              navigate(appRoutes.listTodos.path, { state: { completed: true } })
+            }
           />
         </div>
       </div>

@@ -1,43 +1,38 @@
 import { useEffect } from "react";
-import { Checkbox, Table, Tooltip } from "flowbite-react";
+import { Dropdown, Table } from "flowbite-react";
 import { TodosListBody } from "./components";
 import { useGetTodosLazyQuery } from "./graphql.generated";
 import { userUuidVar } from "src/state";
+import { useLocation } from "react-router-dom";
 
 export const List = () => {
-  const [getTodos, { data, loading }] = useGetTodosLazyQuery();
+  const [getTodos, { data, loading, variables }] = useGetTodosLazyQuery();
+  const locationState: { state: { completed?: boolean } } = useLocation();
 
   useEffect(() => {
     getTodos({
       variables: {
         get_todos_input: {
-          completed: false,
+          completed:
+            locationState && locationState?.state?.completed !== undefined
+              ? locationState.state.completed
+              : false,
           created_by: userUuidVar(),
         },
       },
       fetchPolicy: "cache-and-network",
     });
-  }, [getTodos]);
+  }, [getTodos, locationState]);
 
-  const handleFilter = (checked: boolean) => {
-    if (!checked) {
-      return getTodos({
-        variables: {
-          get_todos_input: {
-            completed: false,
-            created_by: userUuidVar(),
-          },
+  const handleFilter = (v: { completed?: boolean }) => {
+    getTodos({
+      variables: {
+        get_todos_input: {
+          completed: v.completed,
+          created_by: userUuidVar(),
         },
-      });
-    } else {
-      getTodos({
-        variables: {
-          get_todos_input: {
-            created_by: userUuidVar(),
-          },
-        },
-      });
-    }
+      },
+    });
   };
 
   return (
@@ -51,15 +46,27 @@ export const List = () => {
           Updated At
         </Table.HeadCell>
         <Table.HeadCell className="text-center">
-          <Tooltip content="Show Completed" theme={{ target: "w-full" }}>
-            Show Completed
-            <Checkbox
-              className="ml-2"
-              onChange={(e) => {
-                handleFilter(e.target.checked);
-              }}
-            />
-          </Tooltip>
+          <Dropdown
+            label={
+              variables?.get_todos_input?.completed !== undefined
+                ? variables.get_todos_input.completed
+                  ? "Completed"
+                  : "Not Complete"
+                : "All"
+            }
+            inline
+            theme={{
+              inlineWrapper: "flex flex-row items-center justify-center w-full",
+            }}
+          >
+            <Dropdown.Item onClick={() => handleFilter({ completed: true })}>
+              Completed
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleFilter({ completed: false })}>
+              Not Complete
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleFilter({})}>All</Dropdown.Item>
+          </Dropdown>
         </Table.HeadCell>
       </Table.Head>
       <TodosListBody todos={data?.get_todos} loading={loading} />
