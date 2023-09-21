@@ -29,6 +29,7 @@ export const Login = () => {
       onCompleted: async (authenticate_start_mutation) => {
         const credentialRequestOptions = (authenticate_start_mutation.authenticate_start as unknown) as CredentialRequestOptions;
 
+        //TODO: Implement try catch.
         const credential = await navigator.credentials.get({
           publicKey: {
             ...credentialRequestOptions.publicKey,

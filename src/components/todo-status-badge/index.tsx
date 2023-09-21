@@ -39,11 +39,8 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
   return (
     <Tooltip
       content={
-        todo?.completed
-          ? dayjs
-              .tz(todo?.completed_at ?? "")
-              .local()
-              .format("MMMM D, YYYY h:mm A")
+        todo?.completed && todo?.completed_at
+          ? dayjs.tz(todo?.completed_at).local().format("MMMM D, YYYY h:mm A")
           : `Due ${goalDate && dayjs.tz(goalDate).fromNow()}`
       }
     >

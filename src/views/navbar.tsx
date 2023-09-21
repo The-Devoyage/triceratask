@@ -21,10 +21,7 @@ export const AppNavbar = () => {
       <div className="flex row items-center">
         <Button
           color="light"
-          className="sm:block md:hidden"
-          theme={{
-            color: "bg-sky-100",
-          }}
+          className="sm:block md:hidden border-none"
           onClick={() => sidebarHiddenVar(!sidebarHidden)}
         >
           <HiMenu className="text-sky-700" />
