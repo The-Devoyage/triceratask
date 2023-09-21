@@ -1,6 +1,6 @@
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "src/utils/dayjs";
-import { ListGroup, Timeline, Tooltip } from "flowbite-react";
+import { Button, ListGroup, Timeline } from "flowbite-react";
 import { FC } from "react";
 import { GetTodoWithHistoryQuery } from "../../graphql.generated";
 import { MdBookmarkAdded } from "react-icons/md";
@@ -8,7 +8,6 @@ import { MdBookmarkAdded } from "react-icons/md";
 export const TodoTimeline: FC<{
   todo: GetTodoWithHistoryQuery["get_todo"];
 }> = ({ todo }) => {
-  const ref = useRef<HTMLDivElement>(null);
   const [historyCount, setHistoryCount] = useState(5);
   const histories = todo?.history?.reduce((acc, history) => {
     return {
@@ -32,25 +31,6 @@ export const TodoTimeline: FC<{
     return value;
   };
 
-  //endless scroll using a ref and window observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          ref.current?.scrollIntoView({ behavior: "smooth" });
-          setHistoryCount((prev) => prev + 5);
-        }
-      },
-      { threshold: 1 }
-    );
-
-    observer.observe(ref.current!);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
   return (
     <Timeline>
       {Object.entries(histories || {})
@@ -67,18 +47,14 @@ export const TodoTimeline: FC<{
                     (history) =>
                       history.new_value && (
                         <ListGroup.Item className="flex">
-                          <Tooltip
-                            content={handleNewValue(history.new_value, false)}
-                          >
-                            <div className="grid grid-cols-12 text-left">
-                              <span className="font-bold capitalize col-span-3">
-                                {history.property.replace("_", " ")}
-                              </span>
-                              <span className="ml-2 align-right col-span-9">
-                                {handleNewValue(history.new_value, true)}
-                              </span>
-                            </div>
-                          </Tooltip>
+                          <div className="text-left">
+                            <span className="font-bold capitalize col-span-3">
+                              {history.property.replace("_", " ")}
+                            </span>
+                            <span className="ml-2 align-right col-span-9">
+                              {handleNewValue(history.new_value, true)}
+                            </span>
+                          </div>
                         </ListGroup.Item>
                       )
                   )}
@@ -87,6 +63,22 @@ export const TodoTimeline: FC<{
             </Timeline.Content>
           </Timeline.Item>
         ))}
+      {historyCount < Object.entries(histories || {}).length && (
+        <Timeline.Item>
+          <Timeline.Point icon={MdBookmarkAdded} />
+          <Timeline.Content>
+            <Timeline.Content className="hover:mb-32 transition-all">
+              <Button
+                className="text-center w-full text-sm py-1"
+                size="small"
+                onClick={() => setHistoryCount(historyCount + 5)}
+              >
+                Show More
+              </Button>
+            </Timeline.Content>
+          </Timeline.Content>
+        </Timeline.Item>
+      )}
       <Timeline.Item>
         <Timeline.Point icon={MdBookmarkAdded} />
         <Timeline.Content>
@@ -105,7 +97,6 @@ export const TodoTimeline: FC<{
           </Timeline.Body>
         </Timeline.Content>
       </Timeline.Item>
-      <div ref={ref} />
     </Timeline>
   );
 };

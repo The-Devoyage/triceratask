@@ -60,7 +60,7 @@ export const App = () => {
           </span>
         </Alert>
       )}
-      <div className={`h-full ${darkMode && "dark"}`}>
+      <div className={`${darkMode && "dark"}`}>
         <div
           className={
             darkMode ? "gradient-background-dark" : "gradient-background"
