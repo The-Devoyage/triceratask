@@ -9,7 +9,7 @@ export type GetTodosQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null }> };
+export type GetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null }> };
 
 
 export const GetTodosDocument = gql`
@@ -22,6 +22,7 @@ export const GetTodosDocument = gql`
     created_at
     updated_at
     completed_at
+    goal_date
   }
 }
     `;

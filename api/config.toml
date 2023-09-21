@@ -21,6 +21,7 @@ requesting_party_name = "$TRICERATASK_RPN" #"triceratask.com"
 requesting_party_origin = "$TRICERATASK_RPO" #"http://localhost:5173" #Origin of the client. http://localhost:5173
 identifier = "username"
 data_source = "triceratask_ds"
+private_key = "66a_Tpy8wxEB8W8VXFDTBOGcl2NORaCD1qF0dFPWjbk"
 
 # Todos 
 [[service.entities]]
@@ -33,11 +34,12 @@ fields = [
   { name = "completed", scalar = "Boolean", required = true },
   { name = "created_at", scalar = "String", required = true, exclude_from_input = ["All"] },
   { name = "updated_at", scalar = "String", required = true, exclude_from_input = ["All"] },
-  { name = "completed_at", scalar = "String", required = false, exclude_from_input = ["All"] },
+  { name = "completed_at", scalar = "String", exclude_from_input = ["All"] },
   { name = "created_by", scalar = "String", required = true, exclude_from_input = ["UpdateOne", "UpdateMany"] },
   { name = "updated_by", scalar = "String", required = true },
-  { name = "completed_by", scalar = "String", required = false, exclude_from_input = ["All"] },
-  { name = "history", scalar = "String", as_type = "todo_history", list = true, exclude_from_input = ["All"] }
+  { name = "completed_by", scalar = "String", exclude_from_input = ["All"] },
+  { name = "history", scalar = "String", as_type = "todo_history", list = true, exclude_from_input = ["All"] },
+  { name = "goal_date", scalar = "String" }
 ]
 
 [service.entities.data_source]

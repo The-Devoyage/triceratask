@@ -9,14 +9,14 @@ export type UpdateTodosMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null }> };
+export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null }> };
 
 export type GetTodoQueryVariables = Types.Exact<{
   get_todo_input: Types.Get_Todo_Input;
 }>;
 
 
-export type GetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null } };
+export type GetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null } };
 
 
 export const UpdateTodosDocument = gql`
@@ -27,6 +27,7 @@ export const UpdateTodosDocument = gql`
     description
     completed
     completed_at
+    goal_date
   }
 }
     `;
@@ -64,6 +65,7 @@ export const GetTodoDocument = gql`
     description
     completed
     completed_at
+    goal_date
   }
 }
     `;

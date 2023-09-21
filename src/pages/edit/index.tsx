@@ -8,11 +8,12 @@ import {
   Checkbox,
 } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { useGetTodoQuery, useUpdateTodosMutation } from "./edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { Update_Todos_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
+import { IoIosSave } from "react-icons/io";
+import { useGetTodoQuery, useUpdateTodosMutation } from "./graphql.generated";
 
 export const Edit = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -28,10 +29,11 @@ export const Edit = () => {
       title: data?.get_todo?.title,
       description: data?.get_todo?.description,
       completed: data?.get_todo?.completed,
+      goal_date: data?.get_todo?.goal_date,
     });
   }, [data, reset]);
 
-  const onValid = (values: Update_Todos_Input) => {
+  const onSubmit = (values: Update_Todos_Input) => {
     updateTodo({
       variables: {
         update_todos_input: {
@@ -39,6 +41,7 @@ export const Edit = () => {
           title: values.title,
           description: values.description,
           completed: values.completed,
+          goal_date: values.goal_date,
         },
       },
       onCompleted: () =>
@@ -55,11 +58,12 @@ export const Edit = () => {
           <Checkbox {...register("completed")} />
         </div>
       </div>
-      <form onSubmit={handleSubmit(onValid)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <Label>Title</Label>
           <TextInput
             placeholder="Title"
+            className="mb-4"
             {...register("title", {
               required: true,
             })}
@@ -67,7 +71,20 @@ export const Edit = () => {
           <Label>Description</Label>
           <Textarea placeholder="Description" {...register("description")} />
         </div>
-        <Button type="submit">Update Todo</Button>
+        <div className="flex justify-between items-end">
+          <Button type="submit" className="flex justify-center items-center">
+            <IoIosSave className="h-5 md:mr-2" />
+            <span className="hidden md:block">Update Todo</span>
+          </Button>
+          <div className="flex flex-col">
+            <Label>Goal Date</Label>
+            <input
+              type="date"
+              {...register("goal_date")}
+              className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
+            />
+          </div>
+        </div>
       </form>
     </Card>
   );

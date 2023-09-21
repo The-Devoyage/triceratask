@@ -10,7 +10,7 @@ export type GetTodoWithHistoryQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetTodoWithHistoryQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, history: Array<{ __typename?: 'todo_history', uuid: string, todo_uuid: string, created_at: string, property: string, old_value?: string | null, new_value?: string | null }> } };
+export type GetTodoWithHistoryQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, history: Array<{ __typename?: 'todo_history', uuid: string, todo_uuid: string, created_at: string, property: string, old_value?: string | null, new_value?: string | null }> } };
 
 
 export const GetTodoWithHistoryDocument = gql`
@@ -22,6 +22,7 @@ export const GetTodoWithHistoryDocument = gql`
     completed
     completed_at
     created_at
+    goal_date
     history(history: $get_todo_historys_input) {
       uuid
       todo_uuid

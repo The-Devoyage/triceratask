@@ -1,7 +1,6 @@
 import { Alert, Button, Card } from "flowbite-react";
 import { TodoTimeline } from "./components";
 import { Empty, Loader, TodoStatusBadge } from "src/components";
-import { useUpdateTodosMutation } from "../edit/edit.generated";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
@@ -10,6 +9,8 @@ import { TbCheckbox } from "react-icons/tb";
 import { userUuidVar } from "src/state";
 import { useGetTodoWithHistoryQuery } from "./graphql.generated";
 import { LuPartyPopper } from "react-icons/lu";
+import { useUpdateTodosMutation } from "../edit/graphql.generated";
+import dayjs from "src/utils/dayjs";
 
 export const View = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -111,12 +112,38 @@ export const View = () => {
           </div>
         </Card>
       </div>
-      <Card className="col-span-12 md:col-span-4">
-        <TodoTimeline todo={todo} />
-        <Alert color="info" icon={LuPartyPopper}>
-          Hooray, you are off to a great start!
-        </Alert>
-      </Card>
+      <div className="col-span-12 md:col-span-4">
+        {todo?.goal_date &&
+          !todo?.completed &&
+          (dayjs().isAfter(todo?.goal_date) ? (
+            <Alert color="failure" className="mb-4">
+              <h3 className="text-lg font-bold">
+                Overdue: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
+              </h3>
+              <p>
+                This todo is overdue. You should probably get started on it
+                right away.
+              </p>
+            </Alert>
+          ) : (
+            <Alert color="warning" className="mb-4">
+              <h3 className="text-lg font-bold">
+                Due: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
+              </h3>
+              <p>
+                This todo is due on{" "}
+                {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}. You have{" "}
+                {dayjs.tz(todo?.goal_date).fromNow()} to complete it.
+              </p>
+            </Alert>
+          ))}
+        <Card className="p-2">
+          <TodoTimeline todo={todo} />
+          <Alert color="info" icon={LuPartyPopper}>
+            Hooray, you are off to a great start!
+          </Alert>
+        </Card>
+      </div>
     </div>
   );
 };

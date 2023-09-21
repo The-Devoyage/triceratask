@@ -8,6 +8,7 @@ export const UPDATE_TODOS = gql`
       description
       completed
       completed_at
+      goal_date
     }
   }
 `;
@@ -20,6 +21,7 @@ export const GET_TODO = gql`
       description
       completed
       completed_at
+      goal_date
     }
   }
 `;

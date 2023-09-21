@@ -6,10 +6,36 @@ import { Todo } from "src/types/generated";
 import dayjs from "src/utils/dayjs";
 
 interface Props {
-  todo?: Pick<Todo, "completed" | "completed_at">;
+  todo?: Pick<Todo, "completed" | "completed_at" | "goal_date">;
 }
 
 export const TodoStatusBadge: FC<Props> = ({ todo }) => {
+  const goalDate = todo?.goal_date;
+
+  const getStatus = () => {
+    if (todo?.completed) {
+      return "Completed";
+    }
+
+    if (goalDate && dayjs.tz(goalDate).isBefore(dayjs.tz())) {
+      return "Overdue";
+    }
+
+    return "Pending";
+  };
+
+  const getColor = () => {
+    if (todo?.completed) {
+      return "success";
+    }
+
+    if (goalDate && dayjs.tz(goalDate).isBefore(dayjs.tz())) {
+      return "failure";
+    }
+
+    return "indigo";
+  };
+
   return (
     <Tooltip
       content={
@@ -18,11 +44,11 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
               .tz(todo?.completed_at ?? "")
               .local()
               .format("MMMM D, YYYY h:mm A")
-          : "No due date set."
+          : `Due ${goalDate && dayjs.tz(goalDate).fromNow()}`
       }
     >
       <Badge
-        color={todo?.completed ? "success" : "indigo"}
+        color={getColor()}
         icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
         size="sm"
         className="px-2 rounded-md"
@@ -34,7 +60,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
           },
         }}
       >
-        {todo?.completed ? "Completed" : "Pending"}
+        {getStatus()}
       </Badge>
     </Tooltip>
   );

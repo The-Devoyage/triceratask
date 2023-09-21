@@ -119,6 +119,7 @@ export type Create_Todo_Input = {
   completed: Scalars['Boolean']['input'];
   created_by: Scalars['String']['input'];
   description: Scalars['String']['input'];
+  goal_date?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
   updated_by: Scalars['String']['input'];
 };
@@ -145,6 +146,7 @@ export type Get_Todo_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  goal_date?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
@@ -154,6 +156,7 @@ export type Get_Todos_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  goal_date?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
@@ -167,6 +170,7 @@ export type Todo = {
   created_at: Scalars['String']['output'];
   created_by: Scalars['String']['output'];
   description: Scalars['String']['output'];
+  goal_date?: Maybe<Scalars['String']['output']>;
   history: Array<Todo_History>;
   id: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -211,6 +215,7 @@ export type Update_Todo_Historys_Query_Input = {
 export type Update_Todos_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  goal_date?: InputMaybe<Scalars['String']['input']>;
   query: Update_Todos_Query_Input;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
@@ -220,6 +225,7 @@ export type Update_Todos_Query_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  goal_date?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;

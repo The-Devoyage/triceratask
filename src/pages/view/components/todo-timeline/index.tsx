@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import dayjs from "src/utils/dayjs";
-import { Alert, ListGroup, Timeline, Tooltip } from "flowbite-react";
+import { ListGroup, Timeline, Tooltip } from "flowbite-react";
 import { FC } from "react";
 import { GetTodoWithHistoryQuery } from "../../graphql.generated";
 import { MdBookmarkAdded } from "react-icons/md";

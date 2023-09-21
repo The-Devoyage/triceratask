@@ -10,13 +10,20 @@ interface TodosCompletedProps {
 }
 
 export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
-  const last7Days = todos.filter((todo) => {
+  const darkMode = useReactiveVar(darkModeVar);
+
+  const completedLastWeek = todos.filter((todo) => {
     if (!todo.completed || !todo.completed_at) return false;
     const lastWeek = dayjs().subtract(7, "day");
-    const todoDate = dayjs.tz(todo.completed_at).local();
-    return todoDate.isAfter(lastWeek);
+    const completedDate = dayjs.tz(todo.completed_at).local();
+    return completedDate.isAfter(lastWeek);
   });
-  const darkMode = useReactiveVar(darkModeVar);
+  const incompleteLastWeek = todos.filter((todo) => {
+    if (todo.completed || !todo.goal_date) return false;
+    const lastWeek = dayjs().subtract(7, "day");
+    const goalDate = dayjs(todo.goal_date);
+    return goalDate.isAfter(lastWeek);
+  });
 
   const sortTodos = <T,>(arr: T[]) => {
     const today = dayjs().day();
@@ -26,15 +33,30 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
 
   const xAxisLabelsSorted = sortTodos(dayjs.weekdaysShort(true));
 
-  const data = last7Days.reduce(
+  const completed = completedLastWeek.reduce(
     (acc, todo) => {
-      const todoDay = dayjs.tz(todo.completed_at).local().day();
-      acc[todoDay] += 1;
+      if (todo?.completed_at) {
+        const todoDay = dayjs.tz(todo?.completed_at).local().day();
+        acc[todoDay] += 1;
+        return acc;
+      }
       return acc;
     },
     [0, 0, 0, 0, 0, 0, 0]
   );
-  const sortedData = sortTodos(data);
+  const sortedCompleted = sortTodos(completed);
+
+  const incomplete = incompleteLastWeek.reduce(
+    (acc, todo) => {
+      if (todo?.goal_date) {
+        const todoDay = dayjs(todo?.goal_date).day();
+        acc[todoDay] += 1;
+      }
+      return acc;
+    },
+    [0, 0, 0, 0, 0, 0, 0]
+  );
+  const sortedIncomplete = sortTodos(incomplete);
 
   return (
     <Chart
@@ -46,7 +68,7 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
         },
         colors: ["#0369a1", "#f87171"],
         tooltip: {
-          enabled: false,
+          theme: darkMode ? "dark" : "light",
         },
         stroke: {
           curve: "stepline",
@@ -75,12 +97,11 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
       series={[
         {
           name: "Todos Completed",
-          data: sortedData,
+          data: sortedCompleted,
         },
         {
-          name: "Todos todo",
-          //NOTE: Hardcoded data.
-          data: [1, 3, 4, 0, 0, 2, 1],
+          name: "Todos Incomplete",
+          data: sortedIncomplete,
         },
       ]}
       type="bar"

@@ -10,6 +10,7 @@ export const GET_TODOS = gql`
       created_at
       updated_at
       completed_at
+      goal_date
     }
   }
 `;

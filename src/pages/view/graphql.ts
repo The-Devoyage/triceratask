@@ -12,6 +12,7 @@ export const GET_TODO_WITH_HISTORY = gql`
       completed
       completed_at
       created_at
+      goal_date
       history(history: $get_todo_historys_input) {
         uuid
         todo_uuid
