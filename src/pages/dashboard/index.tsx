@@ -1,9 +1,9 @@
 import { Badge, Card } from "flowbite-react";
 import { TodoStats, TodosCompletedChart } from "./components";
-import { useGetTodosQuery } from "../list/graphql.generated";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
+import { useGetTodosQuery } from "../todos/list/graphql.generated";
 
 export const Dashboard = () => {
   const navigate = useNavigate();

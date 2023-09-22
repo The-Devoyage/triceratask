@@ -1,5 +1,5 @@
 import { useReactiveVar } from "@apollo/client";
-import { Button, Navbar } from "flowbite-react";
+import { Button, Navbar, Tooltip } from "flowbite-react";
 import { HiMenu, HiOutlineMoon, HiOutlineSun, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
@@ -40,21 +40,25 @@ export const AppNavbar = () => {
         </div>
       </div>
       <div className="flex-grow" />
-      <Button
-        onClick={handleDarkMode}
-        size="lg"
-        className={darkMode ? "bg-sky-300" : "bg-sky-900"}
-      >
-        {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
-      </Button>
-      {isLoggedIn ? (
+      <Tooltip content={darkMode ? "Light Mode" : "Dark Mode"}>
         <Button
-          onClick={() => navigate(appRoutes.createTodo.path)}
-          className="ml-1 flex items-center justify-center"
+          onClick={handleDarkMode}
+          size="lg"
+          className={darkMode ? "bg-sky-300" : "bg-sky-900"}
         >
-          <HiPlus className="md:mr-1 h-4" />
-          <span className="hidden md:flex items-center">Todo</span>
+          {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
         </Button>
+      </Tooltip>
+      {isLoggedIn ? (
+        <Tooltip content="Create Todo">
+          <Button
+            onClick={() => navigate(appRoutes.createTodo.path)}
+            size="lg"
+            className="ml-1 flex items-center justify-center"
+          >
+            <HiPlus className="h-4" />
+          </Button>
+        </Tooltip>
       ) : (
         <Button
           className="hidden md:block ml-1"
