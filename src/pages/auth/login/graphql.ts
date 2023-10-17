@@ -11,6 +11,7 @@ export const AUTHENTICATE_FINISH = gql`
     authenticate_finish(identifier: $identifier, public_key: $public_key) {
       token
       user_uuid
+      user_identifier
     }
   }
 `;

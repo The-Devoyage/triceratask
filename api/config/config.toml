@@ -1,0 +1,32 @@
+[service]
+name = "todos"
+port = 5555
+imports = [
+  "./todo.toml",
+  "./todo_history.toml",
+  "./user_connections.toml",
+  "./user.toml",
+]
+
+[service.cors]
+allow_methods = [{method = "POST"}, {method = "GET"}, {method = "PUT"}, {method = "DELETE"}, {method = "OPTIONS"}]
+allow_headers = [
+  "Authorization", 
+  "Content-Type", 
+]
+
+[[service.data_sources]]
+[service.data_sources.SQL]
+name = "triceratask_ds"
+uri = "$TRICERATASK_SQL_URI"
+dialect = "SQLITE"
+#TODO: Rename the extension to uuid
+sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
+migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
+
+[service.auth]
+requesting_party = "$TRICERATASK_RP" #"localhost"
+requesting_party_name = "$TRICERATASK_RPN" #"triceratask.com"
+requesting_party_origin = "$TRICERATASK_RPO" #"http://localhost:5173" #Origin of the client. http://localhost:5173
+data_source = "triceratask_ds"
+private_key = "$TRICERATASK_PRIVATE_KEY"

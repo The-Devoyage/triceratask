@@ -1,0 +1,12 @@
+name = "user"
+data_source = { from = "triceratask_ds", table = "subgraph_user" }
+fields = [
+  { name = "uuid", scalar = "String", required = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"] },
+  { name = "identifier", scalar = "String", required = true },
+  { name = "created_at", scalar = "String", required = true, exclude_from_input = ["All"] },
+  { name = "updated_at", scalar = "String", required = true, exclude_from_input = ["All"] },
+  { name = "registration_state", scalar = "String", required = false, exclude_from_input = ["All"] },
+  { name = "passkey", scalar = "String", required = false, exclude_from_input = ["All"] },
+  { name = "authentication_state", scalar = "String", required = false, exclude_from_input = ["All"] },
+]
+

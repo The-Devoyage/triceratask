@@ -15,6 +15,7 @@ import { onError } from "@apollo/client/link/error";
 import "./index.css";
 import { toastsVar } from "./state/index.ts";
 import { v4 as uuidv4 } from "uuid";
+import { NotFound404 } from "./pages/index.ts";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   const toasts = toastsVar();
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: Object.values(appRoutes),
+    errorElement: <NotFound404 />,
   },
 ]);
 

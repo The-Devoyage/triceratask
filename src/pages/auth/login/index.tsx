@@ -1,6 +1,6 @@
 import { Button, Label, TextInput, Card } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { isLoggedInVar, userUuidVar } from "src/state";
+import { isLoggedInVar, userIdentifierVar, userUuidVar } from "src/state";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
 import { CallToAction, LogoCard, RegisterCard } from "../components";
@@ -29,7 +29,6 @@ export const Login = () => {
       onCompleted: async (authenticate_start_mutation) => {
         const credentialRequestOptions = (authenticate_start_mutation.authenticate_start as unknown) as CredentialRequestOptions;
 
-        //TODO: Implement try catch.
         const credential = await navigator.credentials.get({
           publicKey: {
             ...credentialRequestOptions.publicKey,
@@ -88,7 +87,10 @@ export const Login = () => {
               identifier: data.identifier,
             },
             onCompleted: (authenticate_finish_mutation) => {
-              localStorage.setItem("username", data.identifier);
+              localStorage.setItem(
+                "user_identifier",
+                authenticate_finish_mutation.authenticate_finish.user_identifier
+              );
               localStorage.setItem(
                 "user_uuid",
                 authenticate_finish_mutation.authenticate_finish.user_uuid
@@ -100,6 +102,9 @@ export const Login = () => {
               isLoggedInVar(true);
               userUuidVar(
                 authenticate_finish_mutation.authenticate_finish.user_uuid
+              );
+              userIdentifierVar(
+                authenticate_finish_mutation.authenticate_finish.user_identifier
               );
               navigate(appRoutes.dashboard.path);
               toaster.addToast("info", "Logged in successfully!");

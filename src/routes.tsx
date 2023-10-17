@@ -1,4 +1,13 @@
-import { Edit, List, Dashboard, View, Add, Login, Register } from "./pages";
+import {
+  Edit,
+  List,
+  Dashboard,
+  View,
+  Add,
+  Login,
+  Register,
+  MyConnections,
+} from "./pages";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { PublicOnly } from "./utils/PublicOnly";
 
@@ -57,6 +66,14 @@ export const appRoutes = {
       <PublicOnly>
         <Register />
       </PublicOnly>
+    ),
+  },
+  createConnection: {
+    path: "/connections",
+    element: (
+      <ProtectedRoute>
+        <MyConnections />
+      </ProtectedRoute>
     ),
   },
 };

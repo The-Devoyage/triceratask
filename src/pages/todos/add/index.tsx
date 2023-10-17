@@ -13,14 +13,15 @@ import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
 import { userUuidVar } from "src/state";
+import { IoIosSave } from "react-icons/io";
 
 export const Add = () => {
   const { register, handleSubmit } = useForm<Create_Todo_Input>();
   const navigate = useNavigate();
-  const [createTodo] = useCreateTodoMutation();
+  const [createTodo, { loading }] = useCreateTodoMutation();
   const toaster = useToaster();
 
-  const onValid = (values: Create_Todo_Input) => {
+  const onSubmit = (values: Create_Todo_Input) => {
     createTodo({
       variables: {
         create_todo_input: {
@@ -47,14 +48,27 @@ export const Add = () => {
           <Checkbox {...register("completed")} />
         </div>
       </div>
-      <form onSubmit={handleSubmit(onValid)}>
-        <div className="my-2">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="mb-4">
           <Label>Title</Label>
           <TextInput placeholder="Title" {...register("title")} />
           <Label>Todo</Label>
           <Textarea placeholder="Description" {...register("description")} />
         </div>
-        <Button type="submit">Add Todo</Button>
+        <div className="flex justify-between items-end">
+          <Button type="submit" isProcessing={loading}>
+            <IoIosSave className="h-5 md:mr-2" />
+            <span className="hidden md:block">Add Todo</span>
+          </Button>
+          <div className="flex flex-col">
+            <Label>Goal Date</Label>
+            <input
+              type="date"
+              {...register("goal_date")}
+              className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
+            />
+          </div>
+        </div>
       </form>
     </Card>
   );

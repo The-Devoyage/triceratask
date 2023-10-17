@@ -17,7 +17,7 @@ export type AuthenticateFinishMutationVariables = Types.Exact<{
 }>;
 
 
-export type AuthenticateFinishMutation = { __typename?: 'Mutation', authenticate_finish: { __typename?: 'authenticate_success', token: string, user_uuid: string } };
+export type AuthenticateFinishMutation = { __typename?: 'Mutation', authenticate_finish: { __typename?: 'authenticate_success', token: string, user_uuid: string, user_identifier: string } };
 
 
 export const AuthenticateStartDocument = gql`
@@ -56,6 +56,7 @@ export const AuthenticateFinishDocument = gql`
   authenticate_finish(identifier: $identifier, public_key: $public_key) {
     token
     user_uuid
+    user_identifier
   }
 }
     `;

@@ -27,19 +27,19 @@ export const Register = () => {
     registerStart({
       variables: data,
       onCompleted: async (register_start_mutation) => {
-        const ccr = register_start_mutation.register_start as CredentialCreationOptions;
+        const cco = register_start_mutation.register_start as CredentialCreationOptions;
 
-        if (ccr?.publicKey) {
+        if (cco?.publicKey) {
           const credential = await navigator.credentials.create({
             publicKey: {
-              ...ccr.publicKey,
+              ...cco.publicKey,
               challenge: Base64.toUint8Array(
-                (ccr.publicKey?.challenge as unknown) as string
+                (cco.publicKey?.challenge as unknown) as string
               ),
               user: {
-                ...ccr.publicKey?.user,
+                ...cco.publicKey?.user,
                 id: Base64.toUint8Array(
-                  (ccr.publicKey?.user?.id as unknown) as string
+                  (cco.publicKey?.user?.id as unknown) as string
                 ),
               },
             },

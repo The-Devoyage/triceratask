@@ -4,6 +4,7 @@ import { HiMenu, HiOutlineMoon, HiOutlineSun, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { darkModeVar, isLoggedInVar, sidebarHiddenVar } from "src/state";
+import { TbUserBolt } from "react-icons/tb";
 
 export const AppNavbar = () => {
   const navigate = useNavigate();
@@ -44,21 +45,32 @@ export const AppNavbar = () => {
         <Button
           onClick={handleDarkMode}
           size="lg"
-          className={darkMode ? "bg-sky-300" : "bg-sky-900"}
+          className={darkMode ? "bg-sky-500" : "bg-sky-900"}
         >
           {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
         </Button>
       </Tooltip>
       {isLoggedIn ? (
-        <Tooltip content="Create Todo">
-          <Button
-            onClick={() => navigate(appRoutes.createTodo.path)}
-            size="lg"
-            className="ml-1 flex items-center justify-center"
-          >
-            <HiPlus className="h-4" />
-          </Button>
-        </Tooltip>
+        <>
+          <Tooltip content="My Connections" placement="bottom">
+            <Button
+              onClick={() => navigate(appRoutes.createConnection.path)}
+              size="lg"
+              className="ml-1 flex items-center justify-center dark:bg-indigo-500 hover:dark:bg-indigo-600 bg-indigo-700 hover:bg-indigo-600"
+            >
+              <TbUserBolt className="h-4" />
+            </Button>
+          </Tooltip>
+          <Tooltip content="Create Todo" placement="bottom">
+            <Button
+              onClick={() => navigate(appRoutes.createTodo.path)}
+              size="lg"
+              className="ml-1 flex items-center justify-center"
+            >
+              <HiPlus className="h-4" />
+            </Button>
+          </Tooltip>
+        </>
       ) : (
         <Button
           className="hidden md:block ml-1"
