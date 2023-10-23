@@ -9,7 +9,7 @@ export type UpdateUsersMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateUsersMutation = { __typename?: 'Mutation', update_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> };
+export type UpdateUsersMutation = { __typename?: 'Mutation', update_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string }> };
 
 
 export const UpdateUsersDocument = gql`
@@ -18,6 +18,7 @@ export const UpdateUsersDocument = gql`
     uuid
     identifier
     profile_img
+    created_at
   }
 }
     `;

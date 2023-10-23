@@ -9,7 +9,7 @@ export type GetUserQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', get_user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, passkey?: string | null } };
+export type GetUserQuery = { __typename?: 'Query', get_user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string } };
 
 
 export const GetUserDocument = gql`
@@ -18,7 +18,7 @@ export const GetUserDocument = gql`
     uuid
     identifier
     profile_img
-    passkey
+    created_at
   }
 }
     `;

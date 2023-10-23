@@ -19,7 +19,7 @@ fields = [
 [[entities.guards]]
 name = "Permissions Error"
 if_expr = """
-  root_key = if(contains(("FindOne", "FindMany"), resolver_type()), "query", "values");
+  root_key = if(contains(("FindOne", "FindMany", "UpdateMany"), resolver_type()), "query", "values");
   !every(input(root_key, "created_by"), token_data("user_uuid"))
 """
 then_msg = "You may not access this todo."

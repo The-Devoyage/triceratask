@@ -1,7 +1,7 @@
 import dayjs from "src/utils/dayjs";
 import { Table, Tooltip } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { EmptyTodos, TodosLoading } from "../";
 import { GetTodosQuery } from "../../graphql.generated";
 import { appRoutes } from "src/routes";
@@ -14,13 +14,22 @@ interface Props {
 
 export const TodosListBody: FC<Props> = ({ todos, loading }) => {
   const navigate = useNavigate();
+  const sorted = useMemo(
+    () =>
+      (todos || []).sort((a, b) => {
+        if (new Date(a?.created_at) > new Date(b?.created_at)) return -1;
+        if (new Date(a?.created_at) < new Date(b?.created_at)) return 1;
+        return 0;
+      }),
+    [todos]
+  );
 
   if (loading) return <TodosLoading />;
   if (!todos?.length) return <EmptyTodos />;
 
   return (
     <Table.Body>
-      {todos?.map((todo) => (
+      {sorted?.map((todo) => (
         <Table.Row
           key={todo?.uuid}
           className="cursor-pointer"

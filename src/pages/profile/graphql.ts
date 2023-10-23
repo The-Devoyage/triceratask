@@ -6,6 +6,7 @@ export const UPDATE_USERS = gql`
       uuid
       identifier
       profile_img
+      created_at
     }
   }
 `;

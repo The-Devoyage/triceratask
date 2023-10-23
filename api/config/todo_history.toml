@@ -14,6 +14,7 @@ fields = [
 [[entities.guards]]
 name = "Permissions Error"
 if_expr = """
-  true
+  root_key = if(contains(("FindOne", "FindMany", "InternalType"), resolver_type()), "query", "values");
+  !every(input(root_key, "created_by"), token_data("user_uuid"))
 """
 then_msg = "You may not access this todo's history."

@@ -26,6 +26,7 @@ export const View = () => {
       get_todo_historys_input: {
         query: {
           todo_uuid: uuid,
+          created_by: userUuidVar(),
         },
       },
     },
