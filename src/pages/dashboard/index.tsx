@@ -10,7 +10,9 @@ export const Dashboard = () => {
   const { data } = useGetTodosQuery({
     variables: {
       get_todos_input: {
-        created_by: userUuidVar(),
+        query: {
+          created_by: userUuidVar(),
+        },
       },
     },
     fetchPolicy: "cache-and-network",

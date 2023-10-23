@@ -1,16 +1,31 @@
 import { useReactiveVar } from "@apollo/client";
-import { Button, Navbar, Tooltip } from "flowbite-react";
+import { Avatar, Button, Navbar, Tooltip } from "flowbite-react";
 import { HiMenu, HiOutlineMoon, HiOutlineSun, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
-import { darkModeVar, isLoggedInVar, sidebarHiddenVar } from "src/state";
+import {
+  darkModeVar,
+  isLoggedInVar,
+  sidebarHiddenVar,
+  userUuidVar,
+} from "src/state";
 import { TbUserBolt } from "react-icons/tb";
+import { useGetUserQuery } from "./graphql.generated";
 
 export const AppNavbar = () => {
   const navigate = useNavigate();
   const sidebarHidden = useReactiveVar(sidebarHiddenVar);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const darkMode = useReactiveVar(darkModeVar);
+  const { data } = useGetUserQuery({
+    variables: {
+      get_user_input: {
+        query: {
+          uuid: userUuidVar(),
+        },
+      },
+    },
+  });
 
   const handleDarkMode = () => {
     darkModeVar(!darkMode);
@@ -29,7 +44,7 @@ export const AppNavbar = () => {
         </Button>
         <div
           onClick={() => navigate(appRoutes.dashboard.path)}
-          className="flex items-center cursor-pointer"
+          className="hidden md:flex items-center cursor-pointer"
         >
           <img
             className="w-10 h-10 mr-2"
@@ -69,6 +84,18 @@ export const AppNavbar = () => {
             >
               <HiPlus className="h-4" />
             </Button>
+          </Tooltip>
+          <Tooltip content="My Profile" placement="bottom">
+            <Avatar
+              img={data?.get_user.profile_img ?? ""}
+              role="button"
+              className="ml-1 cursor-pointer hover:scale-110"
+              onClick={() =>
+                navigate(
+                  appRoutes.profile.path.replace(":uuid", userUuidVar() ?? "")
+                )
+              }
+            />
           </Tooltip>
         </>
       ) : (

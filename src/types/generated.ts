@@ -158,36 +158,57 @@ export type Authenticate_Success = {
 };
 
 export type Create_Todo_History_Input = {
-  created_by: Scalars['String']['input'];
+  values: Create_Todo_History_Values_Input;
+};
+
+export type Create_Todo_History_Values_Input = {
+  created_by?: InputMaybe<Scalars['String']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
-  property: Scalars['String']['input'];
+  property?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Create_Todo_Input = {
-  completed: Scalars['Boolean']['input'];
-  created_by: Scalars['String']['input'];
-  description: Scalars['String']['input'];
+  values: Create_Todo_Values_Input;
+};
+
+export type Create_Todo_Values_Input = {
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
+  created_by?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
-  title: Scalars['String']['input'];
-  updated_by: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Create_User_Connection_Input = {
+  values: Create_User_Connection_Values_Input;
+};
+
+export type Create_User_Connection_Values_Input = {
   accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
-  created_by: Scalars['String']['input'];
-  identifier: Scalars['String']['input'];
-  updated_by: Scalars['String']['input'];
-  user_uuid: Scalars['String']['input'];
+  created_by?: InputMaybe<Scalars['String']['input']>;
+  identifier?: InputMaybe<Scalars['String']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Create_User_Input = {
-  identifier: Scalars['String']['input'];
+  values: Create_User_Values_Input;
+};
+
+export type Create_User_Values_Input = {
+  identifier?: InputMaybe<Scalars['String']['input']>;
+  profile_img?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Get_Todo_History_Input = {
-  AND?: InputMaybe<Array<Get_Todo_History_Input>>;
-  OR?: InputMaybe<Array<Get_Todo_History_Input>>;
+  query: Get_Todo_History_Query_Input;
+};
+
+export type Get_Todo_History_Query_Input = {
+  AND?: InputMaybe<Array<Get_Todo_History_Query_Input>>;
+  OR?: InputMaybe<Array<Get_Todo_History_Query_Input>>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
@@ -197,8 +218,12 @@ export type Get_Todo_History_Input = {
 };
 
 export type Get_Todo_Historys_Input = {
-  AND?: InputMaybe<Array<Get_Todo_Historys_Input>>;
-  OR?: InputMaybe<Array<Get_Todo_Historys_Input>>;
+  query: Get_Todo_Historys_Querys_Input;
+};
+
+export type Get_Todo_Historys_Querys_Input = {
+  AND?: InputMaybe<Array<Get_Todo_Historys_Querys_Input>>;
+  OR?: InputMaybe<Array<Get_Todo_Historys_Querys_Input>>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
@@ -208,8 +233,12 @@ export type Get_Todo_Historys_Input = {
 };
 
 export type Get_Todo_Input = {
-  AND?: InputMaybe<Array<Get_Todo_Input>>;
-  OR?: InputMaybe<Array<Get_Todo_Input>>;
+  query: Get_Todo_Query_Input;
+};
+
+export type Get_Todo_Query_Input = {
+  AND?: InputMaybe<Array<Get_Todo_Query_Input>>;
+  OR?: InputMaybe<Array<Get_Todo_Query_Input>>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -220,8 +249,12 @@ export type Get_Todo_Input = {
 };
 
 export type Get_Todos_Input = {
-  AND?: InputMaybe<Array<Get_Todos_Input>>;
-  OR?: InputMaybe<Array<Get_Todos_Input>>;
+  query: Get_Todos_Querys_Input;
+};
+
+export type Get_Todos_Querys_Input = {
+  AND?: InputMaybe<Array<Get_Todos_Querys_Input>>;
+  OR?: InputMaybe<Array<Get_Todos_Querys_Input>>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
@@ -232,8 +265,12 @@ export type Get_Todos_Input = {
 };
 
 export type Get_User_Connection_Input = {
-  AND?: InputMaybe<Array<Get_User_Connection_Input>>;
-  OR?: InputMaybe<Array<Get_User_Connection_Input>>;
+  query: Get_User_Connection_Query_Input;
+};
+
+export type Get_User_Connection_Query_Input = {
+  AND?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
+  OR?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
   accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
   connected_user_uuid?: InputMaybe<Scalars['String']['input']>;
@@ -247,8 +284,12 @@ export type Get_User_Connection_Input = {
 };
 
 export type Get_User_Connections_Input = {
-  AND?: InputMaybe<Array<Get_User_Connections_Input>>;
-  OR?: InputMaybe<Array<Get_User_Connections_Input>>;
+  query: Get_User_Connections_Querys_Input;
+};
+
+export type Get_User_Connections_Querys_Input = {
+  AND?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
+  OR?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
   accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
   connected_user_uuid?: InputMaybe<Scalars['String']['input']>;
@@ -262,16 +303,26 @@ export type Get_User_Connections_Input = {
 };
 
 export type Get_User_Input = {
-  AND?: InputMaybe<Array<Get_User_Input>>;
-  OR?: InputMaybe<Array<Get_User_Input>>;
+  query: Get_User_Query_Input;
+};
+
+export type Get_User_Query_Input = {
+  AND?: InputMaybe<Array<Get_User_Query_Input>>;
+  OR?: InputMaybe<Array<Get_User_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Get_Users_Input = {
-  AND?: InputMaybe<Array<Get_Users_Input>>;
-  OR?: InputMaybe<Array<Get_Users_Input>>;
+  query: Get_Users_Querys_Input;
+};
+
+export type Get_Users_Querys_Input = {
+  AND?: InputMaybe<Array<Get_Users_Querys_Input>>;
+  OR?: InputMaybe<Array<Get_Users_Querys_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -315,10 +366,8 @@ export type Todo_History = {
 };
 
 export type Update_Todo_Historys_Input = {
-  new_value?: InputMaybe<Scalars['String']['input']>;
-  old_value?: InputMaybe<Scalars['String']['input']>;
-  property?: InputMaybe<Scalars['String']['input']>;
   query: Update_Todo_Historys_Query_Input;
+  values: Update_Todo_Historys_Values_Input;
 };
 
 export type Update_Todo_Historys_Query_Input = {
@@ -332,13 +381,15 @@ export type Update_Todo_Historys_Query_Input = {
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Update_Todo_Historys_Values_Input = {
+  new_value?: InputMaybe<Scalars['String']['input']>;
+  old_value?: InputMaybe<Scalars['String']['input']>;
+  property?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Update_Todos_Input = {
-  completed?: InputMaybe<Scalars['Boolean']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  goal_date?: InputMaybe<Scalars['String']['input']>;
   query: Update_Todos_Query_Input;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_by?: InputMaybe<Scalars['String']['input']>;
+  values: Update_Todos_Values_Input;
 };
 
 export type Update_Todos_Query_Input = {
@@ -353,14 +404,17 @@ export type Update_Todos_Query_Input = {
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Update_User_Connections_Input = {
-  accepted?: InputMaybe<Scalars['Boolean']['input']>;
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
-  identifier?: InputMaybe<Scalars['String']['input']>;
-  query: Update_User_Connections_Query_Input;
-  revoked?: InputMaybe<Scalars['Boolean']['input']>;
-  status?: InputMaybe<Scalars['Boolean']['input']>;
+export type Update_Todos_Values_Input = {
+  completed?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  goal_date?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_User_Connections_Input = {
+  query: Update_User_Connections_Query_Input;
+  values: Update_User_Connections_Values_Input;
 };
 
 export type Update_User_Connections_Query_Input = {
@@ -378,16 +432,31 @@ export type Update_User_Connections_Query_Input = {
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type Update_Users_Input = {
+export type Update_User_Connections_Values_Input = {
+  accepted?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  revoked?: InputMaybe<Scalars['Boolean']['input']>;
+  status?: InputMaybe<Scalars['Boolean']['input']>;
+  updated_by?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Users_Input = {
   query: Update_Users_Query_Input;
+  values: Update_Users_Values_Input;
 };
 
 export type Update_Users_Query_Input = {
   AND?: InputMaybe<Array<Update_Users_Query_Input>>;
   OR?: InputMaybe<Array<Update_Users_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Users_Values_Input = {
+  identifier?: InputMaybe<Scalars['String']['input']>;
+  profile_img?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -396,6 +465,7 @@ export type User = {
   created_at: Scalars['String']['output'];
   identifier: Scalars['String']['output'];
   passkey?: Maybe<Scalars['String']['output']>;
+  profile_img?: Maybe<Scalars['String']['output']>;
   registration_state?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['String']['output'];
   uuid: Scalars['String']['output'];

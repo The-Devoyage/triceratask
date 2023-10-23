@@ -15,11 +15,9 @@ export const AddConnection = forwardRef<
   const [createConnection, { loading }] = useCreateConnectionMutation({
     refetchQueries: [getOperationName(LIST_CONNECTIONS)!],
   });
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm<Create_User_Connection_Input>();
+  const { register, handleSubmit, reset } = useForm<
+    Create_User_Connection_Input["values"]
+  >();
   const toaster = useToaster();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { ref, ...rest } = register("identifier");
@@ -29,10 +27,12 @@ export const AddConnection = forwardRef<
     await createConnection({
       variables: {
         create_user_connection_input: {
-          identifier: data.identifier,
-          user_uuid: userUuidVar() ?? "",
-          created_by: userUuidVar() ?? "",
-          updated_by: userUuidVar() ?? "",
+          values: {
+            identifier: data.identifier,
+            user_uuid: userUuidVar() ?? "",
+            created_by: userUuidVar() ?? "",
+            updated_by: userUuidVar() ?? "",
+          },
         },
       },
       onCompleted: () => {

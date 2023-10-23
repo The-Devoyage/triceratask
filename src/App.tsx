@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Alert, Flowbite } from "flowbite-react";
-import { AppNavbar } from "./views/navbar";
-import { AppSidebar } from "./views/sidebar";
+import { AppNavbar, AppSidebar, Toaster } from "./views";
 import { Outlet } from "react-router-dom";
-import { Toaster } from "./views/toaster";
 import { useReactiveVar } from "@apollo/client";
 import { darkModeVar } from "./state";
 

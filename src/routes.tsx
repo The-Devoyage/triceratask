@@ -8,6 +8,7 @@ import {
   Register,
   MyConnections,
 } from "./pages";
+import { Profile } from "./pages/profile";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { PublicOnly } from "./utils/PublicOnly";
 
@@ -17,6 +18,14 @@ export const appRoutes = {
     element: (
       <ProtectedRoute>
         <Dashboard />
+      </ProtectedRoute>
+    ),
+  },
+  profile: {
+    path: "/profile/:uuid",
+    element: (
+      <ProtectedRoute>
+        <Profile />
       </ProtectedRoute>
     ),
   },

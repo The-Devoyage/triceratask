@@ -21,8 +21,10 @@ export const AcceptOrDeclineButton: FC<{
           query: {
             uuid: connection.uuid,
           },
-          accepted: true,
-          updated_by: userUuidVar(),
+          values: {
+            accepted: true,
+            updated_by: userUuidVar(),
+          },
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
@@ -36,15 +38,15 @@ export const AcceptOrDeclineButton: FC<{
           query: {
             uuid: connection.uuid,
           },
-          revoked: true,
-          updated_by: userUuidVar(),
+          values: {
+            revoked: true,
+            updated_by: userUuidVar(),
+          },
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
     });
   };
-
-  console.log(userUuidVar(), connection.connected_user_uuid.uuid);
 
   if (
     connection.connected_user_uuid.uuid === userUuidVar() &&

@@ -21,8 +21,10 @@ export const ReinviteButton: FC<{
           query: {
             uuid: connection.uuid,
           },
-          revoked: false,
-          updated_by: userUuidVar(),
+          values: {
+            revoked: false,
+            updated_by: userUuidVar(),
+          },
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],

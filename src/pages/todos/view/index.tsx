@@ -18,11 +18,15 @@ export const View = () => {
   const { data, loading, refetch, called } = useGetTodoWithHistoryQuery({
     variables: {
       get_todo_input: {
-        uuid,
-        created_by: userUuidVar(),
+        query: {
+          uuid,
+          created_by: userUuidVar(),
+        },
       },
       get_todo_historys_input: {
-        todo_uuid: uuid,
+        query: {
+          todo_uuid: uuid,
+        },
       },
     },
     fetchPolicy: "cache-and-network",
@@ -38,7 +42,9 @@ export const View = () => {
             uuid,
             created_by: userUuidVar(),
           },
-          completed: true,
+          values: {
+            completed: true,
+          },
         },
       },
       onCompleted: () => {

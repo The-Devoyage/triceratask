@@ -4,21 +4,36 @@ import { TodosListBody } from "./components";
 import { useGetTodosLazyQuery } from "./graphql.generated";
 import { userUuidVar } from "src/state";
 import { useLocation } from "react-router-dom";
+import { Get_Todos_Input } from "src/types/generated";
 
 export const List = () => {
   const [getTodos, { data, loading, variables }] = useGetTodosLazyQuery();
   const locationState: { state: { completed?: boolean } } = useLocation();
 
   useEffect(() => {
+    let getTodosInput: Get_Todos_Input = {
+      query: {
+        created_by: userUuidVar(),
+        completed: false,
+      },
+    };
+
+    if (
+      locationState &&
+      locationState?.state?.completed !== undefined &&
+      locationState?.state?.completed !== null
+    ) {
+      getTodosInput = {
+        query: {
+          ...getTodosInput.query,
+          completed: locationState?.state?.completed,
+        },
+      };
+    }
+
     getTodos({
       variables: {
-        get_todos_input: {
-          completed:
-            locationState && locationState?.state?.completed !== undefined
-              ? locationState.state.completed
-              : false,
-          created_by: userUuidVar(),
-        },
+        get_todos_input: getTodosInput,
       },
       fetchPolicy: "cache-and-network",
     });
@@ -28,8 +43,10 @@ export const List = () => {
     getTodos({
       variables: {
         get_todos_input: {
-          completed: v.completed,
-          created_by: userUuidVar(),
+          query: {
+            completed: v.completed,
+            created_by: userUuidVar(),
+          },
         },
       },
     });
@@ -48,8 +65,8 @@ export const List = () => {
         <Table.HeadCell className="text-center">
           <Dropdown
             label={
-              variables?.get_todos_input?.completed !== undefined
-                ? variables.get_todos_input.completed
+              variables?.get_todos_input?.query.completed !== undefined
+                ? variables.get_todos_input.query.completed
                   ? "Completed"
                   : "Not Complete"
                 : "All"

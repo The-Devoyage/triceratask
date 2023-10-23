@@ -19,5 +19,10 @@ export default {
   },
   plugins: [require('flowbite/plugin')],
   darkMode: 'class',
+  varients: {
+    extend: {
+      display: ['group-hover'],
+    }
+  }
 }
 

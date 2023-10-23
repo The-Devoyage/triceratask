@@ -1,3 +1,4 @@
+[[entities]]
 name = "todo"
 fields = [
   { name = "id", scalar = "Int", required = true, exclude_from_input = ["All"]  },
@@ -15,36 +16,11 @@ fields = [
   { name = "history", scalar = "String", as_type = "todo_history", list = true, exclude_from_input = ["All"], join_on = "todo_uuid", join_from = "uuid" }
 ]
 
-[service.entities.data_source]
-from = "triceratask_ds"
-[service.entities.data_source.resolvers]
-[service.entities.data_source.resolvers.find_one]
-[[service.entities.data_source.resolvers.find_one.guards]]
+[[entities.guards]]
 name = "Permissions Error"
-if_expr = "token_data(\"user_uuid\") != input(\"created_by\")"
-then_msg = "Permission Denied - You can only manage your own todos."
-
-[service.entities.data_source.resolvers.find_many]
-[[service.entities.data_source.resolvers.find_many.guards]]
-name = "Permissions Error"
-if_expr = "token_data(\"user_uuid\") != input(\"created_by\")"
-then_msg = "Permission Denied - You can only manage your own todos."
-
-[service.entities.data_source.resolvers.create_one]
-[[service.entities.data_source.resolvers.create_one.guards]]
-name = "Permissions Error"
-if_expr = "token_data(\"user_uuid\") != input(\"created_by\")"
-then_msg = "Permission Denied - You can only manage your own todos."
-
-[service.entities.data_source.resolvers.update_one]
-[[service.entities.data_source.resolvers.update_one.guards]]
-name = "Permissions Error"
-if_expr = "token_data(\"user_uuid\") != input(\"query.created_by\")"
-then_msg = "Permission Denied - You can only manage your own todos."
-
-[service.entities.data_source.resolvers.update_many]
-[[service.entities.data_source.resolvers.update_many.guards]]
-name = "Permissions Error"
-if_expr = "token_data(\"user_uuid\") != input(\"query.created_by\")"
-then_msg = "Permission Denied - You can only manage your own todos."
+if_expr = """
+  root_key = if(contains(("FindOne", "FindMany"), resolver_type()), "query", "values");
+  !every(input(root_key, "created_by"), token_data("user_uuid"))
+"""
+then_msg = "You may not access this todo."
 

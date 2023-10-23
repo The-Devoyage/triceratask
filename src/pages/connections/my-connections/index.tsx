@@ -19,7 +19,7 @@ export const MyConnections = () => {
 
   return (
     <div className="grid grid-cols-6 gap-4 mb-3">
-      <div className="sm:col-span-6 md:col-span-4">
+      <div className="col-span-6 md:col-span-4">
         <Card className="flex justify-between mb-4">
           <div>
             <Tabs.Group
@@ -37,16 +37,18 @@ export const MyConnections = () => {
                   activeTab={activeTab}
                   tab={ConnectionTabs.Connections}
                   getUserConnectionsInput={{
-                    OR: [
-                      {
-                        connected_user_uuid: userUuidVar(),
-                        accepted: true,
-                      },
-                      {
-                        created_by: userUuidVar(),
-                        accepted: true,
-                      },
-                    ],
+                    query: {
+                      OR: [
+                        {
+                          connected_user_uuid: userUuidVar(),
+                          accepted: true,
+                        },
+                        {
+                          created_by: userUuidVar(),
+                          accepted: true,
+                        },
+                      ],
+                    },
                   }}
                 />
               </Tabs.Item>
@@ -59,18 +61,20 @@ export const MyConnections = () => {
                   activeTab={activeTab}
                   tab={ConnectionTabs.Invites}
                   getUserConnectionsInput={{
-                    OR: [
-                      {
-                        connected_user_uuid: userUuidVar(),
-                        accepted: false,
-                        revoked: false,
-                      },
-                      {
-                        identifier: userIdentifierVar(),
-                        accepted: false,
-                        revoked: false,
-                      },
-                    ],
+                    query: {
+                      OR: [
+                        {
+                          connected_user_uuid: userUuidVar(),
+                          accepted: false,
+                          revoked: false,
+                        },
+                        {
+                          identifier: userIdentifierVar(),
+                          accepted: false,
+                          revoked: false,
+                        },
+                      ],
+                    },
                   }}
                 />
               </Tabs.Item>
@@ -83,8 +87,10 @@ export const MyConnections = () => {
                   activeTab={activeTab}
                   tab={ConnectionTabs.Invited}
                   getUserConnectionsInput={{
-                    created_by: userUuidVar(),
-                    accepted: false,
+                    query: {
+                      created_by: userUuidVar(),
+                      accepted: false,
+                    },
                   }}
                 />
               </Tabs.Item>
@@ -92,7 +98,7 @@ export const MyConnections = () => {
           </div>
         </Card>
       </div>
-      <div className="sm:col-span-6 md:col-span-2 sm:order-first md:order-last">
+      <div className="col-span-6 md:col-span-2 order-first md:order-last">
         <AddConnection
           className="mb-3 w-full"
           setActiveTab={setActiveTabByIndex}
@@ -114,8 +120,8 @@ const ConnectionList = forwardRef<
   const { data } = useListConnectionsQuery({
     variables: {
       get_user_connections_input: getUserConnectionsInput,
-      get_user_input: {},
-      get_connected_user_input: {},
+      get_user_input: { query: {} },
+      get_connected_user_input: { query: {} },
     },
     skip: tab !== activeTab,
   });

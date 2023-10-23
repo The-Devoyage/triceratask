@@ -18,10 +18,12 @@ export const LIST_CONNECTIONS = gql`
       user_uuid(user_uuid: $get_user_input) {
         uuid
         identifier
+        profile_img
       }
       connected_user_uuid(connected_user_uuid: $get_connected_user_input) {
         uuid
         identifier
+        profile_img
       }
     }
   }

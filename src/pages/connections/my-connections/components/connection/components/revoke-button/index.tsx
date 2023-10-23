@@ -21,8 +21,10 @@ export const RevokeButton: FC<{
           query: {
             uuid: connection.uuid,
           },
-          revoked: true,
-          updated_by: userUuidVar(),
+          values: {
+            revoked: true,
+            updated_by: userUuidVar(),
+          },
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],

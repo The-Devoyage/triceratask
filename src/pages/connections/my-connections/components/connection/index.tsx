@@ -13,11 +13,6 @@ export const Connection: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
   activeTab: ConnectionTabs;
 }> = ({ connection, activeTab }) => {
-  const getRandomImage = () => {
-    const randomNumber = Math.floor(Math.random() * 1000);
-    return `https://picsum.photos/seed/${randomNumber}/200/300`;
-  };
-
   const getBadge = () => {
     if (connection.revoked)
       return {
@@ -57,10 +52,16 @@ export const Connection: FC<{
     }
   };
 
+  const getProfileImage = () => {
+    if (connection?.connected_user_uuid.uuid === userUuidVar())
+      return connection?.user_uuid.profile_img;
+    return connection?.connected_user_uuid.profile_img;
+  };
+
   return (
     <div className="flex justify-between py-4 border-b border-gray-200">
       <div className="flex align-start">
-        <Avatar img={getRandomImage()} className="mr-2" />
+        <Avatar img={getProfileImage() ?? ""} className="mr-2" />
         <div className="flex flex-col justify-start items-start">
           <h4 className="text-xl font-bold">{getIdentifier()}</h4>
           <div className="text-sm flex">

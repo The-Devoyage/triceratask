@@ -1,4 +1,3 @@
-export * from "./discover";
 export * from "./my-connections";
 
 export enum ConnectionTabs {

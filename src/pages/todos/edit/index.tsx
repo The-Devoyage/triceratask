@@ -18,10 +18,14 @@ import { useGetTodoQuery, useUpdateTodosMutation } from "./graphql.generated";
 export const Edit = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm<Update_Todos_Input>();
+  const { register, handleSubmit, reset } = useForm<
+    Update_Todos_Input["values"]
+  >();
   const [updateTodo] = useUpdateTodosMutation();
   const { data } = useGetTodoQuery({
-    variables: { get_todo_input: { uuid, created_by: userUuidVar() } },
+    variables: {
+      get_todo_input: { query: { uuid, created_by: userUuidVar() } },
+    },
   });
 
   useEffect(() => {
@@ -33,15 +37,17 @@ export const Edit = () => {
     });
   }, [data, reset]);
 
-  const onSubmit = (values: Update_Todos_Input) => {
+  const onSubmit = (values: Update_Todos_Input["values"]) => {
     updateTodo({
       variables: {
         update_todos_input: {
           query: { uuid, created_by: userUuidVar() },
-          title: values.title,
-          description: values.description,
-          completed: values.completed,
-          goal_date: values.goal_date,
+          values: {
+            title: values.title,
+            description: values.description,
+            completed: values.completed,
+            goal_date: values.goal_date,
+          },
         },
       },
       onCompleted: () =>
