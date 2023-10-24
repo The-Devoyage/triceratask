@@ -8,18 +8,32 @@ import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 
 export const AcceptOrDeclineButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
-}> = ({ connection }) => {
+  onComplete?: () => void;
+}> = ({ connection, onComplete }) => {
   const [
     updateUserConnection,
     { loading },
   ] = useUpdateUserConnectionsMutation();
 
-  const handleAccept = () => {
+  const handleAccept = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     updateUserConnection({
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            AND: [
+              {
+                uuid: connection.uuid,
+              },
+            ],
+            OR: [
+              {
+                created_by: userUuidVar(),
+              },
+              {
+                connected_user_uuid: userUuidVar(),
+              },
+            ],
           },
           values: {
             accepted: true,
@@ -29,14 +43,28 @@ export const AcceptOrDeclineButton: FC<{
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
     });
+    onComplete && onComplete();
   };
 
-  const handleDecline = () => {
+  const handleDecline = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     updateUserConnection({
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            AND: [
+              {
+                uuid: connection.uuid,
+              },
+            ],
+            OR: [
+              {
+                created_by: userUuidVar(),
+              },
+              {
+                connected_user_uuid: userUuidVar(),
+              },
+            ],
           },
           values: {
             revoked: true,
@@ -46,6 +74,7 @@ export const AcceptOrDeclineButton: FC<{
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
     });
+    onComplete && onComplete();
   };
 
   if (

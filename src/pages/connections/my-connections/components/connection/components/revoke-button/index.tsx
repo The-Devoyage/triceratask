@@ -8,7 +8,8 @@ import { LIST_CONNECTIONS } from "src/pages/connections/my-connections/graphql";
 
 export const RevokeButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
-}> = ({ connection }) => {
+  onComplete?: () => void;
+}> = ({ connection, onComplete }) => {
   const [
     updateUserConnection,
     { loading },
@@ -20,7 +21,19 @@ export const RevokeButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            AND: [
+              {
+                uuid: connection.uuid,
+              },
+            ],
+            OR: [
+              {
+                created_by: userUuidVar(),
+              },
+              {
+                connected_user_uuid: userUuidVar(),
+              },
+            ],
           },
           values: {
             revoked: true,
@@ -30,6 +43,7 @@ export const RevokeButton: FC<{
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
     });
+    onComplete && onComplete();
   };
 
   if (

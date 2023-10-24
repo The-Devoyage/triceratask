@@ -1,4 +1,4 @@
-import { Avatar, Badge } from "flowbite-react";
+import { Avatar, Badge, TabsRef } from "flowbite-react";
 import { FC } from "react";
 import { ListConnectionsQuery } from "../../graphql.generated";
 import {
@@ -14,7 +14,9 @@ import { useNavigate } from "react-router-dom";
 export const Connection: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
   activeTab: ConnectionTabs;
-}> = ({ connection, activeTab }) => {
+  tabsRef?: TabsRef;
+  setActiveTab: (index: number) => void;
+}> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
 
   const getBadge = () => {
@@ -77,6 +79,10 @@ export const Connection: FC<{
     return connection?.connected_user_uuid.profile_img;
   };
 
+  const handleTabChange = (index: number) => {
+    setActiveTab(index);
+  };
+
   return (
     <div
       className="flex justify-between py-4 border-b border-gray-200 hover:bg-gray-100 hover:dark:bg-gray-700 cursor-pointer p-3"
@@ -95,9 +101,20 @@ export const Connection: FC<{
         </div>
       </div>
       <div className="flex align-start">
-        <AcceptOrDeclineButton connection={connection} />
-        <RevokeButton connection={connection} />
-        <ReinviteButton connection={connection} />
+        <AcceptOrDeclineButton
+          connection={connection}
+          onComplete={() => setActiveTab(0)}
+        />
+        <RevokeButton
+          connection={connection}
+          onComplete={() =>
+            activeTab === ConnectionTabs.Connections && setActiveTab(2)
+          }
+        />
+        <ReinviteButton
+          connection={connection}
+          onComplete={() => setActiveTab(2)}
+        />
       </div>
     </div>
   );

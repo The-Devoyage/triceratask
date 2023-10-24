@@ -35,6 +35,7 @@ export const MyConnections = () => {
                 <ConnectionList
                   ref={usernameInputRef}
                   activeTab={activeTab}
+                  setActiveTab={setActiveTabByIndex}
                   tab={ConnectionTabs.Connections}
                   getUserConnectionsInput={{
                     query: {
@@ -59,6 +60,7 @@ export const MyConnections = () => {
                 <ConnectionList
                   ref={usernameInputRef}
                   activeTab={activeTab}
+                  setActiveTab={setActiveTabByIndex}
                   tab={ConnectionTabs.Invites}
                   getUserConnectionsInput={{
                     query: {
@@ -85,6 +87,7 @@ export const MyConnections = () => {
                 <ConnectionList
                   ref={usernameInputRef}
                   activeTab={activeTab}
+                  setActiveTab={setActiveTabByIndex}
                   tab={ConnectionTabs.Invited}
                   getUserConnectionsInput={{
                     query: {
@@ -115,8 +118,9 @@ const ConnectionList = forwardRef<
     getUserConnectionsInput: Get_User_Connection_Input;
     activeTab: ConnectionTabs;
     tab: ConnectionTabs;
+    setActiveTab: (index: number) => void;
   }
->(({ getUserConnectionsInput, activeTab, tab }, ref) => {
+>(({ getUserConnectionsInput, activeTab, tab, setActiveTab }, ref) => {
   const { data } = useListConnectionsQuery({
     variables: {
       get_user_connections_input: getUserConnectionsInput,
@@ -134,6 +138,7 @@ const ConnectionList = forwardRef<
       key={connection.uuid ?? index}
       connection={connection}
       activeTab={activeTab}
+      setActiveTab={setActiveTab}
     />
   ));
 });

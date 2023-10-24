@@ -8,18 +8,32 @@ import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 
 export const ReinviteButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
-}> = ({ connection }) => {
+  onComplete?: () => void;
+}> = ({ connection, onComplete }) => {
   const [
     updateUserConnection,
     { loading },
   ] = useUpdateUserConnectionsMutation();
 
-  const handleReinvite = () => {
+  const handleReinvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     updateUserConnection({
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            AND: [
+              {
+                uuid: connection.uuid,
+              },
+            ],
+            OR: [
+              {
+                created_by: userUuidVar(),
+              },
+              {
+                connected_user_uuid: userUuidVar(),
+              },
+            ],
           },
           values: {
             revoked: false,
@@ -29,6 +43,7 @@ export const ReinviteButton: FC<{
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
     });
+    onComplete && onComplete();
   };
 
   if (connection.revoked && connection.user_uuid.uuid === userUuidVar())

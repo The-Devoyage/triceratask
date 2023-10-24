@@ -20,7 +20,7 @@ fields = [
 [[entities.guards]]
 name = "Permissions Error"
 if_expr = """
-  root_key = if(contains(("FindOne", "FindMany"), resolver_type()), "query", "values");
+  root_key = if(contains(("FindOne", "FindMany", "UpdateMany"), resolver_type()), "query", "values");
   contains_created_by = len(input(root_key, "created_by")) > 0;
   contains_connected_user_uuid = len(input(root_key, "connected_user_uuid")) > 0;
   provided_user_uuid = contains_created_by || contains_connected_user_uuid;
