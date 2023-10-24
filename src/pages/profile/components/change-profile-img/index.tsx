@@ -66,36 +66,38 @@ export const ChangeProfileImg: FC<{
           onClick={() => allowEdit && setShowModal(true)}
         />
         <Modal show={showModal} dismissible onClose={() => setShowModal(false)}>
-          <div className="absolute flex justify-center items-end mb-4 h-full w-full p-2 bg-white/25 rounded-lg">
-            <div className="flex justify-center items-center">
-              <Tooltip content="Keep previously saved photo.">
-                <TbPhotoCancel
-                  role="button"
-                  className="text-white hover:scale-125 hover:text-red-500 cursor-pointer h-12 w-12 transition duration-500 ease-in-out m-4"
-                  onClick={() => {
-                    setShowModal(false);
-                    setProfileImage(null);
-                  }}
-                />
-              </Tooltip>
-            </div>
-            <div className="flex justify-center items-center">
-              <Tooltip content="Generate new random photo.">
-                <IoRefreshCircleSharp
-                  role="button"
-                  className="text-white hover:scale-125 hover:text-blue-900 cursor-pointer h-14 w-14 transition duration-500 ease-in-out m-4"
-                  onClick={handleGenerate}
-                />
-              </Tooltip>
-            </div>
-            <div className="flex justify-center items-center">
-              <Tooltip content="Save/replace photo.">
-                <IoIosSave
-                  role="button"
-                  className="text-white hover:scale-125 hover:text-green-400 cursor-pointer h-12 w-12 transition duration-500 ease-in-out m-4"
-                  onClick={handleUpdateProfileImage}
-                />
-              </Tooltip>
+          <div className="absolute flex justify-center mb-4 p-2 shadow-lg bottom-0 w-full">
+            <div className="flex justify-center items-center bg-white/25 rounded-lg">
+              <div className="flex justify-center items-center">
+                <Tooltip content="Keep previously saved photo.">
+                  <TbPhotoCancel
+                    role="button"
+                    className="text-white hover:scale-125 hover:text-red-500 cursor-pointer h-12 w-12 transition duration-500 ease-in-out m-4"
+                    onClick={() => {
+                      setShowModal(false);
+                      setProfileImage(null);
+                    }}
+                  />
+                </Tooltip>
+              </div>
+              <div className="flex justify-center items-center">
+                <Tooltip content="Generate new random photo.">
+                  <IoRefreshCircleSharp
+                    role="button"
+                    className="text-white hover:scale-125 hover:text-blue-900 cursor-pointer h-14 w-14 transition duration-500 ease-in-out m-4"
+                    onClick={handleGenerate}
+                  />
+                </Tooltip>
+              </div>
+              <div className="flex justify-center items-center">
+                <Tooltip content="Save/replace photo.">
+                  <IoIosSave
+                    role="button"
+                    className="text-white hover:scale-125 hover:text-green-400 cursor-pointer h-12 w-12 transition duration-500 ease-in-out m-4"
+                    onClick={handleUpdateProfileImage}
+                  />
+                </Tooltip>
+              </div>
             </div>
           </div>
           <img
