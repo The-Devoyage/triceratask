@@ -15,5 +15,3 @@ fields = [
   ] },
   { name = "profile_img", scalar = "String", required = false }
 ]
-
-then_msg = "You may not access this users information."

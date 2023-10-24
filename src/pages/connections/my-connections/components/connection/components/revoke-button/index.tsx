@@ -14,7 +14,8 @@ export const RevokeButton: FC<{
     { loading },
   ] = useUpdateUserConnectionsMutation();
 
-  const handleRevoke = () => {
+  const handleRevoke = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     updateUserConnection({
       variables: {
         update_user_connections_input: {
