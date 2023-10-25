@@ -5,11 +5,13 @@ import { FC } from "react";
 import { ListConnectionsQuery } from "src/pages/connections/my-connections/graphql.generated";
 import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 import { LIST_CONNECTIONS } from "src/pages/connections/my-connections/graphql";
+import { useToaster } from "src/utils/useToaster";
 
 export const RevokeButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
   onComplete?: () => void;
 }> = ({ connection, onComplete }) => {
+  const toaster = useToaster();
   const [
     updateUserConnection,
     { loading },
@@ -42,6 +44,9 @@ export const RevokeButton: FC<{
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
+      onCompleted: () => {
+        toaster.addToast("success", "Connection revoked.");
+      },
     });
     onComplete && onComplete();
   };

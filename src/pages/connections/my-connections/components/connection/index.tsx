@@ -79,10 +79,6 @@ export const Connection: FC<{
     return connection?.connected_user_uuid.profile_img;
   };
 
-  const handleTabChange = (index: number) => {
-    setActiveTab(index);
-  };
-
   return (
     <div
       className="flex justify-between py-4 border-b border-gray-200 hover:bg-gray-100 hover:dark:bg-gray-700 cursor-pointer p-3"

@@ -5,11 +5,13 @@ import { FC } from "react";
 import { ListConnectionsQuery } from "src/pages/connections/my-connections/graphql.generated";
 import { LIST_CONNECTIONS } from "src/pages/connections/my-connections/graphql";
 import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
+import { useToaster } from "src/utils/useToaster";
 
 export const ReinviteButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
   onComplete?: () => void;
 }> = ({ connection, onComplete }) => {
+  const toaster = useToaster();
   const [
     updateUserConnection,
     { loading },
@@ -42,6 +44,9 @@ export const ReinviteButton: FC<{
         },
       },
       refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
+      onCompleted: () => {
+        toaster.addToast("success", "User invite sent again.");
+      },
     });
     onComplete && onComplete();
   };
