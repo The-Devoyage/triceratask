@@ -1,5 +1,5 @@
-import { Avatar, Badge, TabsRef } from "flowbite-react";
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
+import { Avatar, Badge, Spinner, TabsRef } from "flowbite-react";
 import { ListConnectionsQuery } from "../../graphql.generated";
 import {
   AcceptOrDeclineButton,
@@ -10,6 +10,8 @@ import { userUuidVar } from "src/state";
 import { ConnectionTabs } from "src/pages/connections";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
+import { useGetUserLastActiveQuery } from "./graphql.generated";
+import dayjs from "src/utils/dayjs";
 
 export const Connection: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
@@ -18,6 +20,42 @@ export const Connection: FC<{
   setActiveTab: (index: number) => void;
 }> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
+  const { data, loading } = useGetUserLastActiveQuery({
+    pollInterval: 5000,
+    variables: {
+      get_user_input: {
+        query: {
+          uuid:
+            connection?.connected_user_uuid.uuid === userUuidVar()
+              ? connection?.user_uuid.uuid
+              : connection?.connected_user_uuid.uuid,
+        },
+      },
+    },
+  });
+
+  useEffect(() => {
+    const checkActive = () => {
+      if (data?.get_user?.last_active) {
+        setIsActive(
+          dayjs(data.get_user.last_active).isAfter(
+            dayjs().subtract(15, "seconds")
+          )
+        );
+      }
+    };
+
+    checkActive();
+
+    const interval = setInterval(() => {
+      checkActive();
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [data]);
 
   const getBadge = () => {
     if (connection.revoked)
@@ -30,11 +68,13 @@ export const Connection: FC<{
         color: "warning",
         text: "Pending",
       };
-    if (connection.status)
+    if (connection.status) {
+      if (loading) return { color: "gray", text: <Spinner size="sm" /> };
       return {
-        color: "success",
-        text: "Active",
+        color: isActive ? "success" : "gray",
+        text: isActive ? "Active" : "Inactive",
       };
+    }
     return {
       color: "danger",
       text: "Inactive",
@@ -78,6 +118,8 @@ export const Connection: FC<{
       return connection?.user_uuid.profile_img;
     return connection?.connected_user_uuid.profile_img;
   };
+
+  if (loading) return null;
 
   return (
     <div

@@ -199,6 +199,7 @@ export type Create_User_Input = {
 
 export type Create_User_Values_Input = {
   identifier?: InputMaybe<Scalars['String']['input']>;
+  last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -310,6 +311,7 @@ export type Get_User_Query_Input = {
   AND?: InputMaybe<Array<Get_User_Query_Input>>;
   OR?: InputMaybe<Array<Get_User_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -322,6 +324,7 @@ export type Get_Users_Querys_Input = {
   AND?: InputMaybe<Array<Get_Users_Querys_Input>>;
   OR?: InputMaybe<Array<Get_Users_Querys_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -450,12 +453,14 @@ export type Update_Users_Query_Input = {
   AND?: InputMaybe<Array<Update_Users_Query_Input>>;
   OR?: InputMaybe<Array<Update_Users_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
+  last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Update_Users_Values_Input = {
   identifier?: InputMaybe<Scalars['String']['input']>;
+  last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -464,6 +469,7 @@ export type User = {
   authentication_state?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['String']['output'];
   identifier: Scalars['String']['output'];
+  last_active?: Maybe<Scalars['String']['output']>;
   passkey?: Maybe<Scalars['String']['output']>;
   profile_img?: Maybe<Scalars['String']['output']>;
   registration_state?: Maybe<Scalars['String']['output']>;

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert, Flowbite } from "flowbite-react";
 import { AppNavbar, AppSidebar, Toaster } from "./views";
 import { Outlet } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
-import { darkModeVar } from "./state";
+import { darkModeVar, userUuidVar } from "./state";
+import { useUpdateUserLastActiveMutation } from "./graphql.generated";
+import dayjs from "src/utils/dayjs";
 
 export interface Todo {
   _id: string;
@@ -16,6 +18,46 @@ export interface Todo {
 export const App = () => {
   const [showAlert, setShowAlert] = useState(true);
   const darkMode = useReactiveVar(darkModeVar);
+  const [updateUser] = useUpdateUserLastActiveMutation();
+
+  useEffect(() => {
+    const handleWatchActive = () => {
+      if (document.visibilityState === "visible") {
+        updateUser({
+          variables: {
+            update_users_input: {
+              query: {
+                uuid: userUuidVar(),
+              },
+              values: {
+                last_active: dayjs.tz().toDate().toISOString(),
+              },
+            },
+          },
+        });
+      }
+    };
+
+    const checkActive = () => {
+      if (document.visibilityState === "visible") {
+        handleWatchActive();
+      }
+    };
+
+    const interval = setInterval(() => {
+      checkActive();
+    }, 1000 * 10);
+
+    checkActive();
+
+    document.addEventListener("visibilitychange", handleWatchActive);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleWatchActive);
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Flowbite
