@@ -8,7 +8,7 @@ fields = [
   { name = "connected_user_uuid", scalar = "String", exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"], as_type = "user", join_on = "uuid" },
   { name = "status", scalar = "Boolean", required = true, exclude_from_input = ["CreateOne"] },
   { name = "accepted", scalar = "Boolean", required = true, exclude_from_input = ["CreateOne"] },
-  { name = "accepted_at", scalar = "Boolean", excude_from_input = ["All"] },
+  { name = "accepted_at", scalar = "String", excude_from_input = ["All"] },
   { name = "created_by", scalar = "String", required = true, exclude_from_input = ["UpdateOne", "UpdateMany"] },
   { name = "updated_by", scalar = "String", required = true }, 
   { name = "created_at", scalar = "String", required = true, exclude_from_input = ["All"] },

@@ -9,6 +9,9 @@ export const Dashboard = () => {
   const navigate = useNavigate();
   const { data } = useGetTodosQuery({
     variables: {
+      get_user_input: {
+        query: {},
+      },
       get_todos_input: {
         query: {
           created_by: userUuidVar(),

@@ -21,7 +21,7 @@ export const App = () => {
   const [updateUser] = useUpdateUserLastActiveMutation();
 
   useEffect(() => {
-    const handleWatchActive = () => {
+    const updateActive = () => {
       if (document.visibilityState === "visible") {
         updateUser({
           variables: {
@@ -38,22 +38,16 @@ export const App = () => {
       }
     };
 
-    const checkActive = () => {
-      if (document.visibilityState === "visible") {
-        handleWatchActive();
-      }
-    };
-
     const interval = setInterval(() => {
-      checkActive();
+      updateActive();
     }, 1000 * 10);
 
-    checkActive();
+    updateActive();
 
-    document.addEventListener("visibilitychange", handleWatchActive);
+    document.addEventListener("visibilitychange", updateActive);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleWatchActive);
+      document.removeEventListener("visibilitychange", updateActive);
       clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

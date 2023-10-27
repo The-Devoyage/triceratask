@@ -1,5 +1,5 @@
-import { FC, useState, useEffect } from "react";
-import { Avatar, Badge, Spinner, TabsRef } from "flowbite-react";
+import { FC } from "react";
+import { Avatar, Badge, TabsRef } from "flowbite-react";
 import { ListConnectionsQuery } from "../../graphql.generated";
 import {
   AcceptOrDeclineButton,
@@ -11,6 +11,7 @@ import { ConnectionTabs } from "src/pages/connections";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
 import { useGetUserLastActiveQuery } from "./graphql.generated";
+import { useIsUserActive } from "src/utils/useIsUserActive";
 import dayjs from "src/utils/dayjs";
 
 export const Connection: FC<{
@@ -20,9 +21,9 @@ export const Connection: FC<{
   setActiveTab: (index: number) => void;
 }> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState(false);
   const { data, loading } = useGetUserLastActiveQuery({
     pollInterval: 5000,
+    skip: !connection?.connected_user_uuid.uuid || !connection?.accepted,
     variables: {
       get_user_input: {
         query: {
@@ -34,28 +35,7 @@ export const Connection: FC<{
       },
     },
   });
-
-  useEffect(() => {
-    const checkActive = () => {
-      if (data?.get_user?.last_active) {
-        setIsActive(
-          dayjs(data.get_user.last_active).isAfter(
-            dayjs().subtract(15, "seconds")
-          )
-        );
-      }
-    };
-
-    checkActive();
-
-    const interval = setInterval(() => {
-      checkActive();
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [data]);
+  const isActive = useIsUserActive(data?.get_user?.last_active);
 
   const getBadge = () => {
     if (connection.revoked)
@@ -68,13 +48,11 @@ export const Connection: FC<{
         color: "warning",
         text: "Pending",
       };
-    if (connection.status) {
-      if (loading) return { color: "gray", text: <Spinner size="sm" /> };
+    if (connection.status)
       return {
-        color: isActive ? "success" : "gray",
-        text: isActive ? "Active" : "Inactive",
+        color: "success",
+        text: dayjs.tz(connection?.accepted_at).format("MMMM DD, YYYY"),
       };
-    }
     return {
       color: "danger",
       text: "Inactive",
@@ -129,9 +107,16 @@ export const Connection: FC<{
       }
       role="button"
     >
-      <div className="flex align-start">
-        <Avatar img={getProfileImage() ?? ""} className="mr-2" />
-        <div className="flex flex-col justify-start items-start">
+      <div className="flex">
+        <Avatar
+          img={getProfileImage() ?? ""}
+          className="mr-2"
+          status={
+            connection?.accepted ? (isActive ? "online" : "offline") : undefined
+          }
+          size="lg"
+        />
+        <div className="flex flex-col justify-start align-start">
           <h4 className="text-xl font-bold">{getIdentifier()}</h4>
           <div className="text-sm flex">
             <Badge color={getBadge().color}>{getBadge().text}</Badge>

@@ -33,6 +33,7 @@ export const List = () => {
 
     getTodos({
       variables: {
+        get_user_input: { query: {} },
         get_todos_input: getTodosInput,
       },
       fetchPolicy: "cache-and-network",
@@ -42,6 +43,7 @@ export const List = () => {
   const handleFilter = (v: { completed?: boolean }) => {
     getTodos({
       variables: {
+        get_user_input: { query: {} },
         get_todos_input: {
           query: {
             completed: v.completed,
@@ -55,6 +57,7 @@ export const List = () => {
   return (
     <Table hoverable>
       <Table.Head>
+        {/* <Table.HeadCell className="w-1/5">Owner</Table.HeadCell> */}
         <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
         <Table.HeadCell className="hidden md:table-cell">
           Created At

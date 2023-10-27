@@ -186,7 +186,7 @@ export type Create_User_Connection_Input = {
 };
 
 export type Create_User_Connection_Values_Input = {
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   updated_by?: InputMaybe<Scalars['String']['input']>;
@@ -273,7 +273,7 @@ export type Get_User_Connection_Query_Input = {
   AND?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
   OR?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['String']['input']>;
   connected_user_uuid?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
@@ -292,7 +292,7 @@ export type Get_User_Connections_Querys_Input = {
   AND?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
   OR?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['String']['input']>;
   connected_user_uuid?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
@@ -424,7 +424,7 @@ export type Update_User_Connections_Query_Input = {
   AND?: InputMaybe<Array<Update_User_Connections_Query_Input>>;
   OR?: InputMaybe<Array<Update_User_Connections_Query_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['String']['input']>;
   connected_user_uuid?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
@@ -437,7 +437,7 @@ export type Update_User_Connections_Query_Input = {
 
 export type Update_User_Connections_Values_Input = {
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
-  accepted_at?: InputMaybe<Scalars['Boolean']['input']>;
+  accepted_at?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   revoked?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['Boolean']['input']>;
@@ -480,7 +480,7 @@ export type User = {
 export type User_Connection = {
   __typename?: 'user_connection';
   accepted: Scalars['Boolean']['output'];
-  accepted_at?: Maybe<Scalars['Boolean']['output']>;
+  accepted_at?: Maybe<Scalars['String']['output']>;
   connected_user_uuid: User;
   created_at: Scalars['String']['output'];
   created_by: Scalars['String']['output'];

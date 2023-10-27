@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { userUuidVar } from "src/state";
 import { getRandomAvatar } from "src/utils/getRandomImage";
-import { useUpdateUsersMutation } from "../../graphql.generated";
 import { GET_USER } from "src/views/navbar/graphql";
 import { getOperationName } from "@apollo/client/utilities";
 import clsx from "clsx";
@@ -11,13 +10,14 @@ import { TbPhotoCancel } from "react-icons/tb";
 import { useToaster } from "src/utils/useToaster";
 import { GetUserQuery } from "src/views/navbar/graphql.generated";
 import { Modal, Tooltip } from "flowbite-react";
+import { useUpdateUserProfileMutation } from "../../graphql.generated";
 
 export const ChangeProfileImg: FC<{
   loading: boolean;
   data?: GetUserQuery;
 }> = ({ loading, data }) => {
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [updateUser, { loading: updating }] = useUpdateUsersMutation({
+  const [updateUser, { loading: updating }] = useUpdateUserProfileMutation({
     refetchQueries: [getOperationName(GET_USER) ?? ""],
   });
   const [showModal, setShowModal] = useState(false);

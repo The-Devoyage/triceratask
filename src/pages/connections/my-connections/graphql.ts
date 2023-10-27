@@ -15,6 +15,7 @@ export const LIST_CONNECTIONS = gql`
       revoked_at
       status
       accepted
+      accepted_at
       user_uuid(user_uuid: $get_user_input) {
         uuid
         identifier

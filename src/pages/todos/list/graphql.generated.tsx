@@ -6,14 +6,15 @@ import * as ApolloReactHooks from '@apollo/client';
 const defaultOptions = {} as const;
 export type GetTodosQueryVariables = Types.Exact<{
   get_todos_input: Types.Get_Todos_Input;
+  get_user_input: Types.Get_User_Input;
 }>;
 
 
-export type GetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null }> };
+export type GetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> };
 
 
 export const GetTodosDocument = gql`
-    query GetTodos($get_todos_input: get_todos_input!) {
+    query GetTodos($get_todos_input: get_todos_input!, $get_user_input: get_user_input!) {
   get_todos(get_todos_input: $get_todos_input) {
     uuid
     title
@@ -23,6 +24,11 @@ export const GetTodosDocument = gql`
     updated_at
     completed_at
     goal_date
+    created_by(created_by: $get_user_input) {
+      uuid
+      identifier
+      profile_img
+    }
   }
 }
     `;
@@ -40,6 +46,7 @@ export const GetTodosDocument = gql`
  * const { data, loading, error } = useGetTodosQuery({
  *   variables: {
  *      get_todos_input: // value for 'get_todos_input'
+ *      get_user_input: // value for 'get_user_input'
  *   },
  * });
  */

@@ -39,6 +39,9 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
             );
           }}
         >
+          {/* <Table.Cell className="flex"> */}
+          {/*   <Avatar size="sm" img={todo?.created_by.profile_img ?? ""} /> */}
+          {/* </Table.Cell> */}
           <Table.Cell>{todo?.title}</Table.Cell>
           <Table.Cell className="hidden md:table-cell">
             <Tooltip
