@@ -3,7 +3,6 @@ import { useGetUserQuery } from "src/views/navbar/graphql.generated";
 import { ChangeProfileImg } from "./components";
 import dayjs from "src/utils/dayjs";
 import { useParams } from "react-router-dom";
-import { useGetUserLastActiveProfileQuery } from "./graphql.generated";
 import { useIsUserActive } from "src/utils/useIsUserActive";
 
 export const Profile = () => {
@@ -17,17 +16,7 @@ export const Profile = () => {
       },
     },
   });
-  const { data: activeData } = useGetUserLastActiveProfileQuery({
-    pollInterval: 1000,
-    variables: {
-      get_user_input: {
-        query: {
-          uuid,
-        },
-      },
-    },
-  });
-  const isActive = useIsUserActive(activeData?.get_user?.last_active);
+  const isActive = useIsUserActive(uuid);
 
   return (
     <Card>

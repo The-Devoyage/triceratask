@@ -10,12 +10,3 @@ export const UPDATE_USERS = gql`
     }
   }
 `;
-
-export const GET_USER_LAST_ACTIVE = gql`
-  query GetUserLastActiveProfile($get_user_input: get_user_input!) {
-    get_user(get_user_input: $get_user_input) {
-      uuid
-      last_active
-    }
-  }
-`;

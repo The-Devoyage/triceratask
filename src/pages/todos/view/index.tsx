@@ -54,7 +54,7 @@ export const View = () => {
     });
   };
 
-  if (loading && !called)
+  if (loading)
     return (
       <Card>
         <Loader message="Loading this level of success takes a second..." />
@@ -88,7 +88,7 @@ export const View = () => {
       <div className="col-span-12 md:col-span-8">
         <Card>
           <div className="flex justify-between items-start">
-            <h1 className="text-3xl font-bold">{todo?.title}</h1>
+            <h1 className="text-3xl font-bold mr-4">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />
           </div>
           <p>{todo?.description}</p>

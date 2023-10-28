@@ -11,13 +11,6 @@ export type UpdateUserProfileMutationVariables = Types.Exact<{
 
 export type UpdateUserProfileMutation = { __typename?: 'Mutation', update_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string }> };
 
-export type GetUserLastActiveProfileQueryVariables = Types.Exact<{
-  get_user_input: Types.Get_User_Input;
-}>;
-
-
-export type GetUserLastActiveProfileQuery = { __typename?: 'Query', get_user: { __typename?: 'user', uuid: string, last_active?: string | null } };
-
 
 export const UpdateUserProfileDocument = gql`
     mutation UpdateUserProfile($update_users_input: update_users_input!) {
@@ -55,39 +48,3 @@ export function useUpdateUserProfileMutation(baseOptions?: ApolloReactHooks.Muta
 export type UpdateUserProfileMutationHookResult = ReturnType<typeof useUpdateUserProfileMutation>;
 export type UpdateUserProfileMutationResult = Apollo.MutationResult<UpdateUserProfileMutation>;
 export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<UpdateUserProfileMutation, UpdateUserProfileMutationVariables>;
-export const GetUserLastActiveProfileDocument = gql`
-    query GetUserLastActiveProfile($get_user_input: get_user_input!) {
-  get_user(get_user_input: $get_user_input) {
-    uuid
-    last_active
-  }
-}
-    `;
-
-/**
- * __useGetUserLastActiveProfileQuery__
- *
- * To run a query within a React component, call `useGetUserLastActiveProfileQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserLastActiveProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserLastActiveProfileQuery({
- *   variables: {
- *      get_user_input: // value for 'get_user_input'
- *   },
- * });
- */
-export function useGetUserLastActiveProfileQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetUserLastActiveProfileQuery, GetUserLastActiveProfileQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<GetUserLastActiveProfileQuery, GetUserLastActiveProfileQueryVariables>(GetUserLastActiveProfileDocument, options);
-      }
-export function useGetUserLastActiveProfileLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUserLastActiveProfileQuery, GetUserLastActiveProfileQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<GetUserLastActiveProfileQuery, GetUserLastActiveProfileQueryVariables>(GetUserLastActiveProfileDocument, options);
-        }
-export type GetUserLastActiveProfileQueryHookResult = ReturnType<typeof useGetUserLastActiveProfileQuery>;
-export type GetUserLastActiveProfileLazyQueryHookResult = ReturnType<typeof useGetUserLastActiveProfileLazyQuery>;
-export type GetUserLastActiveProfileQueryResult = Apollo.QueryResult<GetUserLastActiveProfileQuery, GetUserLastActiveProfileQueryVariables>;

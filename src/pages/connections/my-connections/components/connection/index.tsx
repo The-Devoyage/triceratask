@@ -10,7 +10,6 @@ import { userUuidVar } from "src/state";
 import { ConnectionTabs } from "src/pages/connections";
 import { appRoutes } from "src/routes";
 import { useNavigate } from "react-router-dom";
-import { useGetUserLastActiveQuery } from "./graphql.generated";
 import { useIsUserActive } from "src/utils/useIsUserActive";
 import dayjs from "src/utils/dayjs";
 
@@ -21,22 +20,6 @@ export const Connection: FC<{
   setActiveTab: (index: number) => void;
 }> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
-  const { data, loading } = useGetUserLastActiveQuery({
-    pollInterval: 5000,
-    skip: !connection?.connected_user_uuid.uuid || !connection?.accepted,
-    variables: {
-      get_user_input: {
-        query: {
-          uuid:
-            connection?.connected_user_uuid.uuid === userUuidVar()
-              ? connection?.user_uuid.uuid
-              : connection?.connected_user_uuid.uuid,
-        },
-      },
-    },
-  });
-  const isActive = useIsUserActive(data?.get_user?.last_active);
-
   const getBadge = () => {
     if (connection.revoked)
       return {
@@ -97,7 +80,12 @@ export const Connection: FC<{
     return connection?.connected_user_uuid.profile_img;
   };
 
-  if (loading) return null;
+  const isActive = useIsUserActive(
+    connection?.connected_user_uuid.uuid === userUuidVar()
+      ? connection?.user_uuid.uuid
+      : connection?.connected_user_uuid.uuid,
+    !connection?.connected_user_uuid.uuid || !connection?.accepted
+  );
 
   return (
     <div

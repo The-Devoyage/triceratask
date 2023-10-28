@@ -57,8 +57,8 @@ export const List = () => {
   return (
     <Table hoverable>
       <Table.Head>
-        {/* <Table.HeadCell className="w-1/5">Owner</Table.HeadCell> */}
         <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
+        <Table.HeadCell>Owner</Table.HeadCell>
         <Table.HeadCell className="hidden md:table-cell">
           Created At
         </Table.HeadCell>
