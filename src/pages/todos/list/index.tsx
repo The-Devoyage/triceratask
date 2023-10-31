@@ -1,13 +1,16 @@
 import { useEffect } from "react";
 import { Dropdown, Table } from "flowbite-react";
 import { TodosListBody } from "./components";
-import { useGetTodosLazyQuery } from "./graphql.generated";
 import { userUuidVar } from "src/state";
 import { useLocation } from "react-router-dom";
 import { Get_Todos_Input } from "src/types/generated";
+import { useTodosListGetTodosLazyQuery } from "./graphql.generated";
 
 export const List = () => {
-  const [getTodos, { data, loading, variables }] = useGetTodosLazyQuery();
+  const [
+    getTodos,
+    { data, loading, variables },
+  ] = useTodosListGetTodosLazyQuery();
   const locationState: { state: { completed?: boolean } } = useLocation();
 
   useEffect(() => {

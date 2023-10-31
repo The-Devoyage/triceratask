@@ -18,6 +18,7 @@ export const AppNavbar = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const darkMode = useReactiveVar(darkModeVar);
   const { data } = useGetUserQuery({
+    skip: !isLoggedIn,
     variables: {
       get_user_input: {
         query: {

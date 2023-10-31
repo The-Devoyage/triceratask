@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const GET_TODOS = gql`
-  query TodosListGetTodos(
+  query DashboardGetTodos(
     $get_todos_input: get_todos_input!
     $get_user_input: get_user_input!
   ) {

@@ -4,8 +4,9 @@ port = 5555
 imports = [
   "./todo.toml",
   "./todo_history.toml",
+  "./todo_access.toml",
   "./user_connections.toml",
-  "./user.toml",
+  "./user.toml"
 ]
 
 [service.cors]
@@ -15,14 +16,20 @@ allow_headers = [
   "Content-Type", 
 ]
 
+# [[service.data_sources]]
+# [service.data_sources.SQL]
+# name = "triceratask_ds"
+# uri = "$TRICERATASK_SQL_URI"
+# dialect = "SQLITE"
+# #TODO: Rename the extension to uuid
+# sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
+# migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
+
 [[service.data_sources]]
 [service.data_sources.SQL]
 name = "triceratask_ds"
-uri = "$TRICERATASK_SQL_URI"
-dialect = "SQLITE"
-#TODO: Rename the extension to uuid
-sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
-migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
+uri = "postgre://root:rootroot@localhost:5432/triceratask"
+dialect = "POSTGRES"
 
 [service.auth]
 requesting_party = "$TRICERATASK_RP" #"localhost"

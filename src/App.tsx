@@ -3,7 +3,7 @@ import { Alert, Flowbite } from "flowbite-react";
 import { AppNavbar, AppSidebar, Toaster } from "./views";
 import { Outlet } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
-import { darkModeVar, userUuidVar } from "./state";
+import { darkModeVar, isLoggedInVar, userUuidVar } from "./state";
 import { useUpdateUserLastActiveMutation } from "./graphql.generated";
 import dayjs from "src/utils/dayjs";
 
@@ -19,8 +19,11 @@ export const App = () => {
   const [showAlert, setShowAlert] = useState(true);
   const darkMode = useReactiveVar(darkModeVar);
   const [updateUser] = useUpdateUserLastActiveMutation();
+  const isAuthenticated = useReactiveVar(isLoggedInVar);
 
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     const updateActive = () => {
       if (document.visibilityState === "visible") {
         updateUser({

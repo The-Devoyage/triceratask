@@ -19,11 +19,13 @@ export type Mutation = {
   authenticate_finish: Authenticate_Success;
   authenticate_start: Scalars['String']['output'];
   create_todo: Todo;
+  create_todo_access: Todo_Access;
   create_todo_history: Todo_History;
   create_user: User;
   create_user_connection: User_Connection;
   register_finish: Scalars['Boolean']['output'];
   register_start: Scalars['String']['output'];
+  update_todo_accesss: Array<Todo_Access>;
   update_todo_historys: Array<Todo_History>;
   update_todos: Array<Todo>;
   update_user_connections: Array<User_Connection>;
@@ -44,6 +46,11 @@ export type MutationAuthenticate_StartArgs = {
 
 export type MutationCreate_TodoArgs = {
   create_todo_input: Create_Todo_Input;
+};
+
+
+export type MutationCreate_Todo_AccessArgs = {
+  create_todo_access_input: Create_Todo_Access_Input;
 };
 
 
@@ -73,6 +80,11 @@ export type MutationRegister_StartArgs = {
 };
 
 
+export type MutationUpdate_Todo_AccesssArgs = {
+  update_todo_accesss_input: Update_Todo_Accesss_Input;
+};
+
+
 export type MutationUpdate_Todo_HistorysArgs = {
   update_todo_historys_input: Update_Todo_Historys_Input;
 };
@@ -96,6 +108,8 @@ export type Query = {
   __typename?: 'Query';
   _service: _Service;
   get_todo: Todo;
+  get_todo_access: Todo_Access;
+  get_todo_accesss: Array<Todo_Access>;
   get_todo_history: Todo_History;
   get_todo_historys: Array<Todo_History>;
   get_todos: Array<Todo>;
@@ -108,6 +122,16 @@ export type Query = {
 
 export type QueryGet_TodoArgs = {
   get_todo_input: Get_Todo_Input;
+};
+
+
+export type QueryGet_Todo_AccessArgs = {
+  get_todo_access_input: Get_Todo_Access_Input;
+};
+
+
+export type QueryGet_Todo_AccesssArgs = {
+  get_todo_accesss_input: Get_Todo_Accesss_Input;
 };
 
 
@@ -157,6 +181,17 @@ export type Authenticate_Success = {
   user_uuid: Scalars['String']['output'];
 };
 
+export type Create_Todo_Access_Input = {
+  values: Create_Todo_Access_Values_Input;
+};
+
+export type Create_Todo_Access_Values_Input = {
+  edit?: InputMaybe<Scalars['Boolean']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type Create_Todo_History_Input = {
   values: Create_Todo_History_Values_Input;
 };
@@ -201,6 +236,32 @@ export type Create_User_Values_Input = {
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Todo_Access_Input = {
+  query: Get_Todo_Access_Query_Input;
+};
+
+export type Get_Todo_Access_Query_Input = {
+  AND?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
+  OR?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
+  edit?: InputMaybe<Scalars['Boolean']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Todo_Accesss_Input = {
+  query: Get_Todo_Accesss_Querys_Input;
+};
+
+export type Get_Todo_Accesss_Querys_Input = {
+  AND?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
+  OR?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
+  edit?: InputMaybe<Scalars['Boolean']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Get_Todo_History_Input = {
@@ -356,6 +417,25 @@ export type TodoHistoryArgs = {
   history: Get_Todo_Historys_Input;
 };
 
+export type Todo_Access = {
+  __typename?: 'todo_access';
+  edit: Scalars['Boolean']['output'];
+  id: Scalars['Int']['output'];
+  todo_uuid: Todo;
+  user_uuid: User;
+  view: Scalars['Boolean']['output'];
+};
+
+
+export type Todo_AccessTodo_UuidArgs = {
+  todo_uuid: Get_Todo_Input;
+};
+
+
+export type Todo_AccessUser_UuidArgs = {
+  user_uuid: Get_User_Input;
+};
+
 export type Todo_History = {
   __typename?: 'todo_history';
   created_at: Scalars['String']['output'];
@@ -366,6 +446,27 @@ export type Todo_History = {
   property: Scalars['String']['output'];
   todo_uuid: Scalars['String']['output'];
   uuid: Scalars['String']['output'];
+};
+
+export type Update_Todo_Accesss_Input = {
+  query: Update_Todo_Accesss_Query_Input;
+  values: Update_Todo_Accesss_Values_Input;
+};
+
+export type Update_Todo_Accesss_Query_Input = {
+  AND?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
+  OR?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
+  edit?: InputMaybe<Scalars['Boolean']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Todo_Accesss_Values_Input = {
+  edit?: InputMaybe<Scalars['Boolean']['input']>;
+  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  view?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Update_Todo_Historys_Input = {

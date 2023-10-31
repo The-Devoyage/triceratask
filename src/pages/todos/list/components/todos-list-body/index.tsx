@@ -2,13 +2,13 @@ import { Table, Tooltip } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 import { EmptyTodos, TodosLoading } from "../";
-import { GetTodosQuery } from "../../graphql.generated";
 import { appRoutes } from "src/routes";
 import { TodoStatusBadge, UserAvatar } from "src/components";
 import dayjs from "src/utils/dayjs";
+import { TodosListGetTodosQuery } from "../../graphql.generated";
 
 interface Props {
-  todos?: GetTodosQuery["get_todos"];
+  todos?: TodosListGetTodosQuery["get_todos"];
   loading?: boolean;
 }
 

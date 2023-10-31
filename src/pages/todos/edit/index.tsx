@@ -14,6 +14,7 @@ import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
 import { IoIosSave } from "react-icons/io";
 import { useGetTodoQuery, useUpdateTodosMutation } from "./graphql.generated";
+import dayjs from "src/utils/dayjs";
 
 export const Edit = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -33,7 +34,7 @@ export const Edit = () => {
       title: data?.get_todo?.title,
       description: data?.get_todo?.description,
       completed: data?.get_todo?.completed,
-      goal_date: data?.get_todo?.goal_date,
+      goal_date: dayjs.tz(data?.get_todo?.goal_date).format("YYYY-MM-DD"),
     });
   }, [data, reset]);
 
@@ -42,12 +43,7 @@ export const Edit = () => {
       variables: {
         update_todos_input: {
           query: { uuid, created_by: userUuidVar() },
-          values: {
-            title: values.title,
-            description: values.description,
-            completed: values.completed,
-            goal_date: values.goal_date,
-          },
+          values,
         },
       },
       onCompleted: () =>
@@ -86,7 +82,9 @@ export const Edit = () => {
             <Label>Goal Date</Label>
             <input
               type="date"
-              {...register("goal_date")}
+              {...register("goal_date", {
+                valueAsDate: true,
+              })}
               className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
             />
           </div>
