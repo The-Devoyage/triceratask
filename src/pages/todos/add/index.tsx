@@ -66,7 +66,9 @@ export const Add = () => {
             <Label>Goal Date</Label>
             <input
               type="date"
-              {...register("goal_date")}
+              {...register("goal_date", {
+                valueAsDate: true,
+              })}
               className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
             />
           </div>

@@ -122,7 +122,7 @@ export const View = () => {
       <div className="col-span-12 md:col-span-4">
         {todo?.goal_date &&
           !todo?.completed &&
-          (dayjs().isAfter(todo?.goal_date) ? (
+          (dayjs().isBefore(dayjs.tz(todo?.goal_date)) ? (
             <Alert color="failure" className="mb-4">
               <h3 className="text-lg font-bold">
                 Overdue: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
