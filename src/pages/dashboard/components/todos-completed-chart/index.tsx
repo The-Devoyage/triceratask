@@ -1,21 +1,21 @@
 import { useReactiveVar } from "@apollo/client";
 import { FC } from "react";
 import Chart from "react-apexcharts";
-import { GetTodosQuery } from "src/pages/todos/list/graphql.generated";
 import { darkModeVar } from "src/state";
 import dayjs from "src/utils/dayjs";
+import { DashboardGetTodosQuery } from "../../graphql.generated";
 
 interface TodosCompletedProps {
-  todos: GetTodosQuery["get_todos"];
+  todos: DashboardGetTodosQuery["get_todos"];
 }
 
 export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
   const darkMode = useReactiveVar(darkModeVar);
 
   const completedLastWeek = todos.filter((todo) => {
-    if (!todo.completed || !todo.completed_at) return false;
+    if (!todo.completed || !todo?.completed_at) return false;
     const lastWeek = dayjs().subtract(6, "day");
-    const completedDate = dayjs.tz(todo.completed_at).local();
+    const completedDate = dayjs.tz(todo?.completed_at).local();
     return completedDate.isAfter(lastWeek);
   });
   const incompleteLastWeek = todos.filter((todo) => {

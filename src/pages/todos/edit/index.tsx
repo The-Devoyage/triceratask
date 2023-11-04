@@ -34,7 +34,10 @@ export const Edit = () => {
       title: data?.get_todo?.title,
       description: data?.get_todo?.description,
       completed: data?.get_todo?.completed,
-      goal_date: dayjs.tz(data?.get_todo?.goal_date).format("YYYY-MM-DD"),
+      goal_date: dayjs
+        .utc(data?.get_todo?.goal_date)
+        .local()
+        .format("YYYY-MM-DDTHH:mm"),
     });
   }, [data, reset]);
 
@@ -81,7 +84,7 @@ export const Edit = () => {
           <div className="flex flex-col">
             <Label>Goal Date</Label>
             <input
-              type="date"
+              type="datetime-local"
               {...register("goal_date", {
                 valueAsDate: true,
               })}

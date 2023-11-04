@@ -1,5 +1,5 @@
 import { Alert, Button, Card } from "flowbite-react";
-import { TodoTimeline } from "./components";
+import { GoalDateAlert, OverdueAlert, TodoTimeline } from "./components";
 import { Empty, Loader, TodoStatusBadge } from "src/components";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
@@ -15,7 +15,7 @@ import dayjs from "src/utils/dayjs";
 export const View = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const [updateTodos, { loading: updating }] = useUpdateTodosMutation();
-  const { data, loading, refetch, called } = useGetTodoWithHistoryQuery({
+  const { data, loading, refetch } = useGetTodoWithHistoryQuery({
     variables: {
       get_todo_input: {
         query: {
@@ -120,30 +120,21 @@ export const View = () => {
         </Card>
       </div>
       <div className="col-span-12 md:col-span-4">
-        {todo?.goal_date &&
-          !todo?.completed &&
-          (dayjs().isBefore(dayjs.tz(todo?.goal_date)) ? (
-            <Alert color="failure" className="mb-4">
-              <h3 className="text-lg font-bold">
-                Overdue: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
-              </h3>
-              <p>
-                This todo is overdue. You should probably get started on it
-                right away.
-              </p>
-            </Alert>
-          ) : (
-            <Alert color="warning" className="mb-4">
-              <h3 className="text-lg font-bold">
-                Due: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
-              </h3>
-              <p>
-                This todo is due on{" "}
-                {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}. You have{" "}
-                {dayjs.tz(todo?.goal_date).fromNow()} to complete it.
-              </p>
-            </Alert>
-          ))}
+        <OverdueAlert
+          todo={todo}
+          visible={
+            (todo?.goal_date &&
+              !todo?.completed &&
+              dayjs().isAfter(dayjs.tz(todo?.goal_date))) ||
+            false
+          }
+        />
+        <GoalDateAlert
+          todo={todo}
+          visible={
+            !!todo?.goal_date && dayjs().isBefore(dayjs.tz(todo?.goal_date))
+          }
+        />
         <Card className="p-2">
           <TodoTimeline todo={todo} />
           <Alert color="info" icon={LuPartyPopper}>

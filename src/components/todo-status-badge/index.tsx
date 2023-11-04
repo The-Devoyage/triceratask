@@ -17,7 +17,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       return "Completed";
     }
 
-    if (goalDate && dayjs.tz(goalDate).isAfter(dayjs.tz())) {
+    if (goalDate && dayjs.tz(goalDate).isBefore(dayjs.tz())) {
       return "Overdue";
     }
 
@@ -29,7 +29,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       return "success";
     }
 
-    if (goalDate && dayjs.tz(goalDate).isAfter(dayjs.tz())) {
+    if (goalDate && dayjs.tz(goalDate).isBefore(dayjs.tz())) {
       return "failure";
     }
 
@@ -41,7 +41,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       content={
         todo?.completed && todo?.completed_at
           ? dayjs.tz(todo?.completed_at).local().format("MMMM D, YYYY h:mm A")
-          : `Due ${goalDate && dayjs.tz(goalDate).fromNow()}`
+          : `Due ${goalDate && dayjs.tz(goalDate).local().fromNow()}`
       }
     >
       <Badge

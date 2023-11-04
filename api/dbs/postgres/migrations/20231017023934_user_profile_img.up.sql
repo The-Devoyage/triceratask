@@ -15,7 +15,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER default_profile_img
-AFTER INSERT ON subgraph_user
+BEFORE INSERT ON subgraph_user
 FOR EACH ROW
 EXECUTE FUNCTION set_default_profile_img();
 
