@@ -48,11 +48,6 @@ export const Login = () => {
         if (credential instanceof PublicKeyCredential) {
           const response = credential.response as AuthenticatorAssertionResponse;
 
-          if (!response.userHandle) {
-            toaster.addToast("error", "User handle is missing!");
-            return;
-          }
-
           const jsonCredential = {
             id: credential.id,
             type: credential.type,
@@ -72,10 +67,6 @@ export const Login = () => {
               ),
               signature: Base64.fromUint8Array(
                 new Uint8Array(response.signature),
-                true
-              ),
-              userHandle: Base64.fromUint8Array(
-                new Uint8Array(response.userHandle),
                 true
               ),
             },

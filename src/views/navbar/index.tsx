@@ -1,12 +1,14 @@
 import { useReactiveVar } from "@apollo/client";
-import { Avatar, Button, Navbar, Tooltip } from "flowbite-react";
+import { Avatar, Button, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import { HiMenu, HiOutlineMoon, HiOutlineSun, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import {
   darkModeVar,
+  isActiveVar,
   isLoggedInVar,
   sidebarHiddenVar,
+  userIdentifierVar,
   userUuidVar,
 } from "src/state";
 import { TbUserBolt } from "react-icons/tb";
@@ -16,6 +18,7 @@ export const AppNavbar = () => {
   const navigate = useNavigate();
   const sidebarHidden = useReactiveVar(sidebarHiddenVar);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const isActive = useReactiveVar(isActiveVar);
   const darkMode = useReactiveVar(darkModeVar);
   const { data } = useGetUserQuery({
     skip: !isLoggedIn,
@@ -31,6 +34,16 @@ export const AppNavbar = () => {
   const handleDarkMode = () => {
     darkModeVar(!darkMode);
     localStorage.setItem("darkMode", JSON.stringify(!darkMode));
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_uuid");
+    localStorage.removeItem("user_identifier");
+    isLoggedInVar(false);
+    userUuidVar(null);
+    userIdentifierVar(null);
+    navigate(appRoutes.login.path);
   };
 
   return (
@@ -67,7 +80,7 @@ export const AppNavbar = () => {
         </Button>
       </Tooltip>
       {isLoggedIn ? (
-        <>
+        <div className="flex relative">
           <Tooltip content="My Connections" placement="bottom">
             <Button
               onClick={() => navigate(appRoutes.createConnection.path)}
@@ -86,19 +99,40 @@ export const AppNavbar = () => {
               <HiPlus className="h-4" />
             </Button>
           </Tooltip>
-          <Tooltip content="My Profile" placement="bottom">
-            <Avatar
-              img={data?.get_user.profile_img ?? ""}
-              role="button"
-              className="ml-1 cursor-pointer hover:scale-110"
+          <Dropdown
+            label="Profile"
+            renderTrigger={() => (
+              <span>
+                <Avatar
+                  img={data?.get_user.profile_img ?? ""}
+                  className="ml-1 cursor-pointer hover:scale-110"
+                  status={isActive ? "online" : "offline"}
+                  onClick={() =>
+                    navigate(
+                      appRoutes.profile.path.replace(
+                        ":uuid",
+                        userUuidVar() ?? ""
+                      )
+                    )
+                  }
+                />
+              </span>
+            )}
+            trigger="hover"
+            dismissOnClick
+          >
+            <Dropdown.Item
               onClick={() =>
                 navigate(
                   appRoutes.profile.path.replace(":uuid", userUuidVar() ?? "")
                 )
               }
-            />
-          </Tooltip>
-        </>
+            >
+              Profile
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+          </Dropdown>
+        </div>
       ) : (
         <Button
           className="hidden md:block ml-1"

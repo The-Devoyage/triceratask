@@ -3,11 +3,12 @@ import dayjs from "src/utils/dayjs";
 import { useGetUserLastActiveQuery } from "./graphql.generated";
 import { User } from "src/types/generated";
 import { useReactiveVar } from "@apollo/client";
-import { userUuidVar } from "src/state";
+import { isActiveVar, userUuidVar } from "src/state";
 
 export const useIsUserActive = (user_uuid?: User["uuid"], skip?: boolean) => {
   const [isActive, setIsActive] = useState(false);
   const currentUserUuid = useReactiveVar(userUuidVar);
+  const userIsActive = useReactiveVar(isActiveVar);
 
   const { data } = useGetUserLastActiveQuery({
     pollInterval: 5000,
@@ -24,7 +25,7 @@ export const useIsUserActive = (user_uuid?: User["uuid"], skip?: boolean) => {
 
   useEffect(() => {
     if (user_uuid === currentUserUuid) {
-      setIsActive(true);
+      setIsActive(userIsActive);
     } else {
       const checkActive = () => {
         if (last_active) {
@@ -45,7 +46,7 @@ export const useIsUserActive = (user_uuid?: User["uuid"], skip?: boolean) => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [last_active]);
+  }, [last_active, userIsActive]);
 
   return isActive;
 };

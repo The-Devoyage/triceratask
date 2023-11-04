@@ -1,9 +1,10 @@
-import { Alert, Badge, Card } from "flowbite-react";
+import { Alert, Badge, Card, ToggleSwitch, Tooltip } from "flowbite-react";
 import { useGetUserQuery } from "src/views/navbar/graphql.generated";
 import { ChangeProfileImg } from "./components";
 import dayjs from "src/utils/dayjs";
 import { useParams } from "react-router-dom";
 import { useIsUserActive } from "src/utils/useIsUserActive";
+import { isActiveVar, userUuidVar } from "src/state";
 
 export const Profile = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -30,9 +31,29 @@ export const Profile = () => {
               <h1 className="text-3xl font-bold align-bottom">
                 {data?.get_user?.identifier}
               </h1>
-              <Badge color={isActive ? "success" : "gray"} size="sm">
-                {isActive ? "Active" : "Inactive"}
-              </Badge>
+              {uuid === userUuidVar() ? (
+                <Tooltip
+                  content={
+                    isActive
+                      ? "Other users can see that you are active."
+                      : "Your status is not currently being shared with other users."
+                  }
+                >
+                  <ToggleSwitch
+                    checked={isActive}
+                    onChange={(checked) => isActiveVar(checked)}
+                    theme={{
+                      root: {
+                        label: "hidden",
+                      },
+                    }}
+                  />
+                </Tooltip>
+              ) : (
+                <Badge color={isActive ? "success" : "gray"} size="sm">
+                  {isActive ? "Active" : "Inactive"}
+                </Badge>
+              )}
             </div>
             <Alert color="info" className="my-3">
               <span className="font-bold mr-2">

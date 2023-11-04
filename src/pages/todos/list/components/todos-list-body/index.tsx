@@ -23,7 +23,7 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
       {todos?.map((todo) => (
         <Table.Row
           key={todo?.uuid}
-          className="cursor-pointer"
+          className="cursor-pointer align-top"
           onClick={() => {
             navigate(
               appRoutes.viewTodo.path.replace(":uuid", todo?.uuid.toString())

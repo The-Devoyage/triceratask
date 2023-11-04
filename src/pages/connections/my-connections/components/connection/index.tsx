@@ -20,6 +20,13 @@ export const Connection: FC<{
   setActiveTab: (index: number) => void;
 }> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
+  const isActive = useIsUserActive(
+    connection?.connected_user_uuid.uuid === userUuidVar()
+      ? connection?.user_uuid.uuid
+      : connection?.connected_user_uuid.uuid,
+    !connection?.connected_user_uuid.uuid || !connection?.accepted
+  );
+
   const getBadge = () => {
     if (connection.revoked)
       return {
@@ -79,13 +86,6 @@ export const Connection: FC<{
       return connection?.user_uuid.profile_img;
     return connection?.connected_user_uuid.profile_img;
   };
-
-  const isActive = useIsUserActive(
-    connection?.connected_user_uuid.uuid === userUuidVar()
-      ? connection?.user_uuid.uuid
-      : connection?.connected_user_uuid.uuid,
-    !connection?.connected_user_uuid.uuid || !connection?.accepted
-  );
 
   return (
     <div

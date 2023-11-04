@@ -2,15 +2,9 @@ import { useReactiveVar } from "@apollo/client";
 import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";
 import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
-import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
-import {
-  isLoggedInVar,
-  sidebarHiddenVar,
-  userIdentifierVar,
-  userUuidVar,
-} from "src/state";
+import { isLoggedInVar, sidebarHiddenVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
 
 export const AppSidebar = () => {
@@ -44,16 +38,6 @@ export const AppSidebar = () => {
     },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user_uuid");
-    localStorage.removeItem("user_identifier");
-    isLoggedInVar(false);
-    userUuidVar(null);
-    userIdentifierVar(null);
-    navigate(appRoutes.login.path);
-  };
-
   if (!isLoggedInVar()) return null;
 
   return (
@@ -86,15 +70,6 @@ export const AppSidebar = () => {
               {item.children}
             </Sidebar.Item>
           ))}
-        </Sidebar.ItemGroup>
-        <Sidebar.ItemGroup>
-          <Sidebar.Item
-            icon={FiLogOut}
-            onClick={handleLogout}
-            className="cursor-pointer"
-          >
-            <p>Logout</p>
-          </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>

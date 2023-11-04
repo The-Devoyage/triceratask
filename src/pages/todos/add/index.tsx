@@ -26,8 +26,7 @@ export const Add = () => {
       variables: {
         create_todo_input: {
           values: {
-            title: values.title,
-            description: values.description,
+            ...values,
             completed: values.completed ?? false,
             created_by: userUuidVar() ?? "",
             updated_by: userUuidVar() ?? "",
@@ -65,7 +64,7 @@ export const Add = () => {
           <div className="flex flex-col">
             <Label>Goal Date</Label>
             <input
-              type="date"
+              type="datetime-local"
               {...register("goal_date", {
                 valueAsDate: true,
               })}

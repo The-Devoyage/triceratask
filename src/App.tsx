@@ -16,7 +16,9 @@ export interface Todo {
 }
 
 export const App = () => {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(
+    localStorage.getItem("showAlert") === null
+  );
   const darkMode = useReactiveVar(darkModeVar);
   useUpdateActive();
 
@@ -27,7 +29,13 @@ export const App = () => {
       }}
     >
       {showAlert && (
-        <Alert color="warning" onDismiss={() => setShowAlert(false)}>
+        <Alert
+          color="warning"
+          onDismiss={() => {
+            localStorage.setItem("showAlert", "false");
+            setShowAlert(false);
+          }}
+        >
           <span>
             <p>
               <span className="font-bold mr-2">Alpha Release</span>

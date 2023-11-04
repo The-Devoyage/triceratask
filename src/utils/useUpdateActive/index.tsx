@@ -1,11 +1,12 @@
 import { useReactiveVar } from "@apollo/client";
 import { useEffect } from "react";
-import { isLoggedInVar, userUuidVar } from "src/state";
+import { isActiveVar, isLoggedInVar, userUuidVar } from "src/state";
 import dayjs from "src/utils/dayjs";
 import { useUpdateUserLastActiveMutation } from "./graphql.generated";
 
 export const useUpdateActive = () => {
   const isAuthenticated = useReactiveVar(isLoggedInVar);
+  const isActive = useReactiveVar(isActiveVar);
   const userUuid = useReactiveVar(userUuidVar);
   const [updateUser] = useUpdateUserLastActiveMutation();
 
@@ -13,7 +14,8 @@ export const useUpdateActive = () => {
     if (!isAuthenticated) return;
 
     const updateActive = () => {
-      if (document.visibilityState === "visible") {
+      if (document.visibilityState === "visible" && isActive) {
+        console.log("IS ACTIVE", isActive);
         updateUser({
           variables: {
             update_users_input: {
@@ -42,7 +44,7 @@ export const useUpdateActive = () => {
       clearInterval(interval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isActive]);
 
   return null;
 };
