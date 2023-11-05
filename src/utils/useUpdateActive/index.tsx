@@ -15,7 +15,6 @@ export const useUpdateActive = () => {
 
     const updateActive = () => {
       if (document.visibilityState === "visible" && isActive) {
-        console.log("IS ACTIVE", isActive);
         updateUser({
           variables: {
             update_users_input: {

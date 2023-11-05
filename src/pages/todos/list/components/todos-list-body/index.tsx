@@ -33,7 +33,21 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
           <Table.Cell>{todo?.title}</Table.Cell>
           <Table.Cell>
             <Tooltip content={todo?.created_by?.identifier}>
-              <UserAvatar user={todo?.created_by} showStatus size="sm" />
+              <UserAvatar
+                user={todo?.created_by}
+                showStatus
+                size="sm"
+                className="hover:scale-110 transition-all duration-200"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(
+                    appRoutes.profile.path.replace(
+                      ":uuid",
+                      todo?.created_by?.uuid.toString()
+                    )
+                  );
+                }}
+              />
             </Tooltip>
           </Table.Cell>
           <Table.Cell className="hidden md:table-cell">

@@ -5,9 +5,12 @@ import dayjs from "src/utils/dayjs";
 import { useParams } from "react-router-dom";
 import { useIsUserActive } from "src/utils/useIsUserActive";
 import { isActiveVar, userUuidVar } from "src/state";
+import { useUpdateUserProfileMutation } from "./graphql.generated";
+import clsx from "clsx";
 
 export const Profile = () => {
   const { uuid } = useParams<{ uuid: string }>();
+  const [updateUser, { loading: updating }] = useUpdateUserProfileMutation();
   const { data, loading } = useGetUserQuery({
     variables: {
       get_user_input: {
@@ -18,6 +21,22 @@ export const Profile = () => {
     },
   });
   const isActive = useIsUserActive(uuid);
+
+  const handleActive = (checked: boolean) => {
+    isActiveVar(checked);
+    updateUser({
+      variables: {
+        update_users_input: {
+          query: {
+            uuid: userUuidVar(),
+          },
+          values: {
+            share_active: checked,
+          },
+        },
+      },
+    });
+  };
 
   return (
     <Card>
@@ -41,7 +60,11 @@ export const Profile = () => {
                 >
                   <ToggleSwitch
                     checked={isActive}
-                    onChange={(checked) => isActiveVar(checked)}
+                    onChange={handleActive}
+                    className={clsx({
+                      "animate-pulse": updating,
+                    })}
+                    disabled={updating}
                     theme={{
                       root: {
                         label: "hidden",

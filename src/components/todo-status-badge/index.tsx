@@ -41,14 +41,16 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       content={
         todo?.completed && todo?.completed_at
           ? dayjs.tz(todo?.completed_at).local().format("MMMM D, YYYY h:mm A")
-          : `Due ${goalDate && dayjs.tz(goalDate).local().fromNow()}`
+          : goalDate
+          ? `Due ${dayjs.tz(goalDate).local().fromNow()}`
+          : "No due date"
       }
     >
       <Badge
         color={getColor()}
         icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
         size="sm"
-        className="px-2 rounded-md"
+        className="px-2 rounded-md gap-0 md:gap-1"
         theme={{
           icon: {
             size: {
@@ -57,7 +59,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
           },
         }}
       >
-        {getStatus()}
+        <span className="hidden md:inline">{getStatus()}</span>
       </Badge>
     </Tooltip>
   );

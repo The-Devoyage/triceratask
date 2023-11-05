@@ -29,6 +29,11 @@ export const AppNavbar = () => {
         },
       },
     },
+    onCompleted: (data) => {
+      if (data?.get_user?.share_active) {
+        isActiveVar(data.get_user.share_active);
+      }
+    },
   });
 
   const handleDarkMode = () => {
@@ -43,6 +48,7 @@ export const AppNavbar = () => {
     isLoggedInVar(false);
     userUuidVar(null);
     userIdentifierVar(null);
+    isActiveVar(false);
     navigate(appRoutes.login.path);
   };
 

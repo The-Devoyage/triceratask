@@ -111,7 +111,7 @@ export const Connection: FC<{
           </div>
         </div>
       </div>
-      <div className="flex align-start">
+      <div>
         <AcceptOrDeclineButton
           connection={connection}
           onComplete={() => setActiveTab(0)}
