@@ -74,7 +74,6 @@ export const AppNavbar = () => {
           </span>
         </div>
       </div>
-      <div className="flex-grow" />
       {isLoggedIn ? (
         <div className="flex relative">
           <Tooltip content="Create Todo" placement="bottom">
@@ -88,27 +87,26 @@ export const AppNavbar = () => {
             </Button>
           </Tooltip>
           <Dropdown
-            label="Profile"
-            renderTrigger={() => (
-              <span>
-                <Avatar
-                  img={data?.get_user.profile_img ?? ""}
-                  className="ml-1 cursor-pointer hover:scale-110"
-                  status={isActive ? "online" : "offline"}
-                  onClick={() =>
-                    navigate(
-                      appRoutes.profile.path.replace(
-                        ":uuid",
-                        userUuidVar() ?? ""
-                      )
-                    )
-                  }
-                />
-              </span>
-            )}
+            inline
+            arrowIcon={false}
+            label={
+              <Avatar
+                img={data?.get_user.profile_img ?? ""}
+                className="ml-1 cursor-pointer hover:scale-110"
+                status={isActive ? "online" : "offline"}
+                onClick={() =>
+                  navigate(
+                    appRoutes.profile.path.replace(":uuid", userUuidVar() ?? "")
+                  )
+                }
+              />
+            }
             trigger="hover"
             dismissOnClick
           >
+            <Dropdown.Header>
+              <span className="block text-sm w-32">{userIdentifierVar()}</span>
+            </Dropdown.Header>
             <Dropdown.Item
               onClick={() =>
                 navigate(

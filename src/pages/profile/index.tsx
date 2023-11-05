@@ -3,7 +3,6 @@ import {
   Badge,
   Button,
   Card,
-  Label,
   Textarea,
   ToggleSwitch,
   Tooltip,
