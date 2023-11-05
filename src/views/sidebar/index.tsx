@@ -63,6 +63,7 @@ export const AppSidebar = () => {
 
   return (
     <Sidebar
+      collapseBehavior="hide"
       style={{
         height: "calc(100vh - 60px)",
       }}

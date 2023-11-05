@@ -6,6 +6,7 @@ import { ListConnectionsQuery } from "src/pages/connections/my-connections/graph
 import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 import { LIST_CONNECTIONS } from "src/pages/connections/my-connections/graphql";
 import { useToaster } from "src/utils/useToaster";
+import { MdGroupRemove } from "react-icons/md";
 
 export const RevokeButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
@@ -65,7 +66,8 @@ export const RevokeButton: FC<{
         onClick={handleRevoke}
         isProcessing={loading}
       >
-        Revoke
+        <MdGroupRemove className="mr-1" />
+        <span className="hidden md:inline">Revoke</span>
       </Button>
     );
 };

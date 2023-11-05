@@ -55,7 +55,7 @@ export const AppNavbar = () => {
     <Navbar className="bg-sky-100 sticky top-0 z-50" fluid>
       <div className="flex row items-center">
         <Button
-          color="light"
+          color="transparent"
           className="sm:block md:hidden border-none"
           onClick={() => sidebarHiddenVar(!sidebarHidden)}
         >
@@ -80,7 +80,7 @@ export const AppNavbar = () => {
           <Tooltip content="Create Todo" placement="bottom">
             <Button
               onClick={() => navigate(appRoutes.createTodo.path)}
-              className="ml-1 flex items-center justify-center"
+              className="mr-1 flex items-center justify-center"
               outline
               gradientDuoTone="purpleToBlue"
             >

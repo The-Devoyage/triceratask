@@ -3,9 +3,10 @@ import { Alert, Flowbite } from "flowbite-react";
 import { AppNavbar, AppSidebar, Toaster } from "./views";
 import { Outlet } from "react-router-dom";
 import { useReactiveVar } from "@apollo/client";
-import { darkModeVar } from "./state";
+import { darkModeVar, sidebarHiddenVar } from "./state";
 import { useUpdateActive } from "./utils/useUpdateActive";
 import { theme } from "./theme.ts";
+import { useWindowSize } from "./utils/useWindowSize/index.ts";
 
 export interface Todo {
   _id: string;
@@ -20,7 +21,13 @@ export const App = () => {
     localStorage.getItem("showAlert") === null
   );
   const darkMode = useReactiveVar(darkModeVar);
+  const { isMobile } = useWindowSize();
+  const sidebarHidden = useReactiveVar(sidebarHiddenVar);
   useUpdateActive();
+
+  const handleHideSidebar = () => {
+    if (!sidebarHidden && isMobile) sidebarHiddenVar(true);
+  };
 
   return (
     <Flowbite
@@ -53,7 +60,10 @@ export const App = () => {
         <AppNavbar />
         <div className="flex">
           <AppSidebar />
-          <div className="container p-4 mx-auto w-full">
+          <div
+            className="container p-4 mx-auto w-full"
+            onClick={handleHideSidebar}
+          >
             <Outlet />
           </div>
         </div>

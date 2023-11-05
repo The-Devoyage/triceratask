@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Card,
+  Label,
   Textarea,
   ToggleSwitch,
   Tooltip,
@@ -88,7 +89,7 @@ export const Profile = () => {
         <div className="col-span-6 md:col-span-5">
           <div className="flex flex-col">
             <div className="flex justify-between">
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 <h1 className="text-3xl font-bold leading-none">
                   {data?.get_user?.identifier}
                 </h1>
@@ -97,7 +98,11 @@ export const Profile = () => {
                     .tz(data?.get_user?.created_at)
                     .format("MMMM DD, YYYY")}.`}
                 >
-                  <Badge color="info" size="sm" className="mx-2">
+                  <Badge
+                    color="info"
+                    size="sm"
+                    className="mx-0 md:mx-2 my-2 md:my-0"
+                  >
                     {dayjs
                       .tz(data?.get_user?.created_at)
                       .format("MMMM DD, YYYY")}
