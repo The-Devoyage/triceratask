@@ -1,27 +1,52 @@
-# React + TypeScript + Vite
+# TriceraTask
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An application for task tracking and management built with React and @the-devoyage/subgraph.
 
-Currently, two official plugins are available:
+While the primary purpose of creating this app is to demonstrate the capabilities of the API Generator, `@the-devoyage/subgraph`, this app also can demonstrate
+quick examples of how to interact with the generated API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+### Clone this repo.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+This repo includes the client/frontend along with the configuration needed to run the API.
 
-- Configure the top-level `parserOptions` property like this:
+### Install Subgraph (v0.0.12 minimum)
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+You may download a build or generate your own build of the latest subgraph version by following instructions within the [GitHub Repo](https://github.com/the-devoyage/subgraph).
+
+### Environment Variables
+
+Example environment variable files are found throughout the repo.
+
+1. Required - Within the root directory, copy over the environment variables from `.env.example` to `.env` and configure accordingly.
+2. Choose One - Within the API Directory, there are several supported database examples. SQL Data Sources will require an environment
+   file for migrations to be performed, demonstrated with the example.
+
+### Configure the database.
+
+Subgraph supports the ability to work between many databases. By default, this application is deployed with SqLite. The setup process should be similar regardless
+of your choice.
+
+1. Spin up a local database in the dialect of your choice (SqLite will be used for this readme). With SqLite, create the databse file in the `api` directory of this folder.
+2. Run the migrations by navigating to the database folder, `./api/dbs/sqlite`.
+
+### Start the API
+
+Using subgraph, spin up the API. `subgraph -c ./api/config/config.toml`.
+
+### Start the Client
+
+Start the react frontend in dev mode.
+
+Install Deps.
+
+```
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Then Start.
+
+```
+npm run dev
+```
