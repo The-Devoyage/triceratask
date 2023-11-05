@@ -36,4 +36,4 @@ requesting_party = "$TRICERATASK_RP" #"localhost"
 requesting_party_name = "$TRICERATASK_RPN" #"triceratask.com"
 requesting_party_origin = "$TRICERATASK_RPO" #"http://localhost:5173" #Origin of the client. http://localhost:5173
 data_source = "triceratask_ds"
-private_key = "$TRICERATASK_PRIVATE_KEY"
+private_key = "$TRICERATASK_PRIVATE_KEY" # Generate a private key.
