@@ -8,6 +8,7 @@ export const GET_USER = gql`
       profile_img
       created_at
       share_active
+      status
     }
   }
 `;

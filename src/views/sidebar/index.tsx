@@ -2,15 +2,30 @@ import { useReactiveVar } from "@apollo/client";
 import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";
 import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
+import { TbUserBolt } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
-import { isLoggedInVar, sidebarHiddenVar } from "src/state";
+import { isLoggedInVar, sidebarHiddenVar, userUuidVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
+import { useNewConnectionsSidebarQuery } from "./graphql.generated";
 
 export const AppSidebar = () => {
   const navigate = useNavigate();
   const hidden = useReactiveVar(sidebarHiddenVar);
   const { isMobile } = useWindowSize();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const { data } = useNewConnectionsSidebarQuery({
+    skip: !isLoggedIn,
+    variables: {
+      get_user_connections_input: {
+        query: {
+          connected_user_uuid: userUuidVar(),
+          accepted: false,
+          revoked: false,
+        },
+      },
+    },
+  });
 
   useEffect(() => {
     if (isMobile) {
@@ -27,14 +42,20 @@ export const AppSidebar = () => {
 
   const sidebarItems = [
     {
+      children: <p>Dashboard</p>,
       icon: HiChartPie,
       onClick: () => handleNavigate(appRoutes.dashboard.path),
-      children: <p>Dashboard</p>,
     },
     {
-      onClick: () => handleNavigate(appRoutes.listTodos.path),
-      icon: HiClipboardCheck,
       children: <p>Todos</p>,
+      icon: HiClipboardCheck,
+      onClick: () => handleNavigate(appRoutes.listTodos.path),
+    },
+    {
+      children: <p>Connections</p>,
+      icon: TbUserBolt,
+      onClick: () => handleNavigate(appRoutes.createConnection.path),
+      label: data?.get_user_connections?.length,
     },
   ];
 
@@ -66,6 +87,7 @@ export const AppSidebar = () => {
               icon={item.icon}
               onClick={item.onClick}
               className="cursor-pointer"
+              label={item.label || undefined}
             >
               {item.children}
             </Sidebar.Item>

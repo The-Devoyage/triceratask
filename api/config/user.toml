@@ -15,5 +15,6 @@ fields = [
   ] },
   { name = "profile_img", scalar = "String" },
   { name = "last_active", scalar = "DateTime" },
-  { name = "share_active", scalar = "Boolean"}
+  { name = "share_active", scalar = "Boolean"},
+  { name = "status", scalar = "String" }
 ]

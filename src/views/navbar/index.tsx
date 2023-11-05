@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client";
 import { Avatar, Button, Dropdown, Navbar, Tooltip } from "flowbite-react";
-import { HiMenu, HiOutlineMoon, HiOutlineSun, HiPlus } from "react-icons/hi";
+import { HiMenu, HiPlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import {
@@ -11,7 +11,6 @@ import {
   userIdentifierVar,
   userUuidVar,
 } from "src/state";
-import { TbUserBolt } from "react-icons/tb";
 import { useGetUserQuery } from "./graphql.generated";
 
 export const AppNavbar = () => {
@@ -67,7 +66,7 @@ export const AppNavbar = () => {
           className="hidden md:flex items-center cursor-pointer"
         >
           <img
-            className="w-10 h-10 mr-2"
+            className="w-10 h-10 mr-2 filter brightness-125"
             src="https://res.cloudinary.com/the-devoyage/image/upload/v1693794214/TriceraTasks_1_xyr72r.png"
           />
           <span className="text-xl font-semibold dark:text-white m-0 text-sky-700">
@@ -76,31 +75,14 @@ export const AppNavbar = () => {
         </div>
       </div>
       <div className="flex-grow" />
-      <Tooltip content={darkMode ? "Light Mode" : "Dark Mode"}>
-        <Button
-          onClick={handleDarkMode}
-          size="lg"
-          className={darkMode ? "bg-sky-500" : "bg-sky-900"}
-        >
-          {darkMode ? <HiOutlineSun /> : <HiOutlineMoon />}
-        </Button>
-      </Tooltip>
       {isLoggedIn ? (
         <div className="flex relative">
-          <Tooltip content="My Connections" placement="bottom">
-            <Button
-              onClick={() => navigate(appRoutes.createConnection.path)}
-              size="lg"
-              className="ml-1 flex items-center justify-center dark:bg-indigo-500 hover:dark:bg-indigo-600 bg-indigo-700 hover:bg-indigo-600"
-            >
-              <TbUserBolt className="h-4" />
-            </Button>
-          </Tooltip>
           <Tooltip content="Create Todo" placement="bottom">
             <Button
               onClick={() => navigate(appRoutes.createTodo.path)}
-              size="lg"
               className="ml-1 flex items-center justify-center"
+              outline
+              gradientDuoTone="purpleToBlue"
             >
               <HiPlus className="h-4" />
             </Button>
@@ -135,6 +117,9 @@ export const AppNavbar = () => {
               }
             >
               Profile
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleDarkMode}>
+              {darkMode ? "Light Mode" : "Dark Mode"}
             </Dropdown.Item>
             <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
           </Dropdown>

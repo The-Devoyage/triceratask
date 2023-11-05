@@ -6,6 +6,7 @@ import { FC } from "react";
 import { ListConnectionsQuery } from "../../../../graphql.generated";
 import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 import { useToaster } from "src/utils/useToaster";
+import { NEW_CONNECTIONS } from "src/views/sidebar/graphql";
 
 export const AcceptOrDeclineButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
@@ -43,7 +44,10 @@ export const AcceptOrDeclineButton: FC<{
           },
         },
       },
-      refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
+      refetchQueries: [
+        getOperationName(LIST_CONNECTIONS)!,
+        getOperationName(NEW_CONNECTIONS)!,
+      ],
       onCompleted: () => {
         toaster.addToast("success", "Connection accepted.");
       },

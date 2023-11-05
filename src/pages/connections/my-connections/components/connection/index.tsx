@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Avatar, Badge, TabsRef } from "flowbite-react";
+import { Avatar, Badge, TabsRef, Tooltip } from "flowbite-react";
 import { ListConnectionsQuery } from "../../graphql.generated";
 import {
   AcceptOrDeclineButton,
@@ -87,6 +87,17 @@ export const Connection: FC<{
     return connection?.connected_user_uuid.profile_img;
   };
 
+  const getTooltip = () => {
+    if (connection?.connected_user_uuid.uuid !== userUuidVar()) {
+      return `Accepted at: ${dayjs
+        .tz(connection?.accepted_at)
+        .local()
+        .format("MMMM DD, YYYY h:mm a")}`;
+    } else {
+      return getBadge().text;
+    }
+  };
+
   return (
     <div
       className="flex justify-between py-4 border-b border-gray-200 hover:bg-gray-100 hover:dark:bg-gray-700 cursor-pointer p-3"
@@ -106,9 +117,9 @@ export const Connection: FC<{
         />
         <div className="flex flex-col justify-start align-start">
           <h4 className="text-xl font-bold">{getIdentifier()}</h4>
-          <div className="text-sm flex">
+          <Tooltip content={getTooltip()} className="text-sm flex">
             <Badge color={getBadge().color}>{getBadge().text}</Badge>
-          </div>
+          </Tooltip>
         </div>
       </div>
       <div>

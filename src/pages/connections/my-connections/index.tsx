@@ -2,16 +2,28 @@ import { forwardRef, useRef, useState } from "react";
 import { userIdentifierVar, userUuidVar } from "src/state";
 import { AddConnection, Connection, EmptyConnections } from "./components";
 import { useListConnectionsQuery } from "./graphql.generated";
-import { Card, Tabs, TabsRef } from "flowbite-react";
+import { Badge, Card, Tabs, TabsRef } from "flowbite-react";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { TbUserBolt } from "react-icons/tb";
 import { Get_User_Connection_Input } from "src/types/generated";
 import { ConnectionTabs } from "..";
+import { useNewConnectionsSidebarQuery } from "src/views/sidebar/graphql.generated";
 
 export const MyConnections = () => {
   const usernameInputRef = useRef<HTMLInputElement>(null);
   const tabsRef = useRef<TabsRef>(null);
   const [activeTab, setActiveTab] = useState(ConnectionTabs.Connections);
+  const { data } = useNewConnectionsSidebarQuery({
+    variables: {
+      get_user_connections_input: {
+        query: {
+          connected_user_uuid: userUuidVar(),
+          accepted: false,
+          revoked: false,
+        },
+      },
+    },
+  });
 
   const setActiveTabByIndex = (index: number) => {
     tabsRef.current?.setActiveTab(index);
@@ -55,7 +67,14 @@ export const MyConnections = () => {
               </Tabs.Item>
               <Tabs.Item
                 icon={HiOutlineUserGroup}
-                title={ConnectionTabs.Invites}
+                title={
+                  <>
+                    <span>{ConnectionTabs.Invites}</span>
+                    <Badge className="ml-2" size="xs" color="gray">
+                      {data?.get_user_connections?.length}
+                    </Badge>
+                  </>
+                }
               >
                 <ConnectionList
                   ref={usernameInputRef}

@@ -11,3 +11,16 @@ export const UPDATE_USERS = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  query GetUserProfile($get_user_input: get_user_input!) {
+    get_user(get_user_input: $get_user_input) {
+      uuid
+      identifier
+      profile_img
+      created_at
+      share_active
+      status
+    }
+  }
+`;

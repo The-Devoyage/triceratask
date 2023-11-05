@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Toast } from "flowbite-react";
 import { HiClipboardList } from "react-icons/hi";
 import { useReactiveVar } from "@apollo/client";
@@ -7,6 +7,7 @@ import { useToaster } from "src/utils/useToaster";
 import clsx from "clsx";
 
 export const Toaster = () => {
+  const [isHovering, setIsHovering] = useState(false);
   const toasts = useReactiveVar(toastsVar);
   const { removeToast } = useToaster();
 
@@ -41,16 +42,22 @@ export const Toaster = () => {
   useEffect(() => {
     if (toasts.length > 0) {
       const timer = setTimeout(() => {
-        removeToast(toasts[0].id);
+        if (!isHovering) {
+          removeToast(toasts[0].id);
+        }
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [toasts, removeToast]);
+  }, [toasts, removeToast, isHovering]);
 
   return (
     <div className="fixed bottom-8 right-8 flex flex-col space-y-4 z-50">
       {toasts.map((toast) => (
-        <Toast className="bg-gray-900 px-4 py-3 text-white shadow-2xl hover:shadow-none transition-all duration-300 ease-in-out animate-[wiggle_0.5s_ease-in-out_1.25]">
+        <Toast
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+          className="bg-gray-900 px-4 py-3 text-white shadow-2xl hover:shadow-none transition-all duration-300 ease-in-out animate-[wiggle_0.5s_ease-in-out_1.25]"
+        >
           <div
             className={clsx({
               "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg  mr-4": true,
@@ -68,6 +75,10 @@ export const Toaster = () => {
             <span className="font-bold">{getTitle(toast.type)}</span>
             <span className="text-sm">{toast.message}</span>
           </div>
+          <Toast.Toggle
+            onDismiss={() => removeToast(toast.id)}
+            className="ml-3 bg-gray-900 rounded-md inline-flex text-gray-400 hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          />
         </Toast>
       ))}
     </div>

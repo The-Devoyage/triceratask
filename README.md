@@ -34,14 +34,16 @@ of your choice.
 
 ### Start the API
 
-Using subgraph, spin up the API. `subgraph -c ./api/config/config.toml`.
-
-In the configuration file, `./api/config/config.toml` there are several environment variables that need to be set on the system.
+1. In the configuration file, `./api/config/config.toml` there are several environment variables that need to be set on the system.
 
 - TRICERATASK_SQLITE_EXTENSIONS - A path to point to the plugins directory, `./api/plugins/uuid`
 - TRICERATASK_MIGRATIONS_PATH - A path to point to the migrations folder, `./api/dbs/sqlite/migrations`
 - TRICERATASK_SQL_URI - The path to the sqlite DB File.
 - Auth Env Vars - These should be set as shown by example in the config file, `./api/config/config.toml`
+
+2. Run migrations using sqlx, which can be installed by following the sqlx documentation.
+
+3. Using subgraph, spin up the API. `subgraph -c ./api/config/config.toml --watch --migrate run`.
 
 ### Start the Client
 

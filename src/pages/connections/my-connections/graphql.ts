@@ -25,6 +25,7 @@ export const LIST_CONNECTIONS = gql`
         uuid
         identifier
         profile_img
+        last_active
       }
     }
   }
