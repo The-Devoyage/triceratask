@@ -16,12 +16,17 @@ import { userUuidVar } from "src/state";
 import { IoIosSave } from "react-icons/io";
 
 export const Add = () => {
-  const { register, handleSubmit } = useForm<Create_Todo_Input["values"]>();
+  const { register, handleSubmit } = useForm<Create_Todo_Input["values"]>({
+    defaultValues: {
+      goal_date: null,
+    },
+  });
   const navigate = useNavigate();
   const [createTodo, { loading }] = useCreateTodoMutation();
   const toaster = useToaster();
 
   const onSubmit = (values: Create_Todo_Input["values"]) => {
+    console.log(values);
     createTodo({
       variables: {
         create_todo_input: {

@@ -12,8 +12,8 @@ export const TodoTimeline: FC<{
   const histories = todo?.history?.reduce((acc, history) => {
     return {
       ...acc,
-      [dayjs.tz(history.created_at).toISOString()]: [
-        ...(acc[dayjs.tz(history.created_at).toISOString()] || []),
+      [dayjs.tz(history?.created_at).toISOString()]: [
+        ...(acc[dayjs.tz(history?.created_at).toISOString()] || []),
         history,
       ],
     };
@@ -45,7 +45,7 @@ export const TodoTimeline: FC<{
                 <ListGroup>
                   {histories.map(
                     (history) =>
-                      history.new_value && (
+                      history?.new_value && (
                         <ListGroup.Item className="flex">
                           <div className="text-left">
                             <span className="font-bold capitalize col-span-3">

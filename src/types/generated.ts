@@ -405,7 +405,7 @@ export type Todo = {
   created_by: User;
   description: Scalars['String']['output'];
   goal_date?: Maybe<Scalars['String']['output']>;
-  history: Array<Todo_History>;
+  history: Array<Maybe<Todo_History>>;
   id: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
@@ -594,7 +594,7 @@ export type User_Connection = {
   __typename?: 'user_connection';
   accepted: Scalars['Boolean']['output'];
   accepted_at?: Maybe<Scalars['String']['output']>;
-  connected_user_uuid: User;
+  connected_user_uuid?: Maybe<User>;
   created_at: Scalars['String']['output'];
   created_by: Scalars['String']['output'];
   id: Scalars['Int']['output'];

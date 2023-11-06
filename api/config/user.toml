@@ -1,16 +1,17 @@
 [[entities]]
 name = "user"
+required = true
 data_source = { from = "triceratask_ds", table = "subgraph_user" }
 fields = [
   { name = "uuid", scalar = "UUID", required = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"] },
   { name = "identifier", scalar = "String", required = true },
   { name = "created_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
   { name = "updated_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
-  { name = "registration_state", scalar = "String", required = false, exclude_from_input = ["All"] },
-  { name = "passkey", scalar = "String", required = false, exclude_from_input = ["All"], guards = [
+  { name = "registration_state", scalar = "String", exclude_from_input = ["All"] },
+  { name = "passkey", scalar = "String", exclude_from_input = ["All"], guards = [
     { name = "Permissions Error", if_expr = "!every(input(\"query\", \"uuid\"), token_data(\"user_uuid\"))", then_msg = "You may not request pass keys that belong to other users." }
   ] },
-  { name = "authentication_state", scalar = "String", required = false, exclude_from_input = ["All"], guards = [
+  { name = "authentication_state", scalar = "String", exclude_from_input = ["All"], guards = [
     { name = "Permissions Error", if_expr = "!every(input(\"query\", \"uuid\"), token_data(\"user_uuid\"))", then_msg = "You may not request pass keys that belong to other users." }
   ] },
   { name = "profile_img", scalar = "String" },

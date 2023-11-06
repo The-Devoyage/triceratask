@@ -11,7 +11,7 @@ export type ListConnectionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type ListConnectionsQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string, identifier: string, revoked: boolean, revoked_at?: string | null, status: boolean, accepted: boolean, accepted_at?: string | null, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, connected_user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, last_active?: string | null } }> };
+export type ListConnectionsQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string, identifier: string, revoked: boolean, revoked_at?: string | null, status: boolean, accepted: boolean, accepted_at?: string | null, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, connected_user_uuid?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, last_active?: string | null } | null }> };
 
 
 export const ListConnectionsDocument = gql`

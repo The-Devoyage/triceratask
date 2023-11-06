@@ -90,7 +90,7 @@ export const AcceptOrDeclineButton: FC<{
   };
 
   if (
-    connection.connected_user_uuid.uuid === userUuidVar() &&
+    connection.connected_user_uuid?.uuid === userUuidVar() &&
     !connection.accepted
   )
     return (

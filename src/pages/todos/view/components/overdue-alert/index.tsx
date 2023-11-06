@@ -10,7 +10,7 @@ export const OverdueAlert: FC<{
   visible && (
     <Alert color="failure" className="mb-4">
       <h3 className="text-lg font-bold">
-        Overdue: {dayjs.tz(todo?.goal_date).format("MMM DD, YYYY")}
+        Overdue: {dayjs.tz(todo?.goal_date).local().format("MMM DD, YYYY")}
       </h3>
       <p>
         This todo is overdue. You should probably get started on it right away.
