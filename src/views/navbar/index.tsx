@@ -104,18 +104,16 @@ export const AppNavbar = () => {
             trigger="hover"
             dismissOnClick
           >
-            <Dropdown.Header>
-              <span className="block text-sm w-32">{userIdentifierVar()}</span>
-            </Dropdown.Header>
-            <Dropdown.Item
+            <Dropdown.Header
+              className="cursor-pointer hover:bg-gray-600"
               onClick={() =>
                 navigate(
                   appRoutes.profile.path.replace(":uuid", userUuidVar() ?? "")
                 )
               }
             >
-              Profile
-            </Dropdown.Item>
+              <span className="block text-sm w-32">{userIdentifierVar()}</span>
+            </Dropdown.Header>
             <Dropdown.Item onClick={handleDarkMode}>
               {darkMode ? "Light Mode" : "Dark Mode"}
             </Dropdown.Item>

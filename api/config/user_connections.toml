@@ -35,3 +35,11 @@ if_expr = """
 """
 then_msg = "You do not have access to this connection."
 
+[entities.data_source]
+from = "triceratask_ds"
+[entities.data_source.resolvers]
+[entities.data_source.resolvers.create_one]
+[[entities.data_source.resolvers.create_one.guards]]
+name = "Self Invite"
+if_expr = "contains(input(\"values\", \"identifier\"), token_data(\"identifier\"))"
+then_msg = "You cannot invite yourself."

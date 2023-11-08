@@ -11,12 +11,12 @@ export type CreateConnectionMutationVariables = Types.Exact<{
 
 export type CreateConnectionMutation = { __typename?: 'Mutation', create_user_connection: { __typename?: 'user_connection', uuid: string } };
 
-export type GetUsersQueryVariables = Types.Exact<{
+export type GetUsersAddConnectionInputQueryVariables = Types.Exact<{
   get_users_input: Types.Get_Users_Input;
 }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', get_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> };
+export type GetUsersAddConnectionInputQuery = { __typename?: 'Query', get_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> };
 
 
 export const CreateConnectionDocument = gql`
@@ -54,8 +54,8 @@ export function useCreateConnectionMutation(baseOptions?: ApolloReactHooks.Mutat
 export type CreateConnectionMutationHookResult = ReturnType<typeof useCreateConnectionMutation>;
 export type CreateConnectionMutationResult = Apollo.MutationResult<CreateConnectionMutation>;
 export type CreateConnectionMutationOptions = Apollo.BaseMutationOptions<CreateConnectionMutation, CreateConnectionMutationVariables>;
-export const GetUsersDocument = gql`
-    query GetUsers($get_users_input: get_users_input!) {
+export const GetUsersAddConnectionInputDocument = gql`
+    query GetUsersAddConnectionInput($get_users_input: get_users_input!) {
   get_users(get_users_input: $get_users_input) {
     uuid
     identifier
@@ -65,29 +65,29 @@ export const GetUsersDocument = gql`
     `;
 
 /**
- * __useGetUsersQuery__
+ * __useGetUsersAddConnectionInputQuery__
  *
- * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUsersAddConnectionInputQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUsersAddConnectionInputQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetUsersQuery({
+ * const { data, loading, error } = useGetUsersAddConnectionInputQuery({
  *   variables: {
  *      get_users_input: // value for 'get_users_input'
  *   },
  * });
  */
-export function useGetUsersQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+export function useGetUsersAddConnectionInputQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetUsersAddConnectionInputQuery, GetUsersAddConnectionInputQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+        return ApolloReactHooks.useQuery<GetUsersAddConnectionInputQuery, GetUsersAddConnectionInputQueryVariables>(GetUsersAddConnectionInputDocument, options);
       }
-export function useGetUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
+export function useGetUsersAddConnectionInputLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetUsersAddConnectionInputQuery, GetUsersAddConnectionInputQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
+          return ApolloReactHooks.useLazyQuery<GetUsersAddConnectionInputQuery, GetUsersAddConnectionInputQueryVariables>(GetUsersAddConnectionInputDocument, options);
         }
-export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
-export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
-export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
+export type GetUsersAddConnectionInputQueryHookResult = ReturnType<typeof useGetUsersAddConnectionInputQuery>;
+export type GetUsersAddConnectionInputLazyQueryHookResult = ReturnType<typeof useGetUsersAddConnectionInputLazyQuery>;
+export type GetUsersAddConnectionInputQueryResult = Apollo.QueryResult<GetUsersAddConnectionInputQuery, GetUsersAddConnectionInputQueryVariables>;
