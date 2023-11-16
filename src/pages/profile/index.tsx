@@ -143,7 +143,7 @@ export const Profile = () => {
                   placeholder="Share your status with other users."
                   {...register("status")}
                 />
-                <Button type="submit">
+                <Button type="submit" className="float-right">
                   <IoIosSave className="h-5 md:mr-2" />
                   Save
                 </Button>

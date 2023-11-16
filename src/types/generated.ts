@@ -186,10 +186,10 @@ export type Create_Todo_Access_Input = {
 };
 
 export type Create_Todo_Access_Values_Input = {
-  edit?: InputMaybe<Scalars['Boolean']['input']>;
-  todo_uuid?: InputMaybe<Scalars['String']['input']>;
-  user_uuid?: InputMaybe<Scalars['String']['input']>;
-  view?: InputMaybe<Scalars['Boolean']['input']>;
+  edit: Scalars['Boolean']['input'];
+  todo_uuid: Scalars['String']['input'];
+  user_uuid: Scalars['String']['input'];
+  view: Scalars['Boolean']['input'];
 };
 
 export type Create_Todo_History_Input = {
@@ -197,10 +197,10 @@ export type Create_Todo_History_Input = {
 };
 
 export type Create_Todo_History_Values_Input = {
-  created_by?: InputMaybe<Scalars['String']['input']>;
+  created_by: Scalars['String']['input'];
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
-  property?: InputMaybe<Scalars['String']['input']>;
+  property: Scalars['String']['input'];
 };
 
 export type Create_Todo_Input = {
@@ -208,12 +208,12 @@ export type Create_Todo_Input = {
 };
 
 export type Create_Todo_Values_Input = {
-  completed?: InputMaybe<Scalars['Boolean']['input']>;
-  created_by?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
+  completed: Scalars['Boolean']['input'];
+  created_by: Scalars['String']['input'];
+  description: Scalars['String']['input'];
   goal_date?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-  updated_by?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+  updated_by: Scalars['String']['input'];
 };
 
 export type Create_User_Connection_Input = {
@@ -222,10 +222,10 @@ export type Create_User_Connection_Input = {
 
 export type Create_User_Connection_Values_Input = {
   accepted_at?: InputMaybe<Scalars['String']['input']>;
-  created_by?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<Scalars['String']['input']>;
-  updated_by?: InputMaybe<Scalars['String']['input']>;
-  user_uuid?: InputMaybe<Scalars['String']['input']>;
+  created_by: Scalars['String']['input'];
+  identifier: Scalars['String']['input'];
+  updated_by: Scalars['String']['input'];
+  user_uuid: Scalars['String']['input'];
 };
 
 export type Create_User_Input = {
@@ -233,7 +233,7 @@ export type Create_User_Input = {
 };
 
 export type Create_User_Values_Input = {
-  identifier?: InputMaybe<Scalars['String']['input']>;
+  identifier: Scalars['String']['input'];
   last_active?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;

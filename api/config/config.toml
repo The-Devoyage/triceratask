@@ -17,19 +17,23 @@ allow_headers = [
 ]
 
 [[service.data_sources]]
-[service.data_sources.SQL]
-name = "triceratask_ds"
-uri = "$TRICERATASK_SQL_URI"
-dialect = "SQLITE"
-#TODO: Rename the extension to uuid
-sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
-migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
+# [service.data_sources.SQL]
+# name = "triceratask_ds"
+# uri = "$TRICERATASK_SQL_URI"
+# dialect = "SQLITE"
+# #TODO: Rename the extension to uuid
+# sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
+# migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
 
-# [[service.data_sources]]
 # [service.data_sources.SQL]
 # name = "triceratask_ds"
 # uri = "postgre://root:rootroot@localhost:5432/triceratask"
 # dialect = "POSTGRES"
+
+[service.data_sources.SQL]
+name = "triceratask_ds"
+dialect = "MYSQL"
+uri = "mysql://root:rootroot1234@localhost:3306/triceratask"
 
 [service.auth]
 requesting_party = "$TRICERATASK_RP" #"localhost"
