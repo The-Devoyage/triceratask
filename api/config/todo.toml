@@ -19,9 +19,57 @@ fields = [
 
 [[entities.guards]]
 name = "Permissions Error"
-if_expr = """
+if_expr = '''
   root_key = if(contains(("FindOne", "FindMany", "UpdateMany"), resolver_type()), "query", "values");
   !every(input(root_key, "created_by"), token_data("user_uuid"))
-"""
+'''
 then_msg = "You may not access this todo."
+
+[entities.data_source]
+from = "triceratask_ds"
+[[entities.data_source.resolvers.update_many.guards]]
+name = "Permissions Error"
+if_expr = '''
+  // check if same length
+  todo_uuids = input("query", "uuid");
+  todo_acesses = context("todo_access.todo_id");
+  todos = context("todo.uuid");
+  len(todo_uuids) != len(todo_acesses)
+'''
+then_msg = "You do not have permission to update this task."
+
+[[entities.data_source.resolvers.update_many.guards.context]]
+entity_name = "todo"
+query = '''
+  {
+    "get_todos_input": {
+      "query": {
+        "AND": [{ "created_by": "{{user_uuid}}" }],
+        "OR": {{uuid}}
+      } 
+    }
+  }
+'''
+variables = [
+  [ "{{user_uuid}}", "token_data(\"user_uuid\")" ],
+  [ "{{uuid}}", "input(\"query\", \"uuid\")" ]
+]
+
+
+[[entities.data_source.resolvers.update_many.guards.context]]
+entity_name = "todo_access"
+query = '''
+  {
+    "get_todo_accesss_input": {
+      "query": {
+        "OR": {{todo_id}},
+        "AND": [{ "user_uuid": "{{user_uuid}}", "edit": true }]
+      } 
+    }
+  }
+'''
+variables = [
+  [ "{{user_uuid}}", "token_data(\"user_uuid\")" ],
+  [ "{{todo_id}}", "context(\"todo.id\")" ]
+]
 
