@@ -13,8 +13,12 @@ import { Update_Todos_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
 import { IoIosSave } from "react-icons/io";
-import { useGetTodoQuery, useUpdateTodosMutation } from "./graphql.generated";
+import {
+  useEditGetTodoQuery,
+  useUpdateTodosMutation,
+} from "./graphql.generated";
 import dayjs from "src/utils/dayjs";
+import { TaskAccess } from "./components";
 
 export const Edit = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -23,8 +27,9 @@ export const Edit = () => {
     Update_Todos_Input["values"]
   >();
   const [updateTodo] = useUpdateTodosMutation();
-  const { data } = useGetTodoQuery({
+  const { data } = useEditGetTodoQuery({
     variables: {
+      get_todo_accesss_input: { query: {} },
       get_todo_input: { query: { uuid, created_by: userUuidVar() } },
     },
   });
@@ -54,45 +59,55 @@ export const Edit = () => {
     });
   };
 
+  if (!data?.get_todo) {
+    return null;
+  }
+
   return (
-    <Card>
-      <div className="flex justify-between align-center">
-        <h4 className="text-xl font-bold">Manage your todo</h4>
-        <div>
-          <Label className="mr-2">Completed</Label>
-          <Checkbox {...register("completed")} />
-        </div>
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4">
-          <Label>Title</Label>
-          <TextInput
-            placeholder="Title"
-            className="mb-4"
-            {...register("title", {
-              required: true,
-            })}
-          />
-          <Label>Description</Label>
-          <Textarea placeholder="Description" {...register("description")} />
-        </div>
-        <div className="flex justify-between items-end">
-          <Button type="submit" className="flex justify-center items-center">
-            <IoIosSave className="h-5 md:mr-2" />
-            <span className="hidden md:block">Update Todo</span>
-          </Button>
-          <div className="flex flex-col">
-            <Label>Goal Date</Label>
-            <input
-              type="datetime-local"
-              {...register("goal_date", {
-                valueAsDate: true,
-              })}
-              className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
-            />
+    <>
+      <Card className="mb-3">
+        <div className="flex justify-between align-center">
+          <h4 className="text-3xl font-bold">Manage Task</h4>
+          <div>
+            <Label className="mr-2">Completed</Label>
+            <Checkbox {...register("completed")} />
           </div>
         </div>
-      </form>
-    </Card>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <Label>Title</Label>
+            <TextInput
+              placeholder="Title"
+              className="mb-4"
+              {...register("title", {
+                required: true,
+              })}
+            />
+            <Label>Description</Label>
+            <Textarea placeholder="Description" {...register("description")} />
+          </div>
+          <div className="flex justify-between items-end">
+            <Button type="submit" className="flex justify-center items-center">
+              <IoIosSave className="h-5 md:mr-2" />
+              <span className="hidden md:block">Update Todo</span>
+            </Button>
+            <div className="flex flex-col">
+              <Label>Goal Date</Label>
+              <input
+                type="datetime-local"
+                {...register("goal_date", {
+                  valueAsDate: true,
+                })}
+                className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
+              />
+            </div>
+          </div>
+        </form>
+      </Card>
+      <TaskAccess
+        access={data.get_todo.access}
+        todo_uuid={data.get_todo.uuid}
+      />
+    </>
   );
 };

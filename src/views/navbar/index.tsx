@@ -76,7 +76,7 @@ export const AppNavbar = () => {
       </div>
       {isLoggedIn ? (
         <div className="flex relative">
-          <Tooltip content="Create Todo" placement="bottom">
+          <Tooltip content="Create Task" placement="bottom">
             <Button
               onClick={() => navigate(appRoutes.createTodo.path)}
               className="mr-1 flex items-center justify-center"

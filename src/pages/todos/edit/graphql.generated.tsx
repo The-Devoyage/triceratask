@@ -11,12 +11,13 @@ export type UpdateTodosMutationVariables = Types.Exact<{
 
 export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null }> };
 
-export type GetTodoQueryVariables = Types.Exact<{
+export type EditGetTodoQueryVariables = Types.Exact<{
   get_todo_input: Types.Get_Todo_Input;
+  get_todo_accesss_input: Types.Get_Todo_Accesss_Input;
 }>;
 
 
-export type GetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null } };
+export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, access: Array<{ __typename?: 'todo_access', uuid: string, view: boolean, edit: boolean, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
 
 
 export const UpdateTodosDocument = gql`
@@ -57,8 +58,8 @@ export function useUpdateTodosMutation(baseOptions?: ApolloReactHooks.MutationHo
 export type UpdateTodosMutationHookResult = ReturnType<typeof useUpdateTodosMutation>;
 export type UpdateTodosMutationResult = Apollo.MutationResult<UpdateTodosMutation>;
 export type UpdateTodosMutationOptions = Apollo.BaseMutationOptions<UpdateTodosMutation, UpdateTodosMutationVariables>;
-export const GetTodoDocument = gql`
-    query GetTodo($get_todo_input: get_todo_input!) {
+export const EditGetTodoDocument = gql`
+    query EditGetTodo($get_todo_input: get_todo_input!, $get_todo_accesss_input: get_todo_accesss_input!) {
   get_todo(get_todo_input: $get_todo_input) {
     uuid
     title
@@ -66,34 +67,45 @@ export const GetTodoDocument = gql`
     completed
     completed_at
     goal_date
+    access(access: $get_todo_accesss_input) {
+      uuid
+      user_uuid(user_uuid: {query: {}}) {
+        uuid
+        identifier
+        profile_img
+      }
+      view
+      edit
+    }
   }
 }
     `;
 
 /**
- * __useGetTodoQuery__
+ * __useEditGetTodoQuery__
  *
- * To run a query within a React component, call `useGetTodoQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTodoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useEditGetTodoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEditGetTodoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTodoQuery({
+ * const { data, loading, error } = useEditGetTodoQuery({
  *   variables: {
  *      get_todo_input: // value for 'get_todo_input'
+ *      get_todo_accesss_input: // value for 'get_todo_accesss_input'
  *   },
  * });
  */
-export function useGetTodoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<GetTodoQuery, GetTodoQueryVariables>) {
+export function useEditGetTodoQuery(baseOptions: ApolloReactHooks.QueryHookOptions<EditGetTodoQuery, EditGetTodoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<GetTodoQuery, GetTodoQueryVariables>(GetTodoDocument, options);
+        return ApolloReactHooks.useQuery<EditGetTodoQuery, EditGetTodoQueryVariables>(EditGetTodoDocument, options);
       }
-export function useGetTodoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetTodoQuery, GetTodoQueryVariables>) {
+export function useEditGetTodoLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EditGetTodoQuery, EditGetTodoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<GetTodoQuery, GetTodoQueryVariables>(GetTodoDocument, options);
+          return ApolloReactHooks.useLazyQuery<EditGetTodoQuery, EditGetTodoQueryVariables>(EditGetTodoDocument, options);
         }
-export type GetTodoQueryHookResult = ReturnType<typeof useGetTodoQuery>;
-export type GetTodoLazyQueryHookResult = ReturnType<typeof useGetTodoLazyQuery>;
-export type GetTodoQueryResult = Apollo.QueryResult<GetTodoQuery, GetTodoQueryVariables>;
+export type EditGetTodoQueryHookResult = ReturnType<typeof useEditGetTodoQuery>;
+export type EditGetTodoLazyQueryHookResult = ReturnType<typeof useEditGetTodoLazyQuery>;
+export type EditGetTodoQueryResult = Apollo.QueryResult<EditGetTodoQuery, EditGetTodoQueryVariables>;

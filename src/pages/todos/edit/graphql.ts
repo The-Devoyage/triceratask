@@ -13,8 +13,11 @@ export const UPDATE_TODOS = gql`
   }
 `;
 
-export const GET_TODO = gql`
-  query GetTodo($get_todo_input: get_todo_input!) {
+export const EDIT_GET_TODO = gql`
+  query EditGetTodo(
+    $get_todo_input: get_todo_input!
+    $get_todo_accesss_input: get_todo_accesss_input!
+  ) {
     get_todo(get_todo_input: $get_todo_input) {
       uuid
       title
@@ -22,6 +25,16 @@ export const GET_TODO = gql`
       completed
       completed_at
       goal_date
+      access(access: $get_todo_accesss_input) {
+        uuid
+        user_uuid(user_uuid: { query: {} }) {
+          uuid
+          identifier
+          profile_img
+        }
+        view
+        edit
+      }
     }
   }
 `;

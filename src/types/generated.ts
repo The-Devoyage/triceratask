@@ -187,6 +187,7 @@ export type Create_Todo_Access_Input = {
 
 export type Create_Todo_Access_Values_Input = {
   edit: Scalars['Boolean']['input'];
+  revoked: Scalars['Boolean']['input'];
   todo_uuid: Scalars['String']['input'];
   user_uuid: Scalars['String']['input'];
   view: Scalars['Boolean']['input'];
@@ -248,8 +249,10 @@ export type Get_Todo_Access_Query_Input = {
   AND?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
   OR?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
+  revoked?: InputMaybe<Scalars['Boolean']['input']>;
   todo_uuid?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -261,8 +264,10 @@ export type Get_Todo_Accesss_Querys_Input = {
   AND?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
   OR?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
+  revoked?: InputMaybe<Scalars['Boolean']['input']>;
   todo_uuid?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -398,6 +403,7 @@ export type Get_Users_Querys_Input = {
 
 export type Todo = {
   __typename?: 'todo';
+  access: Array<Todo_Access>;
   completed: Scalars['Boolean']['output'];
   completed_at?: Maybe<Scalars['String']['output']>;
   completed_by?: Maybe<Scalars['String']['output']>;
@@ -414,6 +420,11 @@ export type Todo = {
 };
 
 
+export type TodoAccessArgs = {
+  access: Get_Todo_Accesss_Input;
+};
+
+
 export type TodoCreated_ByArgs = {
   created_by: Get_User_Input;
 };
@@ -427,14 +438,16 @@ export type Todo_Access = {
   __typename?: 'todo_access';
   edit: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
-  todo_uuid: Todo;
+  revoked: Scalars['Boolean']['output'];
+  todo_id: Todo;
   user_uuid: User;
+  uuid: Scalars['String']['output'];
   view: Scalars['Boolean']['output'];
 };
 
 
-export type Todo_AccessTodo_UuidArgs = {
-  todo_uuid: Get_Todo_Input;
+export type Todo_AccessTodo_IdArgs = {
+  todo_id: Get_Todo_Input;
 };
 
 
@@ -463,14 +476,16 @@ export type Update_Todo_Accesss_Query_Input = {
   AND?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
   OR?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
+  revoked?: InputMaybe<Scalars['Boolean']['input']>;
   todo_uuid?: InputMaybe<Scalars['String']['input']>;
   user_uuid?: InputMaybe<Scalars['String']['input']>;
+  uuid?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Update_Todo_Accesss_Values_Input = {
   edit?: InputMaybe<Scalars['Boolean']['input']>;
-  todo_uuid?: InputMaybe<Scalars['String']['input']>;
+  revoked?: InputMaybe<Scalars['Boolean']['input']>;
   user_uuid?: InputMaybe<Scalars['String']['input']>;
   view?: InputMaybe<Scalars['Boolean']['input']>;
 };

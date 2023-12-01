@@ -2,11 +2,11 @@ import { useState } from "react";
 import dayjs from "src/utils/dayjs";
 import { Button, ListGroup, Timeline } from "flowbite-react";
 import { FC } from "react";
-import { GetTodoWithHistoryQuery } from "../../graphql.generated";
 import { MdBookmarkAdded } from "react-icons/md";
+import { ViewGetTodoQuery } from "../../graphql.generated";
 
 export const TodoTimeline: FC<{
-  todo: GetTodoWithHistoryQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"];
 }> = ({ todo }) => {
   const [historyCount, setHistoryCount] = useState(5);
   const histories = todo?.history?.reduce((acc, history) => {
@@ -17,7 +17,7 @@ export const TodoTimeline: FC<{
         history,
       ],
     };
-  }, {} as Record<string, GetTodoWithHistoryQuery["get_todo"]["history"][0][]>);
+  }, {} as Record<string, ViewGetTodoQuery["get_todo"]["history"][0][]>);
 
   const handleNewValue = (value: string, truncate: boolean) => {
     if (value === "0") return "false";

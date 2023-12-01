@@ -38,6 +38,7 @@ export const List = () => {
       variables: {
         get_user_input: { query: {} },
         get_todos_input: getTodosInput,
+        get_todo_accesss_input: { query: {} },
       },
       fetchPolicy: "cache-and-network",
     });
@@ -47,6 +48,7 @@ export const List = () => {
     getTodos({
       variables: {
         get_user_input: { query: {} },
+        get_todo_accesss_input: { query: {} },
         get_todos_input: {
           query: {
             completed: v.completed,
@@ -61,7 +63,7 @@ export const List = () => {
     <Table hoverable>
       <Table.Head>
         <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
-        <Table.HeadCell>Owner</Table.HeadCell>
+        <Table.HeadCell>Team</Table.HeadCell>
         <Table.HeadCell className="hidden md:table-cell">
           Created At
         </Table.HeadCell>

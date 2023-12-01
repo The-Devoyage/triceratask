@@ -47,7 +47,7 @@ export const AppSidebar = () => {
       onClick: () => handleNavigate(appRoutes.dashboard.path),
     },
     {
-      children: <p>Todos</p>,
+      children: <p>Tasks</p>,
       icon: HiClipboardCheck,
       onClick: () => handleNavigate(appRoutes.listTodos.path),
     },

@@ -1,21 +1,21 @@
-import { Alert, Button, Card } from "flowbite-react";
+import { Alert, Avatar, Button, Card } from "flowbite-react";
 import { GoalDateAlert, OverdueAlert, TodoTimeline } from "./components";
-import { Empty, Loader, TodoStatusBadge } from "src/components";
+import { Empty, Loader, TodoStatusBadge, UserAvatar } from "src/components";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { TbCheckbox } from "react-icons/tb";
 import { userUuidVar } from "src/state";
-import { useGetTodoWithHistoryQuery } from "./graphql.generated";
 import { LuPartyPopper } from "react-icons/lu";
 import { useUpdateTodosMutation } from "../edit/graphql.generated";
 import dayjs from "src/utils/dayjs";
+import { useViewGetTodoQuery } from "./graphql.generated";
 
 export const View = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const [updateTodos, { loading: updating }] = useUpdateTodosMutation();
-  const { data, loading, refetch } = useGetTodoWithHistoryQuery({
+  const { data, loading, refetch } = useViewGetTodoQuery({
     variables: {
       get_todo_input: {
         query: {
@@ -28,6 +28,9 @@ export const View = () => {
           todo_uuid: uuid,
           created_by: userUuidVar(),
         },
+      },
+      get_todo_accesss_input: {
+        query: {},
       },
     },
     fetchPolicy: "cache-and-network",
@@ -86,13 +89,23 @@ export const View = () => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-8">
-        <Card>
+        <Card className="mb-3">
           <div className="flex justify-between items-start">
             <h1 className="text-3xl font-bold mr-4">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />
           </div>
           <p>{todo?.description}</p>
-          <div className="border-t border-gray-200 mt-4 pt-4 flex justify-end">
+          <div className="border-t border-gray-200 mt-4 pt-4 flex justify-between">
+            <Avatar.Group>
+              {todo?.access.map((a) => (
+                <UserAvatar
+                  key={a?.uuid}
+                  user={a?.user_uuid}
+                  showStatus
+                  button
+                />
+              ))}
+            </Avatar.Group>
             <Button.Group>
               <Button
                 color="indigo"

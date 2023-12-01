@@ -10,17 +10,18 @@ fields = [
   { name = "created_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
   { name = "updated_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
   { name = "completed_at", scalar = "DateTime", exclude_from_input = ["All"] },
-  { name = "created_by", scalar = "UUID", required = true, exclude_from_input = ["UpdateOne", "UpdateMany"], as_type = "user", join_on = "uuid" },
+  { name = "created_by", scalar = "UUID",  exclude_from_input = ["UpdateOne", "UpdateMany"], as_type = "user", join_on = "uuid" },
   { name = "updated_by", scalar = "UUID", required = true },
   { name = "completed_by", scalar = "UUID", exclude_from_input = ["All"] },
   { name = "goal_date", scalar = "DateTime" },
-  { name = "history", scalar = "UUID", as_type = "todo_history", list = true, exclude_from_input = ["All"], join_on = "todo_uuid", join_from = "uuid" }
+  { name = "history", scalar = "UUID", as_type = "todo_history", list = true, exclude_from_input = ["All"], join_on = "todo_uuid", join_from = "uuid" },
+  { name = "access", scalar = "Int", as_type = "todo_access", list = true, required = true, exclude_from_input = ["All"], join_on = "todo_id", join_from = "id" }
 ]
 
 [[entities.guards]]
 name = "Permissions Error"
 if_expr = '''
-  root_key = if(contains(("FindOne", "FindMany", "UpdateMany"), resolver_type()), "query", "values");
+  root_key = if(contains(("FindOne", "FindMany", "UpdateMany", "InternalType"), resolver_type()), "query", "values");
   !every(input(root_key, "created_by"), token_data("user_uuid"))
 '''
 then_msg = "You may not access this todo."
@@ -30,7 +31,6 @@ from = "triceratask_ds"
 [[entities.data_source.resolvers.update_many.guards]]
 name = "Permissions Error"
 if_expr = '''
-  // check if same length
   todo_uuids = input("query", "uuid");
   todo_acesses = context("todo_access.todo_id");
   todos = context("todo.uuid");
@@ -54,7 +54,6 @@ variables = [
   [ "{{user_uuid}}", "token_data(\"user_uuid\")" ],
   [ "{{uuid}}", "input(\"query\", \"uuid\")" ]
 ]
-
 
 [[entities.data_source.resolvers.update_many.guards.context]]
 entity_name = "todo_access"

@@ -1,4 +1,4 @@
-import { Table, Tooltip } from "flowbite-react";
+import { Avatar, Table, Tooltip } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 import { EmptyTodos, TodosLoading } from "../";
@@ -32,23 +32,17 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
         >
           <Table.Cell>{todo?.title}</Table.Cell>
           <Table.Cell>
-            <Tooltip content={todo?.created_by?.identifier}>
-              <UserAvatar
-                user={todo?.created_by}
-                showStatus
-                size="sm"
-                className="hover:scale-110 transition-all duration-200"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(
-                    appRoutes.profile.path.replace(
-                      ":uuid",
-                      todo?.created_by?.uuid.toString()
-                    )
-                  );
-                }}
-              />
-            </Tooltip>
+            <Avatar.Group>
+              {todo?.access?.map((a) => (
+                <UserAvatar
+                  user={a.user_uuid}
+                  showStatus
+                  size="sm"
+                  button
+                  tooltip
+                />
+              ))}
+            </Avatar.Group>
           </Table.Cell>
           <Table.Cell className="hidden md:table-cell">
             <Tooltip

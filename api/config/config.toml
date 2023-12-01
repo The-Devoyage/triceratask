@@ -10,7 +10,6 @@ imports = [
 ]
 
 [service.cors]
-allow_methods = [{method = "POST"}, {method = "GET"}, {method = "PUT"}, {method = "DELETE"}, {method = "OPTIONS"}]
 allow_headers = [
   "Authorization", 
   "Content-Type", 

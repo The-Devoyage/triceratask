@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useState } from "react";
-import { Button, TextInput, Card } from "flowbite-react";
+import { forwardRef, useEffect } from "react";
+import { Button, Card } from "flowbite-react";
 import {
   useCreateConnectionMutation,
   useGetUsersAddConnectionInputLazyQuery,
@@ -11,6 +11,7 @@ import { userIdentifierVar, userUuidVar } from "src/state";
 import { LIST_CONNECTIONS } from "../../graphql";
 import { getOperationName } from "@apollo/client/utilities";
 import { UserAvatar } from "src/components";
+import { DropdownSelect } from "src/components/dropdown-select";
 
 export const AddConnection = forwardRef<
   HTMLInputElement,
@@ -24,7 +25,6 @@ export const AddConnection = forwardRef<
     Create_User_Connection_Input["values"]
   >();
   const toaster = useToaster();
-  const [showDropdown, setShowDropdown] = useState(false);
   const identifier = watch("identifier");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -70,40 +70,31 @@ export const AddConnection = forwardRef<
         <div className="flex flex-col justify-between">
           <h4 className="text-xl font-bold">Connect with a Friend</h4>
           <div className="my-4 relative">
-            <TextInput
+            <DropdownSelect
               {...rest}
               placeholder="Identifier"
-              onFocus={() => setShowDropdown(true)}
-              onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
-              autoComplete="off"
-              ref={(e) => {
+              onSelected={(user) => reset({ identifier: user.identifier })}
+              inputRef={(e) => {
                 ref(e);
                 (inputRef as React.MutableRefObject<HTMLInputElement>).current = e as HTMLInputElement;
               }}
-            />
-            <div className="my-4 absolute bg-slate-900 w-full z-50 rounded-md">
-              {showDropdown &&
-                data?.get_users
-                  ?.filter((user) =>
-                    user.identifier
-                      .toLowerCase()
-                      .includes(identifier?.toLowerCase() ?? "")
-                  )
-                  .splice(0, 5)
-                  .map((user) => (
-                    <div
-                      role="button"
-                      className="flex items-start hover:bg-slate-600 p-2 cursor-pointer rounded-md"
-                      key={user.uuid}
-                      onClick={() => {
-                        reset({ identifier: user.identifier });
-                      }}
-                    >
+              options={data?.get_users
+                ?.filter((user) =>
+                  user.identifier
+                    .toLowerCase()
+                    .includes(identifier?.toLowerCase() ?? "")
+                )
+                .splice(0, 5)
+                .map((user) => ({
+                  value: user,
+                  label: (
+                    <>
                       <UserAvatar user={user} />
-                      <h1>{user?.identifier}</h1>
-                    </div>
-                  ))}
-            </div>
+                      <h1 className="ml-2">{user?.identifier}</h1>
+                    </>
+                  ),
+                }))}
+            />
           </div>
         </div>
         <Button

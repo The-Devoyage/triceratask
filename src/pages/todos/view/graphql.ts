@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const GET_TODO_WITH_HISTORY = gql`
-  query GetTodoWithHistory(
+export const VIEW_GET_TODO = gql`
+  query ViewGetTodo(
     $get_todo_input: get_todo_input!
     $get_todo_historys_input: get_todo_historys_input!
+    $get_todo_accesss_input: get_todo_accesss_input!
   ) {
     get_todo(get_todo_input: $get_todo_input) {
       uuid
@@ -20,6 +21,16 @@ export const GET_TODO_WITH_HISTORY = gql`
         property
         old_value
         new_value
+      }
+      access(access: $get_todo_accesss_input) {
+        uuid
+        user_uuid(user_uuid: { query: {} }) {
+          uuid
+          identifier
+          profile_img
+        }
+        view
+        edit
       }
     }
   }
