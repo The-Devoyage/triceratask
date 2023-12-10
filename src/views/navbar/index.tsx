@@ -57,7 +57,10 @@ export const AppNavbar = () => {
         <Button
           color="transparent"
           className="sm:block md:hidden border-none"
-          onClick={() => sidebarHiddenVar(!sidebarHidden)}
+          onClick={() => {
+            window.scrollTo(0, 0);
+            sidebarHiddenVar(!sidebarHidden);
+          }}
         >
           <HiMenu className="text-sky-700" />
         </Button>

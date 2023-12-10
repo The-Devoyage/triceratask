@@ -30,6 +30,14 @@ export const AppSidebar = () => {
   });
 
   useEffect(() => {
+    !hidden && document.body.classList.add("overflow-hidden");
+    hidden && document.body.classList.remove("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [hidden]);
+
+  useEffect(() => {
     if (isMobile) {
       sidebarHiddenVar(true);
     } else {
