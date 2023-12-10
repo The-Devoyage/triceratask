@@ -20,7 +20,7 @@ import clsx from "clsx";
 import { useToaster } from "src/utils/useToaster";
 import { useForm } from "react-hook-form";
 import { Update_Users_Input } from "src/types/generated";
-import { IoIosSave } from "react-icons/io";
+import { FaSquareCheck } from "react-icons/fa6";
 
 export const Profile = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -144,7 +144,7 @@ export const Profile = () => {
                   {...register("status")}
                 />
                 <Button type="submit" className="float-right">
-                  <IoIosSave className="h-5 md:mr-2" />
+                  <FaSquareCheck className="h-5 md:mr-2" />
                   Save
                 </Button>
               </form>

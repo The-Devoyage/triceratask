@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Update_Todos_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
-import { IoIosSave } from "react-icons/io";
+import { FaSquareCheck } from "react-icons/fa6";
 import {
   useEditGetTodoQuery,
   useUpdateTodosMutation,
@@ -103,8 +103,8 @@ export const Edit = () => {
           </div>
           <div className="flex justify-between items-end">
             <Button type="submit" className="flex justify-center items-center">
-              <IoIosSave className="h-5 md:mr-2" />
-              <span className="hidden md:block">Update Todo</span>
+              <FaSquareCheck className="h-5 md:mr-2" />
+              <span className="hidden md:block">Update Task</span>
             </Button>
             <div className="flex flex-col">
               <Label>Goal Date</Label>

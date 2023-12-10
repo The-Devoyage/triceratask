@@ -105,7 +105,7 @@ export const Connection: FC<{
       }}
       role="button"
     >
-      <div className="flex">
+      <div className="flex w-3/4">
         <Avatar
           img={getProfileImage() ?? ""}
           className="mr-2"
@@ -114,8 +114,8 @@ export const Connection: FC<{
           }
           size="lg"
         />
-        <div className="flex flex-col justify-start align-start">
-          <h4 className="text-xl font-bold">{getIdentifier()}</h4>
+        <div className="flex flex-col justify-start align-start overflow-hidden w-3/5">
+          <h4 className="text-xl font-bold truncate">{getIdentifier()}</h4>
           <Tooltip content={getTooltip()} className="text-sm flex">
             <Badge color={getBadge().color}>{getBadge().text}</Badge>
           </Tooltip>

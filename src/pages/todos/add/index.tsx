@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
-import { IoIosSave } from "react-icons/io";
+import { FaSquareCheck } from "react-icons/fa6";
 
 export const Add = () => {
   const { register, handleSubmit } = useForm<Create_Todo_Input["values"]>({
@@ -59,8 +59,8 @@ export const Add = () => {
         </div>
         <div className="flex justify-between items-end">
           <Button type="submit" isProcessing={loading}>
-            <IoIosSave className="h-5 md:mr-2" />
-            <span className="hidden md:block">Add Todo</span>
+            <FaSquareCheck className="h-5 md:mr-2" />
+            <span className="hidden md:block">Add Task</span>
           </Button>
           <div className="flex flex-col">
             <Label>Goal Date</Label>

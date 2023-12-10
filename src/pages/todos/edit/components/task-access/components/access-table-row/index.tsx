@@ -33,11 +33,6 @@ export const AccessTableRow: FC<{
         },
       },
       onCompleted: () => toaster.addToast("success", "Access updated."),
-      onError: () =>
-        toaster.addToast(
-          "error",
-          "Access update failed. You may not have permission to do this."
-        ),
     });
   };
 

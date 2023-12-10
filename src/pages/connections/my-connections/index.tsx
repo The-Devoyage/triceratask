@@ -32,96 +32,95 @@ export const MyConnections = () => {
   return (
     <div className="grid grid-cols-6 gap-4 mb-3">
       <div className="col-span-6 md:col-span-4">
-        <Card className="flex justify-between mb-4">
-          <div>
-            <Tabs.Group
-              ref={tabsRef}
-              onActiveTabChange={(index) => {
-                const tab: ConnectionTabs = Object.values(ConnectionTabs)[
-                  index
-                ];
-                setActiveTab(tab);
-              }}
+        <Card>
+          <Tabs.Group
+            style="fullWidth"
+            ref={tabsRef}
+            theme={{
+              tablist: {
+                base: "overflow-x-auto",
+              },
+            }}
+            onActiveTabChange={(index) => {
+              const tab: ConnectionTabs = Object.values(ConnectionTabs)[index];
+              setActiveTab(tab);
+            }}
+          >
+            <Tabs.Item title={ConnectionTabs.Connections} icon={TbUserBolt}>
+              <ConnectionList
+                ref={usernameInputRef}
+                activeTab={activeTab}
+                setActiveTab={setActiveTabByIndex}
+                tab={ConnectionTabs.Connections}
+                getUserConnectionsInput={{
+                  query: {
+                    OR: [
+                      {
+                        connected_user: { uuid: userUuidVar() },
+                        accepted: true,
+                        revoked: false,
+                      },
+                      {
+                        created_by: {
+                          uuid: userUuidVar(),
+                        },
+                        accepted: true,
+                        revoked: false,
+                      },
+                    ],
+                  },
+                }}
+              />
+            </Tabs.Item>
+            <Tabs.Item
+              icon={HiOutlineUserGroup}
+              title={
+                <>
+                  <span>{ConnectionTabs.Invites}</span>
+                  <Badge className="ml-2" size="xs" color="gray">
+                    {data?.get_user_connections?.length}
+                  </Badge>
+                </>
+              }
             >
-              <Tabs.Item title={ConnectionTabs.Connections} icon={TbUserBolt}>
-                <ConnectionList
-                  ref={usernameInputRef}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTabByIndex}
-                  tab={ConnectionTabs.Connections}
-                  getUserConnectionsInput={{
-                    query: {
-                      OR: [
-                        {
-                          connected_user: { uuid: userUuidVar() },
-                          accepted: true,
-                          revoked: false,
-                        },
-                        {
-                          created_by: {
-                            uuid: userUuidVar(),
-                          },
-                          accepted: true,
-                          revoked: false,
-                        },
-                      ],
-                    },
-                  }}
-                />
-              </Tabs.Item>
-              <Tabs.Item
-                icon={HiOutlineUserGroup}
-                title={
-                  <>
-                    <span>{ConnectionTabs.Invites}</span>
-                    <Badge className="ml-2" size="xs" color="gray">
-                      {data?.get_user_connections?.length}
-                    </Badge>
-                  </>
-                }
-              >
-                <ConnectionList
-                  ref={usernameInputRef}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTabByIndex}
-                  tab={ConnectionTabs.Invites}
-                  getUserConnectionsInput={{
-                    query: {
-                      OR: [
-                        {
-                          connected_user: { uuid: userUuidVar() },
-                          accepted: false,
-                          revoked: false,
-                        },
-                        {
-                          identifier: userIdentifierVar(),
-                          accepted: false,
-                          revoked: false,
-                        },
-                      ],
-                    },
-                  }}
-                />
-              </Tabs.Item>
-              <Tabs.Item
-                icon={HiOutlineUserGroup}
-                title={ConnectionTabs.Invited}
-              >
-                <ConnectionList
-                  ref={usernameInputRef}
-                  activeTab={activeTab}
-                  setActiveTab={setActiveTabByIndex}
-                  tab={ConnectionTabs.Invited}
-                  getUserConnectionsInput={{
-                    query: {
-                      created_by: { uuid: userUuidVar() },
-                      accepted: false,
-                    },
-                  }}
-                />
-              </Tabs.Item>
-            </Tabs.Group>
-          </div>
+              <ConnectionList
+                ref={usernameInputRef}
+                activeTab={activeTab}
+                setActiveTab={setActiveTabByIndex}
+                tab={ConnectionTabs.Invites}
+                getUserConnectionsInput={{
+                  query: {
+                    OR: [
+                      {
+                        connected_user: { uuid: userUuidVar() },
+                        accepted: false,
+                        revoked: false,
+                      },
+                      {
+                        identifier: userIdentifierVar(),
+                        accepted: false,
+                        revoked: false,
+                      },
+                    ],
+                  },
+                }}
+              />
+            </Tabs.Item>
+            <Tabs.Item icon={HiOutlineUserGroup} title={ConnectionTabs.Invited}>
+              <ConnectionList
+                ref={usernameInputRef}
+                activeTab={activeTab}
+                setActiveTab={setActiveTabByIndex}
+                tab={ConnectionTabs.Invited}
+                getUserConnectionsInput={{
+                  query: {
+                    created_by: { uuid: userUuidVar() },
+                    accepted: false,
+                  },
+                }}
+              />
+            </Tabs.Item>
+          </Tabs.Group>
         </Card>
       </div>
       <div className="col-span-6 md:col-span-2 order-first md:order-last">

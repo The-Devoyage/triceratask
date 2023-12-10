@@ -149,3 +149,40 @@ variables = [
   ["{{id}}", "context(\"user.id\")"],
 ]
 
+[[entities.data_source.resolvers.update_many.guards]]
+name = "no_edit_owner"
+if_expr = '''
+  todo_owner = context("todo.created_by");
+  owner_id = context("todo_access.user");
+  contains_any(todo_owner, owner_id)
+'''
+then_msg = "You may not edit the owner's access"
+[[entities.data_source.resolvers.update_many.guards.context]]
+entity_name = "todo_access"
+query = '''
+  {
+    "get_todo_accesss_input": {
+      "query": {
+        "AND": {{uuid}}
+      }
+    }
+  }
+'''
+variables = [
+  ["{{uuid}}", "input(\"query\", \"uuid\")"], 
+]
+
+[[entities.data_source.resolvers.update_many.guards.context]]
+entity_name = "todo"
+query = '''
+  {
+    "get_todos_input": {
+      "query": {
+        "AND": {{id}}
+      }
+    }
+  }
+'''
+variables = [
+  ["{{id}}", "context(\"todo_access.todo\")"], 
+]

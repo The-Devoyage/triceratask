@@ -4,13 +4,13 @@ import { getRandomAvatar } from "src/utils/getRandomImage";
 import { GET_USER } from "src/views/navbar/graphql";
 import { getOperationName } from "@apollo/client/utilities";
 import clsx from "clsx";
-import { IoIosSave } from "react-icons/io";
 import { IoRefreshCircleSharp } from "react-icons/io5";
 import { TbPhotoCancel } from "react-icons/tb";
 import { useToaster } from "src/utils/useToaster";
 import { GetUserQuery } from "src/views/navbar/graphql.generated";
 import { Modal, Tooltip } from "flowbite-react";
 import { useUpdateUserProfileMutation } from "../../graphql.generated";
+import { FaSquareCheck } from "react-icons/fa6";
 
 export const ChangeProfileImg: FC<{
   loading: boolean;
@@ -91,7 +91,7 @@ export const ChangeProfileImg: FC<{
               </div>
               <div className="flex justify-center items-center">
                 <Tooltip content="Save/replace photo.">
-                  <IoIosSave
+                  <FaSquareCheck
                     role="button"
                     className="text-white hover:scale-125 hover:text-green-400 cursor-pointer h-12 w-12 transition duration-500 ease-in-out m-4"
                     onClick={handleUpdateProfileImage}
