@@ -1,10 +1,10 @@
 import { Alert } from "flowbite-react";
 import { FC } from "react";
 import dayjs from "src/utils/dayjs";
-import { GetTodoWithHistoryQuery } from "../../graphql.generated";
+import { ViewGetTodoQuery } from "../../graphql.generated";
 
 export const OverdueAlert: FC<{
-  todo: GetTodoWithHistoryQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"];
   visible: boolean;
 }> = ({ todo, visible }) =>
   visible && (

@@ -1,4 +1,4 @@
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { userUuidVar } from "src/state";
 import { getOperationName } from "@apollo/client/utilities";
 import { FC } from "react";
@@ -23,23 +23,10 @@ export const ReinviteButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            AND: [
-              {
-                uuid: connection.uuid,
-              },
-            ],
-            OR: [
-              {
-                created_by: userUuidVar(),
-              },
-              {
-                connected_user_uuid: userUuidVar(),
-              },
-            ],
+            uuid: connection.uuid,
           },
           values: {
             revoked: false,
-            updated_by: userUuidVar(),
           },
         },
       },
@@ -51,15 +38,15 @@ export const ReinviteButton: FC<{
     onComplete && onComplete();
   };
 
-  if (connection.revoked && connection.user_uuid.uuid === userUuidVar())
+  if (connection.revoked && connection.user?.uuid === userUuidVar())
     return (
       <Button
         size="small"
         color="success"
         className="text-sm px-2 py-1"
         onClick={handleReinvite}
-        isProcessing={loading}
       >
+        {loading ? <Spinner size="sm" className="mr-1" /> : null}
         Invite Again
       </Button>
     );

@@ -9,13 +9,13 @@ export type CreateTodoMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', create_todo: { __typename?: 'todo', id: number, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, updated_at: string } };
+export type CreateTodoMutation = { __typename?: 'Mutation', create_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, updated_at: string } };
 
 
 export const CreateTodoDocument = gql`
     mutation CreateTodo($create_todo_input: create_todo_input!) {
   create_todo(create_todo_input: $create_todo_input) {
-    id
+    uuid
     title
     description
     completed

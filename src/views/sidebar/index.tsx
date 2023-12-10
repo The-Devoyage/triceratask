@@ -19,7 +19,9 @@ export const AppSidebar = () => {
     variables: {
       get_user_connections_input: {
         query: {
-          connected_user_uuid: userUuidVar(),
+          connected_user: {
+            uuid: userUuidVar(),
+          },
           accepted: false,
           revoked: false,
         },

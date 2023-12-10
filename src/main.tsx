@@ -22,13 +22,13 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (graphQLErrors) {
     console.log("graphQLErrors", graphQLErrors);
-    graphQLErrors.forEach(({ message }) => {
+    graphQLErrors.forEach(({ message, extensions }) => {
       toastsVar([
         ...toasts,
         {
           id: uuidv4(),
           type: "error",
-          message,
+          title: (Object.values(extensions ?? {})[0] as string) || message,
         },
       ]);
     });
@@ -41,7 +41,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       {
         id: uuidv4(),
         type: "error",
-        message: networkError.message,
+        title: networkError.message,
       },
     ]);
   }

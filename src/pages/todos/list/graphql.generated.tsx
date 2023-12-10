@@ -11,14 +11,14 @@ export type TodosListGetTodosQueryVariables = Types.Exact<{
 }>;
 
 
-export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, access: Array<{ __typename?: 'todo_access', uuid: string, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> }> };
+export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null, access: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> }> };
 
 export type TodosListGetTodosByAccessQueryVariables = Types.Exact<{
   get_todo_accesss_input: Types.Get_Todo_Accesss_Input;
 }>;
 
 
-export type TodosListGetTodosByAccessQuery = { __typename?: 'Query', get_todo_accesss: Array<{ __typename?: 'todo_access', uuid: string, todo_id: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, access: Array<{ __typename?: 'todo_access', uuid: string, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } }> };
+export type TodosListGetTodosByAccessQuery = { __typename?: 'Query', get_todo_accesss: Array<{ __typename?: 'todo_access', uuid: string, todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null, access: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } }> };
 
 
 export const TodosListGetTodosDocument = gql`
@@ -39,7 +39,7 @@ export const TodosListGetTodosDocument = gql`
     }
     access(access: $get_todo_accesss_input) {
       uuid
-      user_uuid(user_uuid: {query: {}}) {
+      user(user: {query: {}}) {
         uuid
         identifier
         profile_img
@@ -82,7 +82,7 @@ export const TodosListGetTodosByAccessDocument = gql`
     query TodosListGetTodosByAccess($get_todo_accesss_input: get_todo_accesss_input!) {
   get_todo_accesss(get_todo_accesss_input: $get_todo_accesss_input) {
     uuid
-    todo_id(todo_id: {query: {}}) {
+    todo(todo: {query: {}}) {
       uuid
       title
       description
@@ -98,7 +98,7 @@ export const TodosListGetTodosByAccessDocument = gql`
       }
       access(access: {query: {}}) {
         uuid
-        user_uuid(user_uuid: {query: {}}) {
+        user(user: {query: {}}) {
           uuid
           identifier
           profile_img

@@ -40,3 +40,24 @@ requesting_party_name = "$TRICERATASK_RPN" #"triceratask.com"
 requesting_party_origin = "$TRICERATASK_RPO" #"http://localhost:5173" #Origin of the client. http://localhost:5173
 data_source = "triceratask_ds"
 private_key = "$TRICERATASK_PRIVATE_KEY" # Generate a private key.
+
+[[service.guards]]
+name = "require_user"
+if_expr = '''
+  len(context("user.id")) == 0 
+'''
+then_msg = "You must be logged in to perform this action."
+[[service.guards.context]]
+entity_name = "user"
+query = '''
+  {
+    "get_users_input": {
+      "query": {
+        "uuid": {{user_uuid}}
+      } 
+    }
+  }
+'''
+variables = [
+  [ "{{user_uuid}}", "token_data(\"user_uuid\")" ]
+]

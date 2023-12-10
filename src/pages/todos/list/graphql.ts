@@ -22,7 +22,7 @@ export const GET_TODOS = gql`
       }
       access(access: $get_todo_accesss_input) {
         uuid
-        user_uuid(user_uuid: { query: {} }) {
+        user(user: { query: {} }) {
           uuid
           identifier
           profile_img
@@ -38,7 +38,7 @@ export const LIST_TODOS_GET_TODOS_BY_ACCESS = gql`
   ) {
     get_todo_accesss(get_todo_accesss_input: $get_todo_accesss_input) {
       uuid
-      todo_id(todo_id: { query: {} }) {
+      todo(todo: { query: {} }) {
         uuid
         title
         description
@@ -54,7 +54,7 @@ export const LIST_TODOS_GET_TODOS_BY_ACCESS = gql`
         }
         access(access: { query: {} }) {
           uuid
-          user_uuid(user_uuid: { query: {} }) {
+          user(user: { query: {} }) {
             uuid
             identifier
             profile_img

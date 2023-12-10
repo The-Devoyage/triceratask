@@ -20,14 +20,14 @@ export const View = () => {
       get_todo_input: {
         query: {
           uuid,
-          created_by: userUuidVar(),
+          access: {
+            user: { uuid: userUuidVar() },
+            revoked: false,
+          },
         },
       },
       get_todo_historys_input: {
-        query: {
-          todo_uuid: uuid,
-          created_by: userUuidVar(),
-        },
+        query: {},
       },
       get_todo_accesss_input: {
         query: {},
@@ -37,6 +37,7 @@ export const View = () => {
   });
   const todo = data?.get_todo;
   const navigate = useNavigate();
+  const userAccess = todo?.access.find((a) => a?.user?.uuid === userUuidVar());
 
   const handleUpdate = () => {
     updateTodos({
@@ -44,7 +45,6 @@ export const View = () => {
         update_todos_input: {
           query: {
             uuid,
-            created_by: userUuidVar(),
           },
           values: {
             completed: true,
@@ -98,17 +98,13 @@ export const View = () => {
           <div className="border-t border-gray-200 mt-4 pt-4 flex justify-between">
             <Avatar.Group>
               {todo?.access.map((a) => (
-                <UserAvatar
-                  key={a?.uuid}
-                  user={a?.user_uuid}
-                  showStatus
-                  button
-                />
+                <UserAvatar key={a?.uuid} user={a?.user} showStatus button />
               ))}
             </Avatar.Group>
             <Button.Group>
               <Button
                 color="indigo"
+                disabled={!userAccess?.edit}
                 onClick={() =>
                   navigate(appRoutes.editTodo.path.replace(":uuid", uuid!))
                 }
@@ -119,7 +115,9 @@ export const View = () => {
                 color={todo?.completed ? "info" : "success"}
                 onClick={handleUpdate}
                 isProcessing={updating}
-                disabled={todo?.completed}
+                disabled={
+                  todo?.completed || (!userAccess?.edit && !userAccess?.manage)
+                }
                 className="border-l"
               >
                 {todo?.completed ? (

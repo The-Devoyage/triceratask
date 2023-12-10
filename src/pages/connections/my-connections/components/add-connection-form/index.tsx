@@ -12,6 +12,7 @@ import { LIST_CONNECTIONS } from "../../graphql";
 import { getOperationName } from "@apollo/client/utilities";
 import { UserAvatar } from "src/components";
 import { DropdownSelect } from "src/components/dropdown-select";
+import { HiPlus } from "react-icons/hi";
 
 export const AddConnection = forwardRef<
   HTMLInputElement,
@@ -48,8 +49,6 @@ export const AddConnection = forwardRef<
           values: {
             identifier: data.identifier,
             user_uuid: userUuidVar() ?? "",
-            created_by: userUuidVar() ?? "",
-            updated_by: userUuidVar() ?? "",
           },
         },
       },
@@ -69,7 +68,7 @@ export const AddConnection = forwardRef<
       <form onSubmit={onSubmit} className="flex flex-col">
         <div className="flex flex-col justify-between">
           <h4 className="text-xl font-bold">Connect with a Friend</h4>
-          <div className="my-4 relative">
+          <div className="grid grid-cols-12 gap-2 my-4">
             <DropdownSelect
               {...rest}
               placeholder="Identifier"
@@ -94,19 +93,22 @@ export const AddConnection = forwardRef<
                     </>
                   ),
                 }))}
+              containerClassName="col-span-10"
             />
+            <Button
+              type="submit"
+              isProcessing={loading}
+              gradientDuoTone="purpleToBlue"
+              outline
+              className="col-span-2"
+              disabled={
+                !identifier || identifier === userIdentifierVar()?.toLowerCase()
+              }
+            >
+              <HiPlus className="h-4 w-4" />
+            </Button>
           </div>
         </div>
-        <Button
-          type="submit"
-          isProcessing={loading}
-          className="self-end"
-          disabled={
-            !identifier || identifier === userIdentifierVar()?.toLowerCase()
-          }
-        >
-          Connect
-        </Button>
       </form>
     </Card>
   );

@@ -1,4 +1,4 @@
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { userUuidVar } from "src/state";
 import { getOperationName } from "@apollo/client/utilities";
 import { FC } from "react";
@@ -7,6 +7,7 @@ import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 import { LIST_CONNECTIONS } from "src/pages/connections/my-connections/graphql";
 import { useToaster } from "src/utils/useToaster";
 import { MdGroupRemove } from "react-icons/md";
+import clsx from "clsx";
 
 export const RevokeButton: FC<{
   connection: ListConnectionsQuery["get_user_connections"][0];
@@ -24,23 +25,11 @@ export const RevokeButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            AND: [
-              {
-                uuid: connection.uuid,
-              },
-            ],
-            OR: [
-              {
-                created_by: userUuidVar(),
-              },
-              {
-                connected_user_uuid: userUuidVar(),
-              },
-            ],
+            uuid: connection.uuid,
           },
           values: {
             revoked: true,
-            updated_by: userUuidVar(),
+            accepted: false,
           },
         },
       },
@@ -55,18 +44,23 @@ export const RevokeButton: FC<{
   if (
     (!connection.accepted &&
       !connection.revoked &&
-      connection.user_uuid.uuid === userUuidVar()) ||
+      connection.user?.uuid === userUuidVar()) ||
     connection.accepted
   )
     return (
       <Button
         size="small"
         color="failure"
-        className="text-sm px-2 py-1"
+        className={clsx("text-sm px-2 py-1", {
+          "animate-pulse": loading,
+        })}
         onClick={handleRevoke}
-        isProcessing={loading}
       >
-        <MdGroupRemove className="mr-1" />
+        {loading ? (
+          <Spinner className="mr-1" size="sm" />
+        ) : (
+          <MdGroupRemove className="mr-1" />
+        )}
         <span className="hidden md:inline">Revoke</span>
       </Button>
     );

@@ -1,10 +1,10 @@
 import { Alert } from "flowbite-react";
 import { FC } from "react";
-import { GetTodoWithHistoryQuery } from "../../graphql.generated";
+import { ViewGetTodoQuery } from "../../graphql.generated";
 import dayjs from "src/utils/dayjs";
 
 export const GoalDateAlert: FC<{
-  todo: GetTodoWithHistoryQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"];
   visible: boolean;
 }> = ({ todo, visible }) =>
   visible && (

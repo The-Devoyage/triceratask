@@ -7,10 +7,11 @@ export const useToaster = () => {
 
   const addToast = (
     type: "success" | "error" | "warning" | "info",
-    message: string
+    title: string,
+    message?: string
   ) => {
     const id = uuidv4();
-    toastsVar([...toasts, { id, type, message }]);
+    toastsVar([...toasts, { id, type, title, message }]);
   };
 
   const removeToast = (id: string) => {

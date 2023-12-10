@@ -26,7 +26,7 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
           className="cursor-pointer align-top"
           onClick={() => {
             navigate(
-              appRoutes.viewTodo.path.replace(":uuid", todo?.uuid.toString())
+              appRoutes.viewTodo.path.replace(":uuid", todo!.uuid.toString())
             );
           }}
         >
@@ -34,13 +34,7 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
           <Table.Cell>
             <Avatar.Group>
               {todo?.access?.map((a) => (
-                <UserAvatar
-                  user={a.user_uuid}
-                  showStatus
-                  size="sm"
-                  button
-                  tooltip
-                />
+                <UserAvatar user={a.user} showStatus size="sm" button tooltip />
               ))}
             </Avatar.Group>
           </Table.Cell>

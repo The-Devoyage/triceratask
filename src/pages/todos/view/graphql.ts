@@ -16,7 +16,7 @@ export const VIEW_GET_TODO = gql`
       goal_date
       history(history: $get_todo_historys_input) {
         uuid
-        todo_uuid
+        todo
         created_at
         property
         old_value
@@ -24,12 +24,12 @@ export const VIEW_GET_TODO = gql`
       }
       access(access: $get_todo_accesss_input) {
         uuid
-        user_uuid(user_uuid: { query: {} }) {
+        user(user: { query: {} }) {
           uuid
           identifier
           profile_img
         }
-        view
+        manage
         edit
       }
     }

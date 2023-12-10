@@ -17,7 +17,7 @@ export const MyConnections = () => {
     variables: {
       get_user_connections_input: {
         query: {
-          connected_user_uuid: userUuidVar(),
+          connected_user: { uuid: userUuidVar() },
           accepted: false,
           revoked: false,
         },
@@ -53,12 +53,16 @@ export const MyConnections = () => {
                     query: {
                       OR: [
                         {
-                          connected_user_uuid: userUuidVar(),
+                          connected_user: { uuid: userUuidVar() },
                           accepted: true,
+                          revoked: false,
                         },
                         {
-                          created_by: userUuidVar(),
+                          created_by: {
+                            uuid: userUuidVar(),
+                          },
                           accepted: true,
+                          revoked: false,
                         },
                       ],
                     },
@@ -85,7 +89,7 @@ export const MyConnections = () => {
                     query: {
                       OR: [
                         {
-                          connected_user_uuid: userUuidVar(),
+                          connected_user: { uuid: userUuidVar() },
                           accepted: false,
                           revoked: false,
                         },
@@ -110,7 +114,7 @@ export const MyConnections = () => {
                   tab={ConnectionTabs.Invited}
                   getUserConnectionsInput={{
                     query: {
-                      created_by: userUuidVar(),
+                      created_by: { uuid: userUuidVar() },
                       accepted: false,
                     },
                   }}

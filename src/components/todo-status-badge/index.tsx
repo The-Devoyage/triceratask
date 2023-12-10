@@ -6,7 +6,7 @@ import { Todo } from "src/types/generated";
 import dayjs from "src/utils/dayjs";
 
 interface Props {
-  todo?: Pick<Todo, "completed" | "completed_at" | "goal_date">;
+  todo?: Pick<Todo, "completed" | "completed_at" | "goal_date"> | null;
 }
 
 export const TodoStatusBadge: FC<Props> = ({ todo }) => {

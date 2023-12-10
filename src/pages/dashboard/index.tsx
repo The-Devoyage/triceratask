@@ -4,17 +4,21 @@ import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
 import { useDashboardGetTodosQuery } from "./graphql.generated";
+import clsx from "clsx";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { data } = useDashboardGetTodosQuery({
+  const { data, loading } = useDashboardGetTodosQuery({
     variables: {
       get_user_input: {
         query: {},
       },
       get_todos_input: {
         query: {
-          created_by: userUuidVar(),
+          access: {
+            user: { uuid: userUuidVar() },
+            revoked: false,
+          },
         },
       },
     },
@@ -24,7 +28,11 @@ export const Dashboard = () => {
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+      <div
+        className={clsx("grid gap-4 sm:grid-cols-1 md:grid-cols-2", {
+          "animate-pulse": loading,
+        })}
+      >
         <Card>
           <div className="flex flex-row justify-between">
             <h4 className="text-xl font-bold">My Todos</h4>
@@ -42,7 +50,7 @@ export const Dashboard = () => {
           />
           <TodoStats
             label="Not Complete"
-            total={todos.filter((todo) => !todo.completed).length ?? 0}
+            total={todos.filter((todo) => !todo?.completed).length ?? 0}
             onClick={() =>
               navigate(appRoutes.listTodos.path, {
                 state: { completed: false },
@@ -51,7 +59,7 @@ export const Dashboard = () => {
           />
           <TodoStats
             label="Complete"
-            total={todos.filter((t) => t.completed).length}
+            total={todos.filter((t) => t?.completed).length}
             onClick={() =>
               navigate(appRoutes.listTodos.path, { state: { completed: true } })
             }

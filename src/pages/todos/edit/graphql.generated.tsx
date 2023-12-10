@@ -17,7 +17,7 @@ export type EditGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, access: Array<{ __typename?: 'todo_access', uuid: string, view: boolean, edit: boolean, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
+export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, access: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, revoked: boolean, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
 
 
 export const UpdateTodosDocument = gql`
@@ -69,13 +69,14 @@ export const EditGetTodoDocument = gql`
     goal_date
     access(access: $get_todo_accesss_input) {
       uuid
-      user_uuid(user_uuid: {query: {}}) {
+      user(user: {query: {}}) {
         uuid
         identifier
         profile_img
       }
-      view
+      manage
       edit
+      revoked
     }
   }
 }

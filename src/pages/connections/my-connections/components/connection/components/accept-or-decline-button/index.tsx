@@ -24,23 +24,10 @@ export const AcceptOrDeclineButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            AND: [
-              {
-                uuid: connection.uuid,
-              },
-            ],
-            OR: [
-              {
-                created_by: userUuidVar(),
-              },
-              {
-                connected_user_uuid: userUuidVar(),
-              },
-            ],
+            uuid: connection.uuid,
           },
           values: {
             accepted: true,
-            updated_by: userUuidVar(),
           },
         },
       },
@@ -61,23 +48,10 @@ export const AcceptOrDeclineButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            AND: [
-              {
-                uuid: connection.uuid,
-              },
-            ],
-            OR: [
-              {
-                created_by: userUuidVar(),
-              },
-              {
-                connected_user_uuid: userUuidVar(),
-              },
-            ],
+            uuid: connection.uuid,
           },
           values: {
             revoked: true,
-            updated_by: userUuidVar(),
           },
         },
       },
@@ -89,10 +63,7 @@ export const AcceptOrDeclineButton: FC<{
     onComplete && onComplete();
   };
 
-  if (
-    connection.connected_user_uuid?.uuid === userUuidVar() &&
-    !connection.accepted
-  )
+  if (connection.connected_user?.uuid === userUuidVar() && !connection.accepted)
     return (
       <Button.Group>
         <Button

@@ -7,6 +7,7 @@ export const darkModeVar = makeVar(darkMode === "true" ? true : false);
 export interface ToastItem {
   id: string;
   type: "success" | "error" | "warning" | "info";
-  message: string;
+  title: string;
+  message?: string;
 }
 export const toastsVar = makeVar<ToastItem[]>([]);

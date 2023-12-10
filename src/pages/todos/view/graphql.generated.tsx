@@ -11,7 +11,7 @@ export type ViewGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, history: Array<{ __typename?: 'todo_history', uuid: string, todo_uuid: string, created_at: string, property: string, old_value?: string | null, new_value?: string | null } | null>, access: Array<{ __typename?: 'todo_access', uuid: string, view: boolean, edit: boolean, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
+export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, history: Array<{ __typename?: 'todo_history', uuid: string, todo: number, created_at: string, property: string, old_value?: string | null, new_value?: string | null } | null>, access: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
 
 
 export const ViewGetTodoDocument = gql`
@@ -26,7 +26,7 @@ export const ViewGetTodoDocument = gql`
     goal_date
     history(history: $get_todo_historys_input) {
       uuid
-      todo_uuid
+      todo
       created_at
       property
       old_value
@@ -34,12 +34,12 @@ export const ViewGetTodoDocument = gql`
     }
     access(access: $get_todo_accesss_input) {
       uuid
-      user_uuid(user_uuid: {query: {}}) {
+      user(user: {query: {}}) {
         uuid
         identifier
         profile_img
       }
-      view
+      manage
       edit
     }
   }

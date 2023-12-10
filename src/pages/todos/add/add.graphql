@@ -1,6 +1,6 @@
 mutation CreateTodo($create_todo_input: create_todo_input!) {
   create_todo(create_todo_input: $create_todo_input) {
-    id
+    uuid
     title
     description
     completed

@@ -21,10 +21,10 @@ export const Connection: FC<{
 }> = ({ connection, activeTab, setActiveTab }) => {
   const navigate = useNavigate();
   const isActive = useIsUserActive(
-    connection?.connected_user_uuid?.uuid === userUuidVar()
-      ? connection?.user_uuid.uuid
-      : connection?.connected_user_uuid?.uuid,
-    !connection?.connected_user_uuid?.uuid || !connection?.accepted
+    connection?.connected_user?.uuid === userUuidVar()
+      ? connection?.user?.uuid
+      : connection?.connected_user?.uuid,
+    !connection?.connected_user?.uuid || !connection?.accepted
   );
 
   const getBadge = () => {
@@ -52,43 +52,41 @@ export const Connection: FC<{
   const getIdentifier = () => {
     switch (activeTab) {
       case ConnectionTabs.Connections:
-        if (connection?.connected_user_uuid?.uuid === userUuidVar())
-          return connection?.user_uuid.identifier;
-        return connection?.connected_user_uuid?.identifier;
+        if (connection?.connected_user?.uuid === userUuidVar())
+          return connection?.user.identifier;
+        return connection?.connected_user?.identifier;
       case ConnectionTabs.Invites:
-        return connection?.user_uuid.identifier;
+        return connection?.user.identifier;
       case ConnectionTabs.Invited:
-        return (
-          connection?.connected_user_uuid?.identifier ?? connection?.identifier
-        );
+        return connection?.connected_user?.identifier ?? connection?.identifier;
       default:
-        return connection?.connected_user_uuid?.identifier;
+        return connection?.connected_user?.identifier;
     }
   };
 
   const getUuid = () => {
     switch (activeTab) {
       case ConnectionTabs.Connections:
-        if (connection?.connected_user_uuid?.uuid === userUuidVar())
-          return connection?.user_uuid.uuid;
-        return connection?.connected_user_uuid?.uuid;
+        if (connection?.connected_user?.uuid === userUuidVar())
+          return connection?.user.uuid;
+        return connection?.connected_user?.uuid;
       case ConnectionTabs.Invites:
-        return connection?.user_uuid.uuid;
+        return connection?.user.uuid;
       case ConnectionTabs.Invited:
-        return connection?.connected_user_uuid?.uuid;
+        return connection?.connected_user?.uuid;
       default:
-        return connection?.connected_user_uuid?.uuid;
+        return connection?.connected_user?.uuid;
     }
   };
 
   const getProfileImage = () => {
-    if (connection?.connected_user_uuid?.uuid === userUuidVar())
-      return connection?.user_uuid.profile_img;
-    return connection?.connected_user_uuid?.profile_img;
+    if (connection?.connected_user?.uuid === userUuidVar())
+      return connection?.user.profile_img;
+    return connection?.connected_user?.profile_img;
   };
 
   const getTooltip = () => {
-    if (connection?.connected_user_uuid?.uuid !== userUuidVar()) {
+    if (connection?.connected_user?.uuid !== userUuidVar()) {
       return `Accepted at: ${dayjs
         .tz(connection?.accepted_at)
         .local()

@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
-import { userUuidVar } from "src/state";
 import { IoIosSave } from "react-icons/io";
 
 export const Add = () => {
@@ -26,15 +25,12 @@ export const Add = () => {
   const toaster = useToaster();
 
   const onSubmit = (values: Create_Todo_Input["values"]) => {
-    console.log(values);
     createTodo({
       variables: {
         create_todo_input: {
           values: {
             ...values,
             completed: values.completed ?? false,
-            created_by: userUuidVar() ?? "",
-            updated_by: userUuidVar() ?? "",
           },
         },
       },

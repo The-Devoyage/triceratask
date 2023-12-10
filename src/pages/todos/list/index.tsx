@@ -16,8 +16,13 @@ export const List = () => {
   useEffect(() => {
     let getTodosInput: Get_Todos_Input = {
       query: {
-        created_by: userUuidVar(),
         completed: false,
+        access: {
+          user: {
+            uuid: userUuidVar(),
+          },
+          revoked: false,
+        },
       },
     };
 
@@ -52,7 +57,12 @@ export const List = () => {
         get_todos_input: {
           query: {
             completed: v.completed,
-            created_by: userUuidVar(),
+            access: {
+              user: {
+                uuid: userUuidVar(),
+              },
+              revoked: false,
+            },
           },
         },
       },

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  mode: 'jit',
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
@@ -14,6 +15,9 @@ export default {
       },
       animation: {
         wiggle: 'wiggle 1s ease-in-out infinite',
+      },
+      zIndex: {
+        '100': '100',
       }
     },
   },

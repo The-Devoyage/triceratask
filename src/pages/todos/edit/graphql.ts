@@ -27,13 +27,14 @@ export const EDIT_GET_TODO = gql`
       goal_date
       access(access: $get_todo_accesss_input) {
         uuid
-        user_uuid(user_uuid: { query: {} }) {
+        user(user: { query: {} }) {
           uuid
           identifier
           profile_img
         }
-        view
+        manage
         edit
+        revoked
       }
     }
   }

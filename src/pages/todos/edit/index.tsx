@@ -19,6 +19,7 @@ import {
 } from "./graphql.generated";
 import dayjs from "src/utils/dayjs";
 import { TaskAccess } from "./components";
+import { Loader } from "src/components";
 
 export const Edit = () => {
   const { uuid } = useParams<{ uuid: string }>();
@@ -27,10 +28,20 @@ export const Edit = () => {
     Update_Todos_Input["values"]
   >();
   const [updateTodo] = useUpdateTodosMutation();
-  const { data } = useEditGetTodoQuery({
+  const { data, loading } = useEditGetTodoQuery({
     variables: {
       get_todo_accesss_input: { query: {} },
-      get_todo_input: { query: { uuid, created_by: userUuidVar() } },
+      get_todo_input: {
+        query: {
+          uuid,
+          access: {
+            user: {
+              uuid: userUuidVar(),
+            },
+            revoked: false,
+          },
+        },
+      },
     },
   });
 
@@ -50,7 +61,7 @@ export const Edit = () => {
     updateTodo({
       variables: {
         update_todos_input: {
-          query: { uuid, created_by: userUuidVar() },
+          query: { uuid },
           values,
         },
       },
@@ -59,8 +70,12 @@ export const Edit = () => {
     });
   };
 
-  if (!data?.get_todo) {
-    return null;
+  if (loading) {
+    return (
+      <Card>
+        <Loader />
+      </Card>
+    );
   }
 
   return (
@@ -105,8 +120,8 @@ export const Edit = () => {
         </form>
       </Card>
       <TaskAccess
-        access={data.get_todo.access}
-        todo_uuid={data.get_todo.uuid}
+        access={data?.get_todo?.access}
+        todo_uuid={data?.get_todo?.uuid}
       />
     </>
   );

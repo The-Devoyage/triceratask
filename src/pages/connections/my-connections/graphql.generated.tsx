@@ -11,7 +11,7 @@ export type ListConnectionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type ListConnectionsQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string, identifier: string, revoked: boolean, revoked_at?: string | null, status: boolean, accepted: boolean, accepted_at?: string | null, user_uuid: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, connected_user_uuid?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, last_active?: string | null } | null }> };
+export type ListConnectionsQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string, identifier: string, revoked: boolean, revoked_at?: string | null, status: boolean, accepted: boolean, accepted_at?: string | null, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, connected_user?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, last_active?: string | null } | null }> };
 
 
 export const ListConnectionsDocument = gql`
@@ -24,12 +24,12 @@ export const ListConnectionsDocument = gql`
     status
     accepted
     accepted_at
-    user_uuid(user_uuid: $get_user_input) {
+    user(user: $get_user_input) {
       uuid
       identifier
       profile_img
     }
-    connected_user_uuid(connected_user_uuid: $get_connected_user_input) {
+    connected_user(connected_user: $get_connected_user_input) {
       uuid
       identifier
       profile_img

@@ -10,7 +10,7 @@ export type DashboardGetTodosQueryVariables = Types.Exact<{
 }>;
 
 
-export type DashboardGetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> };
+export type DashboardGetTodosQuery = { __typename?: 'Query', get_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null }> };
 
 
 export const DashboardGetTodosDocument = gql`
