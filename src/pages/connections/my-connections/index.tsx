@@ -38,7 +38,7 @@ export const MyConnections = () => {
             ref={tabsRef}
             theme={{
               tablist: {
-                base: "overflow-x-auto",
+                base: "overflow-x-auto text-center",
               },
             }}
             onActiveTabChange={(index) => {

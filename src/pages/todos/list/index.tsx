@@ -27,7 +27,6 @@ export const List = () => {
     };
 
     if (
-      locationState &&
       locationState?.state?.completed !== undefined &&
       locationState?.state?.completed !== null
     ) {
@@ -37,7 +36,7 @@ export const List = () => {
           completed: locationState?.state?.completed,
         },
       };
-    } else {
+    } else if (locationState?.state?.completed === null) {
       delete getTodosInput.query.completed;
     }
 
