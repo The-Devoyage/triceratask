@@ -81,3 +81,35 @@ if_expr = '''
 '''
 then_msg = "You do not have permission to create connections on the behalf of this user."
 
+[[entities.data_source.resolvers.update_many.guards]]
+name = "already_revoked"
+if_expr = '''
+  is_revoking = contains(input("values", "revoked"), "true");
+  is_revoked = contains(context("user_connection.revoked"), true);
+  
+  is_revoking && is_revoked
+'''
+then_msg = "You cannot revoke a connection that is already revoked."
+[[entities.data_source.resolvers.update_many.guards.context]]
+entity_name = "user_connection"
+query = '''
+  {
+    "get_user_connections_input": {
+      "query": {
+        "AND": {{uuid}}
+      } 
+    }
+  }
+'''
+variables = [
+  ["{{uuid}}", "input(\"query\", \"uuid\")"]
+]
+
+[[entities.data_source.resolvers.update_many.guards]]
+name = "access_denied"
+if_expr = '''
+  contains(input("values", "accepted"), "true") && contains(context("user_connection.accepted"), true)
+'''
+then_msg = "You cannot accept a connection that is already accepted."
+
+

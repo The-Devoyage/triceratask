@@ -16,7 +16,6 @@ export const List = () => {
   useEffect(() => {
     let getTodosInput: Get_Todos_Input = {
       query: {
-        completed: false,
         access: {
           user: {
             uuid: userUuidVar(),

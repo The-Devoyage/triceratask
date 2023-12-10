@@ -28,6 +28,7 @@ export const AcceptOrDeclineButton: FC<{
           },
           values: {
             accepted: true,
+            revoked: false,
           },
         },
       },
@@ -37,9 +38,9 @@ export const AcceptOrDeclineButton: FC<{
       ],
       onCompleted: () => {
         toaster.addToast("success", "Connection accepted.");
+        onComplete && onComplete();
       },
     });
-    onComplete && onComplete();
   };
 
   const handleDecline = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,15 +53,19 @@ export const AcceptOrDeclineButton: FC<{
           },
           values: {
             revoked: true,
+            accepted: false,
           },
         },
       },
-      refetchQueries: [getOperationName(LIST_CONNECTIONS) ?? ""],
+      refetchQueries: [
+        getOperationName(LIST_CONNECTIONS)!,
+        getOperationName(NEW_CONNECTIONS)!,
+      ],
       onCompleted: () => {
         toaster.addToast("success", "Connection declined.");
+        onComplete && onComplete();
       },
     });
-    onComplete && onComplete();
   };
 
   if (connection.connected_user?.uuid === userUuidVar() && !connection.accepted)
