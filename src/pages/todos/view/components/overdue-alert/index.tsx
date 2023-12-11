@@ -13,7 +13,8 @@ export const OverdueAlert: FC<{
         Overdue: {dayjs.tz(todo?.goal_date).local().format("MMM DD, YYYY")}
       </h3>
       <p>
-        This todo is overdue. You should probably get started on it right away.
+        This todo is overdue. Try updating the goal date or mark it as
+        completed.
       </p>
     </Alert>
   );

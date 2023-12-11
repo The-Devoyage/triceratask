@@ -30,12 +30,12 @@ export const AppSidebar = () => {
   });
 
   useEffect(() => {
-    !hidden && document.body.classList.add("overflow-hidden");
-    hidden && document.body.classList.remove("overflow-hidden");
+    !hidden && isMobile && document.body.classList.add("overflow-hidden");
+    hidden && isMobile && document.body.classList.remove("overflow-hidden");
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
-  }, [hidden]);
+  }, [hidden, isMobile]);
 
   useEffect(() => {
     if (isMobile) {

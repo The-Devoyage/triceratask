@@ -44,7 +44,7 @@ export const Add = () => {
   return (
     <Card>
       <div className="flex justify-between align-center">
-        <h4 className="text-xl font-bold">Create a todo</h4>
+        <h4 className="text-xl font-bold">Create a Task</h4>
         <div>
           <Label className="mr-2">Completed</Label>
           <Checkbox {...register("completed")} />
@@ -54,7 +54,7 @@ export const Add = () => {
         <div className="mb-4">
           <Label>Title</Label>
           <TextInput placeholder="Title" {...register("title")} />
-          <Label>Todo</Label>
+          <Label>Task</Label>
           <Textarea placeholder="Description" {...register("description")} />
         </div>
         <div className="flex justify-between items-end">

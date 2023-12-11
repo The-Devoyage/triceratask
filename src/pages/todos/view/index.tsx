@@ -89,7 +89,7 @@ export const View = () => {
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-8">
-        <Card className="mb-3">
+        <Card>
           <div className="flex justify-between items-start">
             <h1 className="text-3xl font-bold mr-4">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />

@@ -21,6 +21,11 @@ export const VIEW_GET_TODO = gql`
         property
         old_value
         new_value
+        created_by(created_by: { query: {} }) {
+          uuid
+          identifier
+          profile_img
+        }
       }
       access(access: $get_todo_accesss_input) {
         uuid

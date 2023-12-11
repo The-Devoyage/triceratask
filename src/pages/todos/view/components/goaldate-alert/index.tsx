@@ -10,8 +10,8 @@ export const GoalDateAlert: FC<{
   visible && (
     <Alert color="info" className="mb-4">
       <h3 className="text-lg font-bold">
-        Due: {dayjs.tz(todo?.goal_date).local().format("MMM DD, YYYY h:mm A")}
+        Goal: {dayjs.tz(todo?.goal_date).local().format("MMM DD, YYYY h:mm A")}
       </h3>
-      <p>You have {dayjs.tz(todo?.goal_date).fromNow()} to complete it.</p>
+      <p>This goal is due {dayjs.tz(todo?.goal_date).fromNow()}.</p>
     </Alert>
   );

@@ -190,7 +190,6 @@ export type Create_Todo_Access_Values_Input = {
   manage: Scalars['Boolean']['input'];
   revoked: Scalars['Boolean']['input'];
   todo_uuid?: InputMaybe<Scalars['String']['input']>;
-  user: Scalars['Int']['input'];
   user_uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -199,7 +198,6 @@ export type Create_Todo_History_Input = {
 };
 
 export type Create_Todo_History_Values_Input = {
-  created_by: Scalars['Int']['input'];
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
 };
@@ -209,7 +207,6 @@ export type Create_Todo_Input = {
 };
 
 export type Create_Todo_Values_Input = {
-  access: Array<Scalars['Int']['input']>;
   completed: Scalars['Boolean']['input'];
   description: Scalars['String']['input'];
   goal_date?: InputMaybe<Scalars['String']['input']>;
@@ -474,13 +471,18 @@ export type Todo_AccessUserArgs = {
 export type Todo_History = {
   __typename?: 'todo_history';
   created_at: Scalars['String']['output'];
-  created_by: Scalars['Int']['output'];
+  created_by: User;
   id: Scalars['Int']['output'];
   new_value?: Maybe<Scalars['String']['output']>;
   old_value?: Maybe<Scalars['String']['output']>;
   property: Scalars['String']['output'];
   todo: Scalars['Int']['output'];
   uuid: Scalars['String']['output'];
+};
+
+
+export type Todo_HistoryCreated_ByArgs = {
+  created_by: Get_User_Input;
 };
 
 export type Update_Todo_Accesss_Input = {
@@ -506,7 +508,6 @@ export type Update_Todo_Accesss_Values_Input = {
   manage?: InputMaybe<Scalars['Boolean']['input']>;
   revoked?: InputMaybe<Scalars['Boolean']['input']>;
   todo_uuid?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
   user_uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -548,7 +549,6 @@ export type Update_Todos_Query_Input = {
 };
 
 export type Update_Todos_Values_Input = {
-  access?: InputMaybe<Array<Scalars['Int']['input']>>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;

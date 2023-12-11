@@ -4,6 +4,7 @@ import { Button, ListGroup, Timeline } from "flowbite-react";
 import { FC } from "react";
 import { MdBookmarkAdded } from "react-icons/md";
 import { ViewGetTodoQuery } from "../../graphql.generated";
+import { UserAvatar } from "src/components";
 
 export const TodoTimeline: FC<{
   todo: ViewGetTodoQuery["get_todo"];
@@ -40,7 +41,20 @@ export const TodoTimeline: FC<{
           <Timeline.Item>
             <Timeline.Point icon={MdBookmarkAdded} />
             <Timeline.Content>
-              <Timeline.Time>{dayjs().to(date)}</Timeline.Time>
+              <Timeline.Time className="flex justify-between">
+                {dayjs().to(date)}
+                <div className="flex overflow-hidden justify-end pt-1">
+                  <span className="mr-2 truncate">
+                    {histories[0]?.created_by?.identifier}
+                  </span>
+                  <UserAvatar
+                    user={histories[0]?.created_by}
+                    size="sm"
+                    showStatus
+                    button
+                  />
+                </div>
+              </Timeline.Time>
               <Timeline.Body className="mt-4">
                 <ListGroup>
                   {histories.map(
