@@ -11,7 +11,7 @@ export type ViewGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, history: Array<{ __typename?: 'todo_history', uuid: string, todo: number, created_at: string, property: string, old_value?: string | null, new_value?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } | null>, access: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
+export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, is_encrypted?: boolean | null, history: Array<{ __typename?: 'todo_history', uuid: string, todo: number, created_at: string, property: string, old_value?: string | null, new_value?: string | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } | null>, access: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
 
 
 export const ViewGetTodoDocument = gql`
@@ -24,6 +24,7 @@ export const ViewGetTodoDocument = gql`
     completed_at
     created_at
     goal_date
+    is_encrypted
     history(history: $get_todo_historys_input) {
       uuid
       todo

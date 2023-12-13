@@ -210,6 +210,7 @@ export type Create_Todo_Values_Input = {
   completed: Scalars['Boolean']['input'];
   description: Scalars['String']['input'];
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -309,6 +310,7 @@ export type Get_Todo_Query_Input = {
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -325,6 +327,7 @@ export type Get_Todos_Querys_Input = {
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
@@ -412,6 +415,7 @@ export type Todo = {
   description: Scalars['String']['output'];
   goal_date?: Maybe<Scalars['String']['output']>;
   history: Array<Maybe<Todo_History>>;
+  is_encrypted?: Maybe<Scalars['Boolean']['output']>;
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
   updated_by: Scalars['Int']['output'];
@@ -544,6 +548,7 @@ export type Update_Todos_Query_Input = {
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };

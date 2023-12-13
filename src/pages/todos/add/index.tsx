@@ -1,10 +1,12 @@
+import { useState } from "react";
 import {
   Button,
   Label,
   TextInput,
-  Textarea,
   Card,
   Checkbox,
+  Tooltip,
+  Badge,
 } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useCreateTodoMutation } from "./add.generated";
@@ -13,9 +15,19 @@ import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
 import { FaSquareCheck } from "react-icons/fa6";
+import { EncryptedTextarea } from "src/components/encrypted-textarea";
+import { HiLockClosed, HiLockOpen } from "react-icons/hi";
+import Crypto from "crypto-js";
+import { useReactiveVar } from "@apollo/client";
+import { darkModeVar } from "src/state";
+import clsx from "clsx";
 
 export const Add = () => {
-  const { register, handleSubmit } = useForm<Create_Todo_Input["values"]>({
+  const [showPassword, setShowPassword] = useState(false);
+  const darkMode = useReactiveVar(darkModeVar);
+  const { register, handleSubmit, setValue } = useForm<
+    Create_Todo_Input["values"] & { password: string }
+  >({
     defaultValues: {
       goal_date: null,
     },
@@ -24,13 +36,31 @@ export const Add = () => {
   const [createTodo, { loading }] = useCreateTodoMutation();
   const toaster = useToaster();
 
-  const onSubmit = (values: Create_Todo_Input["values"]) => {
+  const onSubmit = (
+    values: Create_Todo_Input["values"] & { password: string }
+  ) => {
+    const { password, ...rest } = values;
+    if (showPassword) {
+      if (!password) {
+        toaster.addToast(
+          "error",
+          "Password is required when encrypting enabled."
+        );
+        return;
+      }
+      const encrypted = Crypto.AES.encrypt(
+        JSON.stringify(values.description),
+        password
+      );
+      rest.description = encrypted.toString();
+    }
     createTodo({
       variables: {
         create_todo_input: {
           values: {
-            ...values,
+            ...rest,
             completed: values.completed ?? false,
+            is_encrypted: showPassword,
           },
         },
       },
@@ -53,15 +83,50 @@ export const Add = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <Label>Title</Label>
-          <TextInput placeholder="Title" {...register("title")} />
-          <Label>Task</Label>
-          <Textarea placeholder="Description" {...register("description")} />
+          <TextInput
+            placeholder="Title"
+            {...register("title")}
+            className="mb-4"
+          />
+          <div className="flex justify-between items-end mb-1">
+            <Label>Task</Label>
+            <Tooltip
+              content="Encrypt your task description with a password."
+              placement="left"
+            >
+              <Button
+                color={darkMode ? "dark" : "light"}
+                size="sm"
+                className={clsx({
+                  "bg-red-200 dark:bg-red-800": showPassword,
+                })}
+                onClick={() => setShowPassword((prev) => !prev)}
+              >
+                {showPassword ? <HiLockClosed /> : <HiLockOpen />}
+              </Button>
+            </Tooltip>
+          </div>
+          <EncryptedTextarea
+            showPassword={showPassword}
+            placeholder="Description"
+            onChange={(e) => setValue("description", e.target.value)}
+            inputProps={{
+              ...register("password"),
+            }}
+          />
         </div>
         <div className="flex justify-between items-end">
-          <Button type="submit" isProcessing={loading}>
-            <FaSquareCheck className="h-5 md:mr-2" />
-            <span className="hidden md:block">Add Task</span>
-          </Button>
+          <div className="flex items-end">
+            <Button type="submit" isProcessing={loading}>
+              <FaSquareCheck className="h-5 md:mr-2" />
+              <span className="hidden md:block">Add Task</span>
+            </Button>
+            {showPassword && (
+              <Badge color="failure" className="ml-2">
+                Encrypting
+              </Badge>
+            )}
+          </div>
           <div className="flex flex-col">
             <Label>Goal Date</Label>
             <input

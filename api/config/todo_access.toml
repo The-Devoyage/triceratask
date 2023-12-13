@@ -6,7 +6,7 @@ fields = [
   { name = "uuid", scalar = "UUID", required = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"] },
   { name = "todo", scalar = "Int", required = true, as_type = "todo", join_on = "id", exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"], default_value = "context(\"todo.id\")" },
   { name = "todo_uuid", scalar = "UUID", is_virtual = true, exclude_from_output = true },
-  { name = "user", scalar = "Int", required = true, as_type = "user", join_on = "id", eager = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"], default_value = "context(\"access_user.id\")" },
+  { name = "user", scalar = "Int", required = true, as_type = "user", join_on = "id", eager = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"], default_value = "if(resolver_type() == \"CreateOne\", context(\"access_user.id\"), ())" },
   { name = "user_uuid", scalar = "UUID", is_virtual = true, exclude_from_output = true },
   { name = "edit", scalar = "Boolean", required = true },
   { name = "manage", scalar = "Boolean", required = true },

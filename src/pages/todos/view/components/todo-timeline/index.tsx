@@ -21,8 +21,8 @@ export const TodoTimeline: FC<{
   }, {} as Record<string, ViewGetTodoQuery["get_todo"]["history"][0][]>);
 
   const handleNewValue = (value: string, truncate: boolean) => {
-    if (value === "0") return "false";
-    if (value === "1") return "true";
+    if (value === "0") return "No";
+    if (value === "1") return "Yes";
 
     if (truncate) {
       if (value.length > 100) {

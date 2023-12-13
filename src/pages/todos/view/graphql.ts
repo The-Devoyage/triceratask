@@ -14,6 +14,7 @@ export const VIEW_GET_TODO = gql`
       completed_at
       created_at
       goal_date
+      is_encrypted
       history(history: $get_todo_historys_input) {
         uuid
         todo

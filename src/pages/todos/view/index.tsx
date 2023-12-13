@@ -1,5 +1,10 @@
 import { Alert, Avatar, Button, Card } from "flowbite-react";
-import { GoalDateAlert, OverdueAlert, TodoTimeline } from "./components";
+import {
+  GoalDateAlert,
+  OverdueAlert,
+  TodoTimeline,
+  EncrypedCard,
+} from "./components";
 import { Empty, Loader, TodoStatusBadge, UserAvatar } from "src/components";
 import { useNavigate, useParams } from "react-router-dom";
 import { appRoutes } from "src/routes";
@@ -94,7 +99,7 @@ export const View = () => {
             <h1 className="text-3xl font-bold mr-4">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />
           </div>
-          <p>{todo?.description}</p>
+          <EncrypedCard todo={todo} />
           <div className="border-t border-gray-200 mt-4 pt-4 flex justify-between">
             <Avatar.Group>
               {todo?.access.map((a) => (
