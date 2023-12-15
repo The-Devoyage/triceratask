@@ -3,7 +3,7 @@ import {
   GoalDateAlert,
   OverdueAlert,
   TodoTimeline,
-  EncrypedCard,
+  EncryptedCard,
 } from "./components";
 import { Empty, Loader, TodoStatusBadge, UserAvatar } from "src/components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,54 +11,44 @@ import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { TbCheckbox } from "react-icons/tb";
-import { userUuidVar } from "src/state";
 import { LuPartyPopper } from "react-icons/lu";
 import { useUpdateTodosMutation } from "../edit/graphql.generated";
 import dayjs from "src/utils/dayjs";
-import { useViewGetTodoQuery } from "./graphql.generated";
+import { ViewTodoContext, ViewTodoProvider } from "./context";
+import { Todo } from "src/types/generated";
+import { useContext } from "react";
+import { ViewGetTodoDocument } from "./context/graphql.generated";
 
 export const View = () => {
-  const { uuid } = useParams<{ uuid: string }>();
+  const { uuid } = useParams<{ uuid: Todo["uuid"] }>();
+
+  if (!uuid) return;
+
+  return (
+    <ViewTodoProvider uuid={uuid}>
+      <ViewContent />
+    </ViewTodoProvider>
+  );
+};
+
+const ViewContent = () => {
+  const { todo, loading, userAccess } = useContext(ViewTodoContext);
   const [updateTodos, { loading: updating }] = useUpdateTodosMutation();
-  const { data, loading, refetch } = useViewGetTodoQuery({
-    variables: {
-      get_todo_input: {
-        query: {
-          uuid,
-          access: {
-            user: { uuid: userUuidVar() },
-            revoked: false,
-          },
-        },
-      },
-      get_todo_historys_input: {
-        query: {},
-      },
-      get_todo_accesss_input: {
-        query: {},
-      },
-    },
-    fetchPolicy: "cache-and-network",
-  });
-  const todo = data?.get_todo;
   const navigate = useNavigate();
-  const userAccess = todo?.access.find((a) => a?.user?.uuid === userUuidVar());
 
   const handleUpdate = () => {
     updateTodos({
       variables: {
         update_todos_input: {
           query: {
-            uuid,
+            uuid: todo?.uuid,
           },
           values: {
             completed: true,
           },
         },
       },
-      onCompleted: () => {
-        refetch();
-      },
+      refetchQueries: [ViewGetTodoDocument],
     });
   };
 
@@ -99,11 +89,19 @@ export const View = () => {
             <h1 className="text-3xl font-bold mr-4">{todo?.title}</h1>
             <TodoStatusBadge todo={todo} />
           </div>
-          <EncrypedCard todo={todo} />
+          <EncryptedCard todo={todo} />
           <div className="border-t border-gray-200 mt-4 pt-4 flex justify-between">
             <Avatar.Group>
               {todo?.access.map((a) => (
-                <UserAvatar key={a?.uuid} user={a?.user} showStatus button />
+                <UserAvatar
+                  key={a?.uuid}
+                  user={a?.user}
+                  showStatus
+                  button
+                  tooltip={{
+                    placement: "right",
+                  }}
+                />
               ))}
             </Avatar.Group>
             <Button.Group>
@@ -111,7 +109,7 @@ export const View = () => {
                 color="indigo"
                 disabled={!userAccess?.edit}
                 onClick={() =>
-                  navigate(appRoutes.editTodo.path.replace(":uuid", uuid!))
+                  navigate(appRoutes.editTodo.path.replace(":uuid", todo.uuid!))
                 }
               >
                 <AiFillEdit className="h-6" />

@@ -15,6 +15,11 @@ export const VIEW_GET_TODO = gql`
       created_at
       goal_date
       is_encrypted
+      created_by(created_by: { query: {} }) {
+        uuid
+        identifier
+        profile_img
+      }
       history(history: $get_todo_historys_input) {
         uuid
         todo

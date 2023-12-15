@@ -1,17 +1,17 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Label,
   TextInput,
-  Textarea,
   Card,
   Checkbox,
+  Tooltip,
 } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Update_Todos_Input } from "src/types/generated";
+import { Todo, Update_Todos_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
-import { userUuidVar } from "src/state";
+import { darkModeVar, userUuidVar } from "src/state";
 import { FaSquareCheck } from "react-icons/fa6";
 import {
   useEditGetTodoQuery,
@@ -20,14 +20,25 @@ import {
 import dayjs from "src/utils/dayjs";
 import { TaskAccess } from "./components";
 import { Loader } from "src/components";
+import { EncryptedTextarea } from "src/components/encrypted-textarea";
+import clsx from "clsx";
+import { HiLockClosed, HiLockOpen } from "react-icons/hi";
+import { useReactiveVar } from "@apollo/client";
+import Crypto from "crypto-js";
+import { useToaster } from "src/utils/useToaster";
 
 export const Edit = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [isDecrypted, setIsDecrypted] = useState(true);
   const { uuid } = useParams<{ uuid: string }>();
+  const darkMode = useReactiveVar(darkModeVar);
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm<
-    Update_Todos_Input["values"]
+  const { register, handleSubmit, reset, setValue, watch } = useForm<
+    Update_Todos_Input["values"] & { password: string }
   >();
   const [updateTodo] = useUpdateTodosMutation();
+  const password = watch("password");
+  const toaster = useToaster();
   const { data, loading } = useEditGetTodoQuery({
     variables: {
       get_todo_accesss_input: { query: {} },
@@ -46,6 +57,9 @@ export const Edit = () => {
   });
 
   useEffect(() => {
+    if (data?.get_todo?.is_encrypted) {
+      setIsDecrypted(false);
+    }
     reset({
       title: data?.get_todo?.title,
       description: data?.get_todo?.description,
@@ -55,14 +69,55 @@ export const Edit = () => {
         .local()
         .format("YYYY-MM-DDTHH:mm"),
     });
+    setShowPassword(!!data?.get_todo?.is_encrypted);
   }, [data, reset]);
 
-  const onSubmit = (values: Update_Todos_Input["values"]) => {
+  useEffect(() => {
+    if (password && data?.get_todo?.is_encrypted) {
+      const value = Crypto.AES.decrypt(
+        data?.get_todo?.description ?? "",
+        password
+      );
+
+      try {
+        const decrypted = value.toString(Crypto.enc.Utf8);
+        const todo: Pick<Todo, "description"> = JSON.parse(decrypted);
+        setIsDecrypted(true);
+        setValue("description", todo.description);
+      } catch (err) {
+        console.error(err);
+        setIsDecrypted(false);
+        return;
+      }
+    } else {
+      setValue("description", data?.get_todo?.description);
+    }
+  }, [password, data, setValue]);
+
+  const onSubmit = (
+    values: Update_Todos_Input["values"] & { password: string }
+  ) => {
+    const { password, ...rest } = values;
+
+    if (data?.get_todo?.is_encrypted && password) {
+      const encrypted = Crypto.AES.encrypt(
+        JSON.stringify({ description: rest.description }),
+        password
+      ).toString();
+      rest.description = encrypted;
+    }
+
+    if (data?.get_todo?.is_encrypted && !isDecrypted && password) {
+      toaster.addToast("error", "Please use the correct password.");
+
+      return;
+    }
+
     updateTodo({
       variables: {
         update_todos_input: {
           query: { uuid },
-          values,
+          values: rest,
         },
       },
       onCompleted: () =>
@@ -98,8 +153,45 @@ export const Edit = () => {
                 required: true,
               })}
             />
-            <Label>Description</Label>
-            <Textarea placeholder="Description" {...register("description")} />
+            <div className="flex justify-between items-end mb-1">
+              <Label>Description</Label>
+              <Tooltip
+                content={
+                  data?.get_todo.is_encrypted
+                    ? "This task has been encrypted."
+                    : "This task is not encrypted."
+                }
+                placement="left"
+              >
+                <Button
+                  color={darkMode ? "dark" : "light"}
+                  size="sm"
+                  className={clsx({
+                    "bg-red-200 dark:bg-red-800":
+                      showPassword || data?.get_todo.is_encrypted,
+                  })}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  disabled={true}
+                >
+                  {showPassword ? <HiLockClosed /> : <HiLockOpen />}
+                </Button>
+              </Tooltip>
+            </div>
+            <EncryptedTextarea
+              showPassword={showPassword}
+              placeholder="Encrypted Description"
+              onChange={(e) => setValue("description", e.target.value)}
+              value={
+                !isDecrypted
+                  ? "Encrypted Description, enter password to decrypt..."
+                  : watch("description") ?? ""
+              }
+              disabled={!isDecrypted}
+              inputProps={{
+                ...register("password"),
+                disabled: isDecrypted,
+              }}
+            />
           </div>
           <div className="flex justify-between items-end">
             <Button type="submit" className="flex justify-center items-center">

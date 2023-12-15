@@ -49,7 +49,7 @@ export const Add = () => {
         return;
       }
       const encrypted = Crypto.AES.encrypt(
-        JSON.stringify(values.description),
+        JSON.stringify({ description: values.description }),
         password
       );
       rest.description = encrypted.toString();
@@ -89,7 +89,7 @@ export const Add = () => {
             className="mb-4"
           />
           <div className="flex justify-between items-end mb-1">
-            <Label>Task</Label>
+            <Label>Description</Label>
             <Tooltip
               content="Encrypt your task description with a password."
               placement="left"

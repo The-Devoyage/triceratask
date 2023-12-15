@@ -1,10 +1,15 @@
 import { useState } from "react";
 import dayjs from "src/utils/dayjs";
-import { Button, ListGroup, Timeline } from "flowbite-react";
+import { ListGroup, Timeline } from "flowbite-react";
 import { FC } from "react";
 import { MdBookmarkAdded } from "react-icons/md";
-import { ViewGetTodoQuery } from "../../graphql.generated";
 import { UserAvatar } from "src/components";
+import {
+  CreatedTimelineItem,
+  EncryptedNewValue,
+  ShowMoreTimelineItem,
+} from "./components";
+import { ViewGetTodoQuery } from "../../context/graphql.generated";
 
 export const TodoTimeline: FC<{
   todo: ViewGetTodoQuery["get_todo"];
@@ -20,18 +25,6 @@ export const TodoTimeline: FC<{
     };
   }, {} as Record<string, ViewGetTodoQuery["get_todo"]["history"][0][]>);
 
-  const handleNewValue = (value: string, truncate: boolean) => {
-    if (value === "0") return "No";
-    if (value === "1") return "Yes";
-
-    if (truncate) {
-      if (value.length > 100) {
-        return `${value.slice(0, 100)}...`;
-      }
-    }
-    return value;
-  };
-
   return (
     <Timeline>
       {Object.entries(histories || {})
@@ -43,15 +36,15 @@ export const TodoTimeline: FC<{
             <Timeline.Content>
               <Timeline.Time className="flex justify-between">
                 {dayjs().to(date)}
-                <div className="flex overflow-hidden justify-end pt-1">
-                  <span className="mr-2 truncate">
-                    {histories[0]?.created_by?.identifier}
-                  </span>
+                <div className="flex overflow-hidden justify-end p-1">
                   <UserAvatar
                     user={histories[0]?.created_by}
                     size="sm"
                     showStatus
                     button
+                    tooltip={{
+                      placement: "left",
+                    }}
                   />
                 </div>
               </Timeline.Time>
@@ -66,7 +59,12 @@ export const TodoTimeline: FC<{
                               {history.property.replace("_", " ")}
                             </span>
                             <span className="ml-2 align-right col-span-9">
-                              {handleNewValue(history.new_value, true)}
+                              <EncryptedNewValue
+                                history={history}
+                                attemptDecrypt={
+                                  history.property === "description"
+                                }
+                              />
                             </span>
                           </div>
                         </ListGroup.Item>
@@ -77,40 +75,11 @@ export const TodoTimeline: FC<{
             </Timeline.Content>
           </Timeline.Item>
         ))}
-      {historyCount < Object.entries(histories || {}).length && (
-        <Timeline.Item>
-          <Timeline.Point icon={MdBookmarkAdded} />
-          <Timeline.Content>
-            <Timeline.Content className="hover:mb-32 transition-all">
-              <Button
-                className="text-center w-full text-sm py-1"
-                size="small"
-                onClick={() => setHistoryCount(historyCount + 5)}
-              >
-                Show More
-              </Button>
-            </Timeline.Content>
-          </Timeline.Content>
-        </Timeline.Item>
-      )}
-      <Timeline.Item>
-        <Timeline.Point icon={MdBookmarkAdded} />
-        <Timeline.Content>
-          <Timeline.Time>
-            {dayjs.tz(todo?.created_at).from(dayjs())}
-          </Timeline.Time>
-          <Timeline.Body className="mt-4">
-            <ListGroup>
-              <ListGroup.Item className="flex">
-                <span className="font-bold capitalize">Created</span>
-                <span className="ml-2 align-right">
-                  {dayjs.tz(todo?.created_at).format("MMM DD, YYYY")}
-                </span>
-              </ListGroup.Item>
-            </ListGroup>
-          </Timeline.Body>
-        </Timeline.Content>
-      </Timeline.Item>
+      <ShowMoreTimelineItem
+        onClick={() => setHistoryCount(historyCount + 5)}
+        visible={historyCount < Object.entries(histories || {}).length}
+      />
+      <CreatedTimelineItem todo={todo} />
     </Timeline>
   );
 };

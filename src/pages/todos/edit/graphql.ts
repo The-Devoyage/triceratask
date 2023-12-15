@@ -25,6 +25,7 @@ export const EDIT_GET_TODO = gql`
       completed
       completed_at
       goal_date
+      is_encrypted
       access(access: $get_todo_accesss_input) {
         uuid
         user(user: { query: {} }) {

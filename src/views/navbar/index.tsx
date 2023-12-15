@@ -54,19 +54,22 @@ export const AppNavbar = () => {
   return (
     <Navbar className="bg-sky-100 sticky top-0 z-50" fluid>
       <div className="flex row items-center">
-        <Button
-          color="transparent"
-          className="sm:block md:hidden border-none"
-          onClick={() => {
-            window.scrollTo(0, 0);
-            sidebarHiddenVar(!sidebarHidden);
-          }}
-        >
-          <HiMenu className="text-sky-700" />
-        </Button>
+        {isLoggedIn && (
+          <Button
+            color="transparent"
+            className="sm:block md:hidden border-none"
+            onClick={() => {
+              window.scrollTo(0, 0);
+              sidebarHiddenVar(!sidebarHidden);
+            }}
+          >
+            <HiMenu className="text-sky-700" />
+          </Button>
+        )}
         <div
-          onClick={() => navigate(appRoutes.dashboard.path)}
-          className="hidden md:flex items-center cursor-pointer"
+          onClick={() => navigate(appRoutes.home.path)}
+          className="flex items-center cursor-pointer"
+          role="button"
         >
           <img
             className="w-10 h-10 mr-2 filter brightness-125"

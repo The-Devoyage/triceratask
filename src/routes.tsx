@@ -8,13 +8,18 @@ import {
   Register,
   MyConnections,
 } from "./pages";
+import { HomePage } from "./pages/home";
 import { Profile } from "./pages/profile";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { PublicOnly } from "./utils/PublicOnly";
 
 export const appRoutes = {
-  dashboard: {
+  home: {
     path: "/",
+    element: <HomePage />,
+  },
+  dashboard: {
+    path: "/dashboard",
     element: (
       <ProtectedRoute>
         <Dashboard />

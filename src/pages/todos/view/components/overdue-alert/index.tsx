@@ -1,7 +1,7 @@
 import { Alert } from "flowbite-react";
 import { FC } from "react";
 import dayjs from "src/utils/dayjs";
-import { ViewGetTodoQuery } from "../../graphql.generated";
+import { ViewGetTodoQuery } from "../../context/graphql.generated";
 
 export const OverdueAlert: FC<{
   todo: ViewGetTodoQuery["get_todo"];

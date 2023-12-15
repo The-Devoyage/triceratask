@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Avatar, AvatarProps, Tooltip } from "flowbite-react";
+import { Avatar, AvatarProps, Tooltip, TooltipProps } from "flowbite-react";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
@@ -10,7 +10,7 @@ interface UserAvatarProps extends AvatarProps {
   user?: Pick<User, "profile_img" | "uuid" | "identifier"> | null;
   showStatus?: boolean;
   button?: boolean;
-  tooltip?: boolean;
+  tooltip?: boolean | Partial<TooltipProps>;
 }
 
 export const UserAvatar: FC<UserAvatarProps> = ({
@@ -27,7 +27,8 @@ export const UserAvatar: FC<UserAvatarProps> = ({
 
   return (
     <Tooltip
-      content={tooltip && user?.identifier}
+      {...(typeof tooltip === "object" ? tooltip : {})}
+      content={!!tooltip && user?.identifier}
       theme={{
         target: "hover:z-50",
       }}
@@ -48,4 +49,8 @@ export const UserAvatar: FC<UserAvatarProps> = ({
       />
     </Tooltip>
   );
+};
+
+UserAvatar.defaultProps = {
+  tooltip: false,
 };

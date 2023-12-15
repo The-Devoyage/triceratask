@@ -1,7 +1,7 @@
 import { Alert } from "flowbite-react";
 import { FC } from "react";
-import { ViewGetTodoQuery } from "../../graphql.generated";
 import dayjs from "src/utils/dayjs";
+import { ViewGetTodoQuery } from "../../context/graphql.generated";
 
 export const GoalDateAlert: FC<{
   todo: ViewGetTodoQuery["get_todo"];
