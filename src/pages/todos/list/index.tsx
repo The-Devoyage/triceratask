@@ -44,7 +44,7 @@ export const List = () => {
       variables: {
         get_user_input: { query: {} },
         get_todos_input: getTodosInput,
-        get_todo_accesss_input: { query: {} },
+        get_todo_accesss_input: { query: { revoked: false } },
       },
       fetchPolicy: "cache-and-network",
     });
@@ -54,7 +54,11 @@ export const List = () => {
     getTodos({
       variables: {
         get_user_input: { query: {} },
-        get_todo_accesss_input: { query: {} },
+        get_todo_accesss_input: {
+          query: {
+            revoked: false,
+          },
+        },
         get_todos_input: {
           query: {
             completed: v.completed,

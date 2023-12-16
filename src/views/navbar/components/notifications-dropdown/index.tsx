@@ -32,6 +32,13 @@ export const NotificationsDropdown = () => {
       get_notifications_input: {
         query: {
           read: false,
+          todo: {
+            access: {
+              user: {
+                uuid: userUuidVar(),
+              },
+            },
+          },
           user: {
             uuid: userUuidVar(),
           },

@@ -8,6 +8,7 @@ import { TbUserBolt } from "react-icons/tb";
 import { Get_User_Connection_Input } from "src/types/generated";
 import { ConnectionTabs } from "..";
 import { useNewConnectionsSidebarQuery } from "src/views/sidebar/graphql.generated";
+import { Loader } from "src/components";
 
 export const MyConnections = () => {
   const usernameInputRef = useRef<HTMLInputElement>(null);
@@ -39,6 +40,9 @@ export const MyConnections = () => {
             theme={{
               tablist: {
                 base: "overflow-x-auto text-center",
+                styles: {
+                  fullWidth: "text-gray-600 dark:text-white flex",
+                },
               },
             }}
             onActiveTabChange={(index) => {
@@ -143,7 +147,7 @@ const ConnectionList = forwardRef<
     setActiveTab: (index: number) => void;
   }
 >(({ getUserConnectionsInput, activeTab, tab, setActiveTab }, ref) => {
-  const { data } = useListConnectionsQuery({
+  const { data, loading } = useListConnectionsQuery({
     variables: {
       get_user_connections_input: getUserConnectionsInput,
       get_user_input: { query: {} },
@@ -151,6 +155,10 @@ const ConnectionList = forwardRef<
     },
     skip: tab !== activeTab,
   });
+
+  if (loading) {
+    return <Loader message="Loading connections..." />;
+  }
 
   if (!data?.get_user_connections?.length)
     return <EmptyConnections ref={ref} />;
