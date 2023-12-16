@@ -55,8 +55,12 @@ export const EncryptedNewValue: FC<{
       <Tooltip
         content={handleNewValue(decrypted, false)}
         placement={isMobile ? "top" : "left"}
+        theme={{
+          content: "w-64 break-words",
+          target: "break-all",
+        }}
       >
-        <span>{handleNewValue(decrypted, true)}</span>
+        {handleNewValue(decrypted, true)}
       </Tooltip>
     );
 

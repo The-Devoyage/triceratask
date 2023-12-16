@@ -1,5 +1,5 @@
 import { Alert, Button, Dropdown } from "flowbite-react";
-import { HiBell, HiClipboardCheck } from "react-icons/hi";
+import { HiBell, HiCheck, HiClipboardCheck } from "react-icons/hi";
 import {
   NavbarGetNotificationsDocument,
   NavbarGetNotificationsQuery,
@@ -123,7 +123,7 @@ export const NotificationsDropdown = () => {
           >
             <div className="flex row items-start w-72">
               <div className="flex rounded overflow-hidden h-12 w-12">
-                <UserAvatar user={notification.created_by} size="sm" tooltip />
+                <UserAvatar user={notification.created_by} tooltip />
               </div>
               <div className="flex justify-between ml-2 w-full">
                 <div>
@@ -135,8 +135,18 @@ export const NotificationsDropdown = () => {
                     {notification.todo?.title}"
                   </div>
                 </div>
-                <div className="text-xs text-gray-500 text-right">
+                <div className="flex flex-col justify-end text-xs text-gray-500 text-right">
                   {dayjs(notification.created_at).fromNow()}
+                  <Button
+                    size="xs"
+                    outline
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      markRead(notification.uuid);
+                    }}
+                  >
+                    <HiCheck className="h-3" />
+                  </Button>
                 </div>
               </div>
             </div>

@@ -57,14 +57,12 @@ export const TodoTimeline: FC<{
                             <span className="font-bold capitalize col-span-3">
                               {history.property.replace("_", " ")}
                             </span>
-                            <span className="ml-2 align-right col-span-9">
-                              <EncryptedNewValue
-                                history={history}
-                                attemptDecrypt={
-                                  history.property === "description"
-                                }
-                              />
-                            </span>
+                            <EncryptedNewValue
+                              history={history}
+                              attemptDecrypt={
+                                history.property === "description"
+                              }
+                            />
                           </div>
                         </ListGroup.Item>
                       )
