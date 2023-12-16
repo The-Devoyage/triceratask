@@ -40,7 +40,6 @@ export const TodoTimeline: FC<{
                   <UserAvatar
                     user={histories[0]?.created_by}
                     size="sm"
-                    showStatus
                     button
                     tooltip={{
                       placement: "left",

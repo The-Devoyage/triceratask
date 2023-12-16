@@ -44,7 +44,9 @@ export const ViewTodoProvider: FC<{
         query: {},
       },
       get_todo_accesss_input: {
-        query: {},
+        query: {
+          revoked: false,
+        },
       },
     },
     fetchPolicy: "cache-and-network",

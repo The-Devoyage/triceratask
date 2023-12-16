@@ -98,9 +98,7 @@ const ViewContent = () => {
                   user={a?.user}
                   showStatus
                   button
-                  tooltip={{
-                    placement: "right",
-                  }}
+                  tooltip
                 />
               ))}
             </Avatar.Group>

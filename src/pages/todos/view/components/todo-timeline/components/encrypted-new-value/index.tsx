@@ -43,7 +43,7 @@ export const EncryptedNewValue: FC<{
     if (newValue === "1") return "Yes";
 
     if (truncate) {
-      if (newValue?.length ?? 0 > 100) {
+      if ((newValue?.length ?? 0) > 100) {
         return `${newValue?.slice(0, 100)}...`;
       }
     }

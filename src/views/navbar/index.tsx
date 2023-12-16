@@ -12,6 +12,7 @@ import {
   userUuidVar,
 } from "src/state";
 import { useGetUserQuery } from "./graphql.generated";
+import { NotificationsDropdown } from "./components";
 
 export const AppNavbar = () => {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ export const AppNavbar = () => {
             className="w-10 h-10 mr-2 filter brightness-125"
             src="https://res.cloudinary.com/the-devoyage/image/upload/v1693794214/TriceraTasks_1_xyr72r.png"
           />
-          <span className="text-xl font-semibold dark:text-white m-0 text-sky-700">
+          <span className="hidden md:block text-xl font-semibold dark:text-white m-0 text-sky-700">
             TriceraTask
           </span>
         </div>
@@ -85,13 +86,14 @@ export const AppNavbar = () => {
           <Tooltip content="Create Task" placement="bottom">
             <Button
               onClick={() => navigate(appRoutes.createTodo.path)}
-              className="mr-1 flex items-center justify-center"
+              className="mr-1 h-full"
               outline
               gradientDuoTone="purpleToBlue"
             >
               <HiPlus className="h-4" />
             </Button>
           </Tooltip>
+          <NotificationsDropdown />
           <Dropdown
             inline
             arrowIcon={false}

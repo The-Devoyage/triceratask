@@ -18,7 +18,6 @@ export const CreatedTimelineItem: FC<{
             <UserAvatar
               user={todo?.created_by}
               size="sm"
-              showStatus
               button
               tooltip={{
                 placement: "left",

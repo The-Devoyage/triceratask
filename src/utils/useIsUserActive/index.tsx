@@ -24,6 +24,7 @@ export const useIsUserActive = (user_uuid?: User["uuid"], skip?: boolean) => {
   const { last_active } = data?.get_user ?? { last_active: null };
 
   useEffect(() => {
+    if (document.visibilityState !== "visible") return;
     if (user_uuid === currentUserUuid) {
       setIsActive(userIsActive);
     } else {

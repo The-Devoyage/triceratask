@@ -86,7 +86,7 @@ export const AppSidebar = () => {
             off: "w-64",
           },
           inner:
-            "h-full overflow-y-auto overflow-x-hidden bg-neutral-50 py-4 px-3 dark:bg-gray-800",
+            "h-full overflow-y-auto overflow-x-hidden bg-neutral-50 py-4 px-3 dark:bg-gray-800 z-40",
         },
       }}
     >

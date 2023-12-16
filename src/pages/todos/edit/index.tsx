@@ -89,7 +89,7 @@ export const Edit = () => {
         setIsDecrypted(false);
         return;
       }
-    } else {
+    } else if (!password && !data?.get_todo?.is_encrypted) {
       setValue("description", data?.get_todo?.description);
     }
   }, [password, data, setValue]);
@@ -109,7 +109,6 @@ export const Edit = () => {
 
     if (data?.get_todo?.is_encrypted && !isDecrypted && password) {
       toaster.addToast("error", "Please use the correct password.");
-
       return;
     }
 
@@ -187,9 +186,11 @@ export const Edit = () => {
                   : watch("description") ?? ""
               }
               disabled={!isDecrypted}
+              isDecrypted={isDecrypted}
               inputProps={{
                 ...register("password"),
-                disabled: isDecrypted,
+                readOnly: isDecrypted,
+                value: password,
               }}
             />
           </div>

@@ -6,7 +6,8 @@ imports = [
   "./todo_history.toml",
   "./todo_access.toml",
   "./user_connections.toml",
-  "./user.toml"
+  "./user.toml",
+  "./notification.toml"
 ]
 
 [service.cors]
