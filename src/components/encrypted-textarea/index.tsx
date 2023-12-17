@@ -1,72 +1,115 @@
+import { useReactiveVar } from "@apollo/client";
+import { Editable, useEditor } from "@wysimark/react";
 import clsx from "clsx";
 import {
+  Button,
+  Label,
   TextInput,
   TextInputProps,
-  Textarea,
-  TextareaProps,
+  Tooltip,
 } from "flowbite-react";
-import { FC } from "react";
+import { FC, ReactNode, useState } from "react";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
+import { darkModeVar } from "src/state";
 
-interface EncryptedTextareaProps extends TextareaProps {
-  showPassword: boolean;
+interface EncryptedTextareaProps {
+  label?: ReactNode;
+  onChange: (value: string) => void;
   isDecrypted?: boolean;
-  inputProps?: TextInputProps;
-  textareaProps?: TextareaProps;
+  passwordInputProps?: TextInputProps;
+  value: string;
+  placeholder?: string;
+  disabled?: boolean;
+  requirePassword?: boolean;
+  disablePassword?: boolean;
+  isEncrypting?: boolean;
+  setIsEncrypting?: (value: boolean) => void;
 }
 
 export const EncryptedTextarea: FC<EncryptedTextareaProps> = ({
-  showPassword,
-  inputProps,
+  label,
+  onChange,
   isDecrypted,
-  ...props
+  passwordInputProps,
+  value,
+  placeholder,
+  disabled,
+  requirePassword,
+  setIsEncrypting,
+  disablePassword,
 }) => {
-  console.log(inputProps);
-  const password = inputProps?.value?.toString();
+  const [showPassword, setShowPassword] = useState(requirePassword || false);
+  const password = passwordInputProps?.value?.toString();
+  const darkMode = useReactiveVar(darkModeVar);
+  const editor = useEditor({
+    minHeight: 250,
+  });
+
   return (
     <>
-      <Textarea
-        className={clsx({
-          "rounded-b-none": showPassword,
-          [`${props.className}`]: !!props.className,
-        })}
-        {...props}
-      />
-      {showPassword && (
-        <TextInput
-          {...inputProps}
-          type="password"
-          placeholder="Password"
-          color={
-            isDecrypted ? "success" : password?.length ? "failure" : undefined
-          }
-          rightIcon={() =>
-            isDecrypted ? (
-              <>
-                <span className="mr-2 text-xs font-bold">Decrypted</span>
-                <HiLockOpen
-                  className={clsx("h-4", {
-                    "text-red-300": !isDecrypted && (password?.length ?? 0) > 0,
-                    "text-green-300": isDecrypted,
-                  })}
-                />
-              </>
-            ) : (
-              <HiLockClosed className="h-4" />
-            )
-          }
-          sizing="sm"
-          theme={{
-            field: {
-              input: {
-                withAddon: {
-                  off: "rounded-b",
+      <div className="flex justify-between items-end mb-1">
+        <Label>{label}</Label>
+        <div className="flex mb-1">
+          {showPassword && (
+            <TextInput
+              {...passwordInputProps}
+              type="password"
+              placeholder="Password"
+              color={
+                isDecrypted
+                  ? "success"
+                  : password?.length
+                  ? "failure"
+                  : undefined
+              }
+              sizing="sm"
+              theme={{
+                field: {
+                  input: {
+                    withAddon: {
+                      off: "rounded-l rounded-r-none",
+                    },
+                  },
                 },
-              },
-            },
-          }}
-        />
-      )}
+              }}
+            />
+          )}
+          <Tooltip
+            className="max-w-sm"
+            content={
+              showPassword || requirePassword
+                ? "This will be encrypted. A password is required to view or edit this description."
+                : "This will not be encrypted."
+            }
+            placement="bottom"
+          >
+            <Button
+              color={darkMode ? "dark" : "light"}
+              size="sm"
+              className={clsx("h-full", {
+                "rounded-l-none": showPassword || requirePassword,
+                "rounded-l-lg": !showPassword && !requirePassword,
+                "bg-red-200 dark:bg-red-800": showPassword || requirePassword,
+                "bg-green-200 dark:bg-green-800": !showPassword || isDecrypted,
+              })}
+              onClick={() => {
+                if (setIsEncrypting) setIsEncrypting(!showPassword);
+                setShowPassword(!showPassword);
+              }}
+              disabled={requirePassword || disablePassword}
+            >
+              {!isDecrypted ? <HiLockClosed /> : <HiLockOpen />}
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
+      <Editable
+        editor={editor}
+        value={value?.toString() ?? ""}
+        onChange={!disabled ? onChange : () => null}
+        placeholder={placeholder}
+        className={clsx("prose dark:prose-invert")}
+      />
     </>
   );
 };

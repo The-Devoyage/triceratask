@@ -5,8 +5,8 @@ import {
   TextInput,
   Card,
   Checkbox,
-  Tooltip,
   Badge,
+  Tooltip,
 } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useCreateTodoMutation } from "./add.generated";
@@ -14,18 +14,13 @@ import { useNavigate } from "react-router-dom";
 import { Create_Todo_Input } from "src/types/generated";
 import { appRoutes } from "src/routes";
 import { useToaster } from "src/utils/useToaster";
-import { FaSquareCheck } from "react-icons/fa6";
+import { FaCircleInfo, FaSquareCheck } from "react-icons/fa6";
 import { EncryptedTextarea } from "src/components/encrypted-textarea";
-import { HiLockClosed, HiLockOpen } from "react-icons/hi";
 import Crypto from "crypto-js";
-import { useReactiveVar } from "@apollo/client";
-import { darkModeVar } from "src/state";
-import clsx from "clsx";
 
 export const Add = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const darkMode = useReactiveVar(darkModeVar);
-  const { register, handleSubmit, setValue } = useForm<
+  const [isEncrypting, setIsEncrypting] = useState(false);
+  const { register, handleSubmit, setValue, watch } = useForm<
     Create_Todo_Input["values"] & { password: string }
   >({
     defaultValues: {
@@ -40,7 +35,7 @@ export const Add = () => {
     values: Create_Todo_Input["values"] & { password: string }
   ) => {
     const { password, ...rest } = values;
-    if (showPassword) {
+    if (isEncrypting) {
       if (!password) {
         toaster.addToast(
           "error",
@@ -59,13 +54,16 @@ export const Add = () => {
         create_todo_input: {
           values: {
             ...rest,
+            description: rest.description ?? "",
             completed: values.completed ?? false,
-            is_encrypted: showPassword,
+            is_encrypted: isEncrypting,
           },
         },
       },
-      onCompleted: () => {
-        navigate(appRoutes.listTodos.path);
+      onCompleted: (res) => {
+        navigate(
+          appRoutes.editTodo.path.replace(":uuid", res.create_todo.uuid)
+        );
         toaster.addToast("success", "Todo created successfully!");
       },
     });
@@ -88,29 +86,34 @@ export const Add = () => {
             {...register("title")}
             className="mb-4"
           />
-          <div className="flex justify-between items-end mb-1">
-            <Label>Description</Label>
-            <Tooltip
-              content="Encrypt your task description with a password."
-              placement="left"
-            >
-              <Button
-                color={darkMode ? "dark" : "light"}
-                size="sm"
-                className={clsx({
-                  "bg-red-200 dark:bg-red-800": showPassword,
-                })}
-                onClick={() => setShowPassword((prev) => !prev)}
-              >
-                {showPassword ? <HiLockClosed /> : <HiLockOpen />}
-              </Button>
-            </Tooltip>
-          </div>
           <EncryptedTextarea
-            showPassword={showPassword}
-            placeholder="Description"
-            onChange={(e) => setValue("description", e.target.value)}
-            inputProps={{
+            setIsEncrypting={setIsEncrypting}
+            value={watch("description")}
+            label={
+              isEncrypting ? (
+                <Badge color="failure" className="mb-1">
+                  Encrypting
+                </Badge>
+              ) : (
+                <Tooltip
+                  placement="right"
+                  content={
+                    <p className="w-60">
+                      Describe the task you want to accomplish. You may encrypt
+                      the description by clicking the lock icon. If you encrypt
+                      the description, you will need to provide the password
+                      when you want to view or edit the description. If you
+                      forget the password, it will be unrecoverable.
+                    </p>
+                  }
+                >
+                  <FaCircleInfo className="text-gray-500 mb-2 ml-1" />
+                </Tooltip>
+              )
+            }
+            placeholder="Today, I will do what others won’t, so tomorrow I can accomplish what others can’t."
+            onChange={(v) => setValue("description", v)}
+            passwordInputProps={{
               ...register("password"),
             }}
           />
@@ -121,11 +124,6 @@ export const Add = () => {
               <FaSquareCheck className="h-5 md:mr-2" />
               <span className="hidden md:block">Add Task</span>
             </Button>
-            {showPassword && (
-              <Badge color="failure" className="ml-2">
-                Encrypting
-              </Badge>
-            )}
           </div>
           <div className="flex flex-col">
             <Label>Goal Date</Label>

@@ -6,6 +6,8 @@ import { HiLockClosed, HiLockOpen } from "react-icons/hi";
 import clsx from "clsx";
 import { FaCircleInfo, FaLock } from "react-icons/fa6";
 import { ViewTodoContext } from "../../context";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const EncryptedCard: FC<{
   todo: Pick<Todo, "description" | "is_encrypted">;
@@ -96,5 +98,14 @@ export const EncryptedCard: FC<{
     );
   }
 
-  return <p>{decrypedDescription ?? todo?.description}</p>;
+  return (
+    <Card className="border-2 border-gray-700">
+      <ReactMarkdown
+        className="prose dark:prose-invert"
+        remarkPlugins={[remarkGfm]}
+      >
+        {decrypedDescription ?? todo?.description}
+      </ReactMarkdown>
+    </Card>
+  );
 };

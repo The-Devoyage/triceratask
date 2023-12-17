@@ -5,6 +5,8 @@ import Crypto from "crypto-js";
 import { Todo } from "src/types/generated";
 import { Tooltip } from "flowbite-react";
 import { useWindowSize } from "src/utils/useWindowSize";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const EncryptedNewValue: FC<{
   history: ViewGetTodoQuery["get_todo"]["history"][0];
@@ -53,16 +55,28 @@ export const EncryptedNewValue: FC<{
   if (decrypted)
     return (
       <Tooltip
-        content={handleNewValue(decrypted, false)}
+        content={
+          <ReactMarkdown
+            className="prose dark:prose-invert"
+            remarkPlugins={[remarkGfm]}
+          >
+            {handleNewValue(decrypted, false)}
+          </ReactMarkdown>
+        }
         placement={isMobile ? "top" : "left"}
         theme={{
-          content: "w-64 break-words",
+          content: "w-64 break-words max-h-72 overflow-y-auto",
           target: "break-all",
         }}
       >
-        {handleNewValue(decrypted, true)}
+        <ReactMarkdown
+          className="prose dark:prose-invert"
+          remarkPlugins={[remarkGfm]}
+        >
+          {handleNewValue(decrypted, true)}
+        </ReactMarkdown>
       </Tooltip>
     );
 
-  return <span>Encrypted.</span>;
+  return <span className="ml-1">Encrypted.</span>;
 };
