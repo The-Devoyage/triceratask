@@ -150,7 +150,7 @@ const ViewContent = () => {
         <Card className="p-2">
           <TodoTimeline todo={todo} />
           <Alert color="info" icon={LuPartyPopper}>
-            Hooray, you are off to a great start!
+            Hooray! You are off to a great start!
           </Alert>
         </Card>
       </div>

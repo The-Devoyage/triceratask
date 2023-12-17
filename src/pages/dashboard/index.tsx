@@ -35,14 +35,14 @@ export const Dashboard = () => {
       >
         <Card>
           <div className="flex flex-row justify-between">
-            <h4 className="text-xl font-bold">My Todos</h4>
+            <h4 className="text-xl font-bold">This Week</h4>
             <Badge>This Week</Badge>
           </div>
           <TodosCompletedChart todos={todos} />
         </Card>
         <div className="grid grid-cols-2 gap-4">
           <TodoStats
-            label="Total Todos"
+            label="Total Tasks"
             total={todos.length ?? 0}
             onClick={() =>
               navigate(appRoutes.listTodos.path, { state: { completed: null } })

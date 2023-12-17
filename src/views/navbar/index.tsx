@@ -68,7 +68,11 @@ export const AppNavbar = () => {
           </Button>
         )}
         <div
-          onClick={() => navigate(appRoutes.home.path)}
+          onClick={() =>
+            isLoggedIn
+              ? navigate(appRoutes.listTodos.path)
+              : navigate(appRoutes.home.path)
+          }
           className="flex items-center cursor-pointer"
           role="button"
         >
