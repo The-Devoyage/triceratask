@@ -7,6 +7,7 @@ import { darkModeVar, sidebarHiddenVar } from "./state";
 import { useUpdateActive } from "./utils/useUpdateActive";
 import { theme } from "./theme.ts";
 import { useWindowSize } from "./utils/useWindowSize/index.ts";
+import { useGetUsersActive } from "./utils/useGetUsersActive/index.tsx";
 
 export interface Todo {
   _id: string;
@@ -24,6 +25,7 @@ export const App = () => {
   const { isMobile } = useWindowSize();
   const sidebarHidden = useReactiveVar(sidebarHiddenVar);
   useUpdateActive();
+  useGetUsersActive();
 
   const handleHideSidebar = () => {
     if (!sidebarHidden && isMobile) sidebarHiddenVar(true);

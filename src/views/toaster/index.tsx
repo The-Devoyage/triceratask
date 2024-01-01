@@ -45,7 +45,7 @@ export const Toaster = () => {
         if (!isHovering) {
           removeToast(toasts[0].id);
         }
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [toasts, removeToast, isHovering]);

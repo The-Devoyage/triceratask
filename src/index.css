@@ -19,7 +19,7 @@ body {
     rgba(142, 224, 104, 0.7)
   );
   background-size: 150% 125%;
-  animation: gradientAnimation 10s linear infinite alternate;
+  /* animation: gradientAnimation 10s linear infinite alternate; */
 }
 
 .gradient-background-dark {
@@ -35,7 +35,7 @@ body {
     rgba(142, 224, 104, 0.7)
   );
   background-size: 150% 125%;
-  animation: gradientAnimation 10s linear infinite alternate;
+  /* animation: gradientAnimation 10s linear infinite alternate; */
 }
 
 @keyframes gradientAnimation {

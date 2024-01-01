@@ -11,3 +11,5 @@ export interface ToastItem {
   message?: string;
 }
 export const toastsVar = makeVar<ToastItem[]>([]);
+
+export const usersWatchedVar = makeVar<{ [key: string]: string | null }>({});
