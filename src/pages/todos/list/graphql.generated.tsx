@@ -11,14 +11,7 @@ export type TodosListGetTodosQueryVariables = Types.Exact<{
 }>;
 
 
-export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } }> } };
-
-export type TodosListGetTodosByAccessQueryVariables = Types.Exact<{
-  get_todo_accesss_input: Types.Get_Todo_Accesss_Input;
-}>;
-
-
-export type TodosListGetTodosByAccessQuery = { __typename?: 'Query', get_todo_accesss: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } } } }> } };
+export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, created_at: string, updated_at: string, completed_at?: string | null, goal_date?: string | null, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } }>, meta?: { __typename?: 'meta', request_id: string, count: number, total_count: number, page: number, total_pages: number, service_name: string, executed_at: string, service_version?: string | null, user_uuid?: string | null } | null } };
 
 
 export const TodosListGetTodosDocument = gql`
@@ -53,6 +46,17 @@ export const TodosListGetTodosDocument = gql`
         }
       }
     }
+    meta {
+      request_id
+      count
+      total_count
+      page
+      total_pages
+      service_name
+      executed_at
+      service_version
+      user_uuid
+    }
   }
 }
     `;
@@ -86,71 +90,3 @@ export function useTodosListGetTodosLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type TodosListGetTodosQueryHookResult = ReturnType<typeof useTodosListGetTodosQuery>;
 export type TodosListGetTodosLazyQueryHookResult = ReturnType<typeof useTodosListGetTodosLazyQuery>;
 export type TodosListGetTodosQueryResult = Apollo.QueryResult<TodosListGetTodosQuery, TodosListGetTodosQueryVariables>;
-export const TodosListGetTodosByAccessDocument = gql`
-    query TodosListGetTodosByAccess($get_todo_accesss_input: get_todo_accesss_input!) {
-  get_todo_accesss(get_todo_accesss_input: $get_todo_accesss_input) {
-    data {
-      uuid
-      todo(todo: {query: {}}) {
-        data {
-          uuid
-          title
-          description
-          completed
-          created_at
-          updated_at
-          completed_at
-          goal_date
-          created_by(created_by: {query: {}}) {
-            data {
-              uuid
-              identifier
-              profile_img
-            }
-          }
-          access(access: {query: {}}) {
-            data {
-              uuid
-              user(user: {query: {}}) {
-                data {
-                  uuid
-                  identifier
-                  profile_img
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useTodosListGetTodosByAccessQuery__
- *
- * To run a query within a React component, call `useTodosListGetTodosByAccessQuery` and pass it any options that fit your needs.
- * When your component renders, `useTodosListGetTodosByAccessQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTodosListGetTodosByAccessQuery({
- *   variables: {
- *      get_todo_accesss_input: // value for 'get_todo_accesss_input'
- *   },
- * });
- */
-export function useTodosListGetTodosByAccessQuery(baseOptions: ApolloReactHooks.QueryHookOptions<TodosListGetTodosByAccessQuery, TodosListGetTodosByAccessQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<TodosListGetTodosByAccessQuery, TodosListGetTodosByAccessQueryVariables>(TodosListGetTodosByAccessDocument, options);
-      }
-export function useTodosListGetTodosByAccessLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<TodosListGetTodosByAccessQuery, TodosListGetTodosByAccessQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<TodosListGetTodosByAccessQuery, TodosListGetTodosByAccessQueryVariables>(TodosListGetTodosByAccessDocument, options);
-        }
-export type TodosListGetTodosByAccessQueryHookResult = ReturnType<typeof useTodosListGetTodosByAccessQuery>;
-export type TodosListGetTodosByAccessLazyQueryHookResult = ReturnType<typeof useTodosListGetTodosByAccessLazyQuery>;
-export type TodosListGetTodosByAccessQueryResult = Apollo.QueryResult<TodosListGetTodosByAccessQuery, TodosListGetTodosByAccessQueryVariables>;

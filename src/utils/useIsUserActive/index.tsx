@@ -21,13 +21,11 @@ export const useIsUserActive = (user_uuid?: User["uuid"], skip?: boolean) => {
   }, [user_uuid, currentUserUuid, skip]);
 
   useEffect(() => {
-    console.log("CHECKING");
     if (document.visibilityState !== "visible") return;
     if (user_uuid === currentUserUuid) {
       setIsActive(userIsActive);
     } else {
       const checkActive = () => {
-        console.log("checkActive", lastActive);
         if (lastActive) {
           setIsActive(
             dayjs(lastActive).isAfter(dayjs().subtract(15, "seconds"))

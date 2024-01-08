@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Dropdown, Table } from "flowbite-react";
+import { Dropdown, Pagination, Table } from "flowbite-react";
 import { TodosListBody } from "./components";
 import { userUuidVar } from "src/state";
 import { useLocation } from "react-router-dom";
@@ -9,12 +9,16 @@ import { useTodosListGetTodosLazyQuery } from "./graphql.generated";
 export const List = () => {
   const [
     getTodos,
-    { data, loading, variables },
+    { data, loading, variables, fetchMore },
   ] = useTodosListGetTodosLazyQuery();
   const locationState: { state: { completed?: boolean } } = useLocation();
 
   useEffect(() => {
     let getTodosInput: Get_Todos_Input = {
+      opts: {
+        per_page: 20,
+        page: 1,
+      },
       query: {
         completed: false,
         access: {
@@ -31,6 +35,10 @@ export const List = () => {
       locationState?.state?.completed !== null
     ) {
       getTodosInput = {
+        opts: {
+          per_page: 20,
+          page: 1,
+        },
         query: {
           ...getTodosInput.query,
           completed: locationState?.state?.completed,
@@ -69,47 +77,77 @@ export const List = () => {
               revoked: false,
             },
           },
+          opts: {
+            per_page: 20,
+            page: 1,
+          },
         },
       },
     });
   };
 
   return (
-    <Table hoverable>
-      <Table.Head>
-        <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
-        <Table.HeadCell>Team</Table.HeadCell>
-        <Table.HeadCell className="hidden md:table-cell">
-          Created At
-        </Table.HeadCell>
-        <Table.HeadCell className="hidden md:table-cell">
-          Updated At
-        </Table.HeadCell>
-        <Table.HeadCell className="text-center">
-          <Dropdown
-            label={
-              variables?.get_todos_input?.query.completed !== undefined
-                ? variables.get_todos_input.query.completed
-                  ? "Completed"
-                  : "Not Complete"
-                : "All"
-            }
-            inline
-            theme={{
-              inlineWrapper: "flex flex-row items-center justify-center w-full",
-            }}
-          >
-            <Dropdown.Item onClick={() => handleFilter({ completed: true })}>
-              Completed
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleFilter({ completed: false })}>
-              Not Complete
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleFilter({})}>All</Dropdown.Item>
-          </Dropdown>
-        </Table.HeadCell>
-      </Table.Head>
-      <TodosListBody todos={data?.get_todos.data} loading={loading} />
-    </Table>
+    <>
+      <Table hoverable>
+        <Table.Head>
+          <Table.HeadCell className="w-2/5">Title</Table.HeadCell>
+          <Table.HeadCell>Team</Table.HeadCell>
+          <Table.HeadCell className="hidden md:table-cell">
+            Created At
+          </Table.HeadCell>
+          <Table.HeadCell className="hidden md:table-cell">
+            Updated At
+          </Table.HeadCell>
+          <Table.HeadCell className="text-center">
+            <Dropdown
+              label={
+                variables?.get_todos_input?.query.completed !== undefined
+                  ? variables.get_todos_input.query.completed
+                    ? "Completed"
+                    : "Not Complete"
+                  : "All"
+              }
+              inline
+              theme={{
+                inlineWrapper:
+                  "flex flex-row items-center justify-center w-full",
+              }}
+            >
+              <Dropdown.Item onClick={() => handleFilter({ completed: true })}>
+                Completed
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleFilter({ completed: false })}>
+                Not Complete
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleFilter({})}>
+                All
+              </Dropdown.Item>
+            </Dropdown>
+          </Table.HeadCell>
+        </Table.Head>
+        <TodosListBody todos={data?.get_todos.data} loading={loading} />
+      </Table>
+      <div className="flex justify-end">
+        <Pagination
+          currentPage={data?.get_todos.meta?.page || 1}
+          totalPages={data?.get_todos.meta?.total_pages || 1}
+          onPageChange={(page) =>
+            fetchMore({
+              variables: {
+                get_todos_input: {
+                  query: {
+                    ...variables?.get_todos_input.query,
+                  },
+                  opts: {
+                    per_page: 20,
+                    page,
+                  },
+                },
+              },
+            })
+          }
+        />
+      </div>
+    </>
   );
 };

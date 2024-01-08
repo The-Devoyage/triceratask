@@ -63,7 +63,20 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: from([errorLink, authLink, httpLink]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          get_todos: {
+            keyArgs: false,
+            merge(_existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
 });
 
 const router = createBrowserRouter([

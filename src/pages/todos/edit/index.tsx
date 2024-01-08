@@ -143,7 +143,11 @@ export const Edit = () => {
               label=""
               requirePassword={data?.get_todo?.data.is_encrypted ?? false}
               disablePassword
-              placeholder="Encrypted Description"
+              placeholder={
+                data?.get_todo?.data.is_encrypted
+                  ? "Encrypted Description"
+                  : "Description"
+              }
               onChange={(v) => setValue("description", v)}
               value={
                 !isDecrypted

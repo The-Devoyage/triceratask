@@ -36,48 +36,16 @@ export const GET_TODOS = gql`
           }
         }
       }
-    }
-  }
-`;
-
-export const LIST_TODOS_GET_TODOS_BY_ACCESS = gql`
-  query TodosListGetTodosByAccess(
-    $get_todo_accesss_input: get_todo_accesss_input!
-  ) {
-    get_todo_accesss(get_todo_accesss_input: $get_todo_accesss_input) {
-      data {
-        uuid
-        todo(todo: { query: {} }) {
-          data {
-            uuid
-            title
-            description
-            completed
-            created_at
-            updated_at
-            completed_at
-            goal_date
-            created_by(created_by: { query: {} }) {
-              data {
-                uuid
-                identifier
-                profile_img
-              }
-            }
-            access(access: { query: {} }) {
-              data {
-                uuid
-                user(user: { query: {} }) {
-                  data {
-                    uuid
-                    identifier
-                    profile_img
-                  }
-                }
-              }
-            }
-          }
-        }
+      meta {
+        request_id
+        count
+        total_count
+        page
+        total_pages
+        service_name
+        executed_at
+        service_version
+        user_uuid
       }
     }
   }
