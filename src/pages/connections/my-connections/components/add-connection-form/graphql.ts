@@ -7,7 +7,9 @@ export const CREATE_CONNECTION = gql`
     create_user_connection(
       create_user_connection_input: $create_user_connection_input
     ) {
-      uuid
+      data {
+        uuid
+      }
     }
   }
 `;
@@ -15,9 +17,11 @@ export const CREATE_CONNECTION = gql`
 export const GET_USERS = gql`
   query GetUsersAddConnectionInput($get_users_input: get_users_input!) {
     get_users(get_users_input: $get_users_input) {
-      uuid
-      identifier
-      profile_img
+      data {
+        uuid
+        identifier
+        profile_img
+      }
     }
   }
 `;

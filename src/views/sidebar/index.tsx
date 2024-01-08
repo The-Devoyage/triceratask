@@ -65,7 +65,7 @@ export const AppSidebar = () => {
       children: <p>Connections</p>,
       icon: TbUserBolt,
       onClick: () => handleNavigate(appRoutes.createConnection.path),
-      label: data?.get_user_connections?.length,
+      label: data?.get_user_connections?.data.length,
     },
   ];
 

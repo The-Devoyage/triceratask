@@ -47,7 +47,7 @@ export const NotificationsDropdown = () => {
     },
   });
   const [updateNotifications] = useNavbarUpdateNotificationsMutation();
-  const notifications = data?.get_notifications ?? [];
+  const notifications = data?.get_notifications.data ?? [];
 
   const markRead = (uuid: Notification["uuid"], callback?: () => void) => {
     updateNotifications({
@@ -70,9 +70,9 @@ export const NotificationsDropdown = () => {
   };
 
   const getNotificationDropdownAction = (
-    notification: NavbarGetNotificationsQuery["get_notifications"][0]
+    notification: NavbarGetNotificationsQuery["get_notifications"]["data"][0]
   ) => {
-    switch (notification.notification_message.identifier) {
+    switch (notification.notification_message.data.identifier) {
       case NOTIFICATION_TYPES.TODO_MODIFIED:
       case NOTIFICATION_TYPES.TODO_SHARED:
       case NOTIFICATION_TYPES.TODO_ACCESS_UPDATED:
@@ -82,13 +82,19 @@ export const NotificationsDropdown = () => {
             // If on same page, reload
             if (
               window.location.pathname ===
-              appRoutes.viewTodo.path.replace(":uuid", notification.todo!.uuid!)
+              appRoutes.viewTodo.path.replace(
+                ":uuid",
+                notification.todo!.data.uuid!
+              )
             ) {
               window.location.reload();
               return;
             }
             navigate(
-              appRoutes.viewTodo.path.replace(":uuid", notification.todo!.uuid!)
+              appRoutes.viewTodo.path.replace(
+                ":uuid",
+                notification.todo!.data.uuid!
+              )
             );
           });
         };
@@ -123,16 +129,16 @@ export const NotificationsDropdown = () => {
           >
             <div className="flex row items-start w-72">
               <div className="flex rounded overflow-hidden h-12 w-12">
-                <UserAvatar user={notification.created_by} tooltip />
+                <UserAvatar user={notification.created_by.data} tooltip />
               </div>
               <div className="flex justify-between ml-2 w-full">
                 <div>
                   <div className="text-sm text-left">
-                    {notification.notification_message.message}
+                    {notification.notification_message.data.message}
                   </div>
                   <div className="text-xs text-left text-gray-500">
                     <HiClipboardCheck className="inline-block mr-1 h-4 w-4" />"
-                    {notification.todo?.title}"
+                    {notification.todo?.data.title}"
                   </div>
                 </div>
                 <div className="flex flex-col justify-end text-xs text-gray-500 text-right">

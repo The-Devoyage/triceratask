@@ -9,16 +9,22 @@ export const TaskAccessSelectGetConnections = gql`
     get_user_connections(
       get_user_connections_input: $get_user_connections_input
     ) {
-      uuid
-      user(user: $get_user_input) {
+      data {
         uuid
-        identifier
-        profile_img
-      }
-      connected_user(connected_user: $get_connected_user_input) {
-        uuid
-        identifier
-        profile_img
+        user(user: $get_user_input) {
+          data {
+            uuid
+            identifier
+            profile_img
+          }
+        }
+        connected_user(connected_user: $get_connected_user_input) {
+          data {
+            uuid
+            identifier
+            profile_img
+          }
+        }
       }
     }
   }
@@ -29,7 +35,9 @@ export const TaskAccessCreateAccess = gql`
     $create_todo_access_input: create_todo_access_input!
   ) {
     create_todo_access(create_todo_access_input: $create_todo_access_input) {
-      uuid
+      data {
+        uuid
+      }
     }
   }
 `;

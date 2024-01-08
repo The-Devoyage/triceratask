@@ -9,13 +9,15 @@ export type TaskAccessUpdateAccesssMutationVariables = Types.Exact<{
 }>;
 
 
-export type TaskAccessUpdateAccesssMutation = { __typename?: 'Mutation', update_todo_accesss: Array<{ __typename?: 'todo_access', uuid: string }> };
+export type TaskAccessUpdateAccesssMutation = { __typename?: 'Mutation', update_todo_accesss: { __typename?: 'updatemany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string }> } };
 
 
 export const TaskAccessUpdateAccesssDocument = gql`
     mutation TaskAccessUpdateAccesss($update_todo_accesss_input: update_todo_accesss_input!) {
   update_todo_accesss(update_todo_accesss_input: $update_todo_accesss_input) {
-    uuid
+    data {
+      uuid
+    }
   }
 }
     `;

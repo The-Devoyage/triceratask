@@ -8,7 +8,7 @@ import dayjs from "src/utils/dayjs";
 import { TodosListGetTodosQuery } from "../../graphql.generated";
 
 interface Props {
-  todos?: TodosListGetTodosQuery["get_todos"];
+  todos?: TodosListGetTodosQuery["get_todos"]["data"];
   loading?: boolean;
 }
 
@@ -34,9 +34,9 @@ export const TodosListBody: FC<Props> = ({ todos, loading }) => {
             <Table.Cell>{todo?.title}</Table.Cell>
             <Table.Cell>
               <Avatar.Group>
-                {todo?.access?.map((a) => (
+                {todo?.access?.data.map((a) => (
                   <UserAvatar
-                    user={a.user}
+                    user={a.user.data}
                     showStatus
                     size="sm"
                     button

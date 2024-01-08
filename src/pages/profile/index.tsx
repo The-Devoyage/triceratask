@@ -46,9 +46,9 @@ export const Profile = () => {
 
   useEffect(() => {
     reset({
-      status: data?.get_user?.status ?? "",
+      status: data?.get_user?.data.status ?? "",
     });
-  }, [data?.get_user?.status, reset]);
+  }, [data?.get_user?.data.status, reset]);
 
   const handleActive = (checked: boolean) => {
     isActiveVar(checked);
@@ -90,11 +90,11 @@ export const Profile = () => {
             <div className="flex justify-between">
               <div className="flex flex-col md:flex-row">
                 <h1 className="text-3xl font-bold leading-none">
-                  {data?.get_user?.identifier}
+                  {data?.get_user?.data.identifier}
                 </h1>
                 <Tooltip
                   content={`Member since ${dayjs
-                    .tz(data?.get_user?.created_at)
+                    .tz(data?.get_user?.data.created_at)
                     .format("MMMM DD, YYYY")}.`}
                 >
                   <Badge
@@ -103,7 +103,7 @@ export const Profile = () => {
                     className="mx-0 md:mx-2 my-2 md:my-0"
                   >
                     {dayjs
-                      .tz(data?.get_user?.created_at)
+                      .tz(data?.get_user?.data.created_at)
                       .format("MMMM DD, YYYY")}
                   </Badge>
                 </Tooltip>
@@ -151,8 +151,8 @@ export const Profile = () => {
             ) : (
               <Textarea
                 className="my-2"
-                placeholder={`${data?.get_user?.identifier} has not shared their status.`}
-                value={data?.get_user?.status ?? ""}
+                placeholder={`${data?.get_user?.data.identifier} has not shared their status.`}
+                value={data?.get_user?.data.status ?? ""}
                 readOnly
               />
             )}

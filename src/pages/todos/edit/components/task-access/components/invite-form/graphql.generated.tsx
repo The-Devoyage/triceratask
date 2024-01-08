@@ -11,29 +11,35 @@ export type TaskAccessSelectGetConnectionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type TaskAccessSelectGetConnectionsQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }, connected_user?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null }> };
+export type TaskAccessSelectGetConnectionsQuery = { __typename?: 'Query', get_user_connections: { __typename?: 'findmany_user_connection_response', data: Array<{ __typename?: 'user_connection', uuid: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }, connected_user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } };
 
 export type TaskAccessCreateAccessMutationVariables = Types.Exact<{
   create_todo_access_input: Types.Create_Todo_Access_Input;
 }>;
 
 
-export type TaskAccessCreateAccessMutation = { __typename?: 'Mutation', create_todo_access: { __typename?: 'todo_access', uuid: string } };
+export type TaskAccessCreateAccessMutation = { __typename?: 'Mutation', create_todo_access: { __typename?: 'createone_todo_access_response', data: { __typename?: 'todo_access', uuid: string } } };
 
 
 export const TaskAccessSelectGetConnectionsDocument = gql`
     query TaskAccessSelectGetConnections($get_user_connections_input: get_user_connections_input!, $get_user_input: get_user_input!, $get_connected_user_input: get_user_input!) {
   get_user_connections(get_user_connections_input: $get_user_connections_input) {
-    uuid
-    user(user: $get_user_input) {
+    data {
       uuid
-      identifier
-      profile_img
-    }
-    connected_user(connected_user: $get_connected_user_input) {
-      uuid
-      identifier
-      profile_img
+      user(user: $get_user_input) {
+        data {
+          uuid
+          identifier
+          profile_img
+        }
+      }
+      connected_user(connected_user: $get_connected_user_input) {
+        data {
+          uuid
+          identifier
+          profile_img
+        }
+      }
     }
   }
 }
@@ -71,7 +77,9 @@ export type TaskAccessSelectGetConnectionsQueryResult = Apollo.QueryResult<TaskA
 export const TaskAccessCreateAccessDocument = gql`
     mutation TaskAccessCreateAccess($create_todo_access_input: create_todo_access_input!) {
   create_todo_access(create_todo_access_input: $create_todo_access_input) {
-    uuid
+    data {
+      uuid
+    }
   }
 }
     `;

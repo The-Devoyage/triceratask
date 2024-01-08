@@ -6,7 +6,7 @@ import { MdBookmarkAdded } from "react-icons/md";
 import { ViewGetTodoQuery } from "src/pages/todos/view/context/graphql.generated";
 
 export const CreatedTimelineItem: FC<{
-  todo: ViewGetTodoQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"]["data"];
 }> = ({ todo }) => {
   return (
     <Timeline.Item>
@@ -16,7 +16,7 @@ export const CreatedTimelineItem: FC<{
           {dayjs.tz(todo?.created_at).from(dayjs())}
           <div className="flex overflow-hidden justify-end p-1">
             <UserAvatar
-              user={todo?.created_by}
+              user={todo?.created_by.data}
               size="sm"
               button
               tooltip={{

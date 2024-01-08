@@ -53,8 +53,8 @@ export const InviteForm: FC<{ todo_uuid?: Todo["uuid"] }> = ({ todo_uuid }) => {
     },
   });
 
-  const users = data?.get_user_connections.map((connection) => {
-    if (connection?.user?.uuid === userUuidVar()) {
+  const users = data?.get_user_connections.data.map((connection) => {
+    if (connection?.user?.data.uuid === userUuidVar()) {
       return connection?.connected_user;
     }
     return connection?.user;
@@ -121,18 +121,19 @@ export const InviteForm: FC<{ todo_uuid?: Todo["uuid"] }> = ({ todo_uuid }) => {
                 value: user,
                 label: (
                   <>
-                    <UserAvatar user={user} />
-                    <h1 className="ml-2">{user?.identifier}</h1>
+                    <UserAvatar user={user.data} />
+                    <h1 className="ml-2">{user?.data.identifier}</h1>
                   </>
                 ),
               }))}
               onSelected={(user) =>
                 reset({
-                  user_uuid: user?.uuid,
+                  user_uuid: user?.data.uuid,
                 })
               }
               value={
-                users?.find((u) => u?.uuid === watch("user_uuid"))?.identifier
+                users?.find((u) => u?.data.uuid === watch("user_uuid"))?.data
+                  .identifier
               }
               placeholder="Invite"
               containerClassName="col-span-10"

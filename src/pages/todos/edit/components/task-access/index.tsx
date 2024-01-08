@@ -1,16 +1,13 @@
 import { Card, Tooltip } from "flowbite-react";
 import { FC } from "react";
 import { AccessTableRow } from "./components/access-table-row";
-import { Todo, Todo_Access } from "src/types/generated";
+import { Todo } from "src/types/generated";
 import { InviteForm } from "./components";
 import { FaCircleInfo } from "react-icons/fa6";
+import { EditGetTodoQuery } from "../../graphql.generated";
 
 export const TaskAccess: FC<{
-  access?: Array<
-    Pick<Todo_Access, "uuid" | "revoked" | "edit" | "manage"> & {
-      user: Pick<Todo_Access["user"], "uuid" | "identifier" | "profile_img">;
-    }
-  >;
+  access?: EditGetTodoQuery["get_todo"]["data"]["access"]["data"];
   todo_uuid?: Todo["uuid"];
 }> = ({ access, todo_uuid }) => (
   <Card>
@@ -22,7 +19,11 @@ export const TaskAccess: FC<{
     </div>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-items-center">
       {access?.map((access) => (
-        <AccessTableRow access={access} key={access.uuid} user={access.user} />
+        <AccessTableRow
+          access={access}
+          key={access.uuid}
+          user={access.user.data}
+        />
       ))}
     </div>
     <div className="flex justify-end items-center mt-3">

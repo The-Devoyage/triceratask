@@ -30,8 +30,8 @@ export const AppNavbar = () => {
       },
     },
     onCompleted: (data) => {
-      if (data?.get_user?.share_active) {
-        isActiveVar(data.get_user.share_active);
+      if (data?.get_user?.data.share_active) {
+        isActiveVar(data.get_user.data.share_active);
       }
     },
   });
@@ -103,7 +103,7 @@ export const AppNavbar = () => {
             arrowIcon={false}
             label={
               <Avatar
-                img={data?.get_user.profile_img ?? ""}
+                img={data?.get_user.data.profile_img ?? ""}
                 className="ml-1 cursor-pointer hover:scale-110"
                 status={isActive ? "online" : "offline"}
                 onClick={() =>

@@ -12,10 +12,10 @@ import {
 import { ViewGetTodoQuery } from "../../context/graphql.generated";
 
 export const TodoTimeline: FC<{
-  todo: ViewGetTodoQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"]["data"];
 }> = ({ todo }) => {
   const [historyCount, setHistoryCount] = useState(5);
-  const histories = todo?.history?.reduce((acc, history) => {
+  const histories = todo?.history?.data.reduce((acc, history) => {
     return {
       ...acc,
       [dayjs.tz(history?.created_at).toISOString()]: [
@@ -23,7 +23,7 @@ export const TodoTimeline: FC<{
         history,
       ],
     };
-  }, {} as Record<string, ViewGetTodoQuery["get_todo"]["history"][0][]>);
+  }, {} as Record<string, ViewGetTodoQuery["get_todo"]["data"]["history"]["data"][0][]>);
 
   return (
     <Timeline>
@@ -38,7 +38,7 @@ export const TodoTimeline: FC<{
                 {dayjs().to(date)}
                 <div className="flex overflow-hidden justify-end p-1">
                   <UserAvatar
-                    user={histories[0]?.created_by}
+                    user={histories[0]?.created_by.data}
                     size="sm"
                     button
                     tooltip={{

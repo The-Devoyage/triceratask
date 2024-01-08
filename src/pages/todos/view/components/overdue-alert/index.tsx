@@ -4,7 +4,7 @@ import dayjs from "src/utils/dayjs";
 import { ViewGetTodoQuery } from "../../context/graphql.generated";
 
 export const OverdueAlert: FC<{
-  todo: ViewGetTodoQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"]["data"];
   visible: boolean;
 }> = ({ todo, visible }) =>
   visible && (

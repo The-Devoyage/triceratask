@@ -19,7 +19,7 @@ export const useGetUsersActive = () => {
 
   useEffect(() => {
     if (data) {
-      data.get_users.forEach((user) => {
+      data.get_users.data.forEach((user) => {
         if (user.last_active) {
           usersWatchedVar({
             ...watchedUsers,

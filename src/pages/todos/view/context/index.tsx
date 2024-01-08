@@ -6,8 +6,8 @@ import { userUuidVar } from "src/state";
 interface ViewTodoContext {
   isDecrypted: boolean;
   setIsDecrypted: (value: boolean) => void;
-  todo?: ViewGetTodoQuery["get_todo"] | null;
-  userAccess?: ViewGetTodoQuery["get_todo"]["access"][0] | null;
+  todo?: ViewGetTodoQuery["get_todo"]["data"] | null;
+  userAccess?: ViewGetTodoQuery["get_todo"]["data"]["access"]["data"][0] | null;
   loading: boolean;
   password: string;
   setPassword: (value: string) => void;
@@ -51,8 +51,10 @@ export const ViewTodoProvider: FC<{
     },
     fetchPolicy: "cache-and-network",
   });
-  const todo = data?.get_todo;
-  const userAccess = todo?.access.find((a) => a?.user?.uuid === userUuidVar());
+  const todo = data?.get_todo.data;
+  const userAccess = todo?.access.data.find(
+    (a) => a?.user?.data.uuid === userUuidVar()
+  );
 
   useEffect(() => {
     setIsDecrypted(!todo?.is_encrypted);

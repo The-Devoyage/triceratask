@@ -7,7 +7,9 @@ export const UPDATE_USER_CONNECTIONS = gql`
     update_user_connections(
       update_user_connections_input: $update_user_connections_input
     ) {
-      uuid
+      data {
+        uuid
+      }
     }
   }
 `;

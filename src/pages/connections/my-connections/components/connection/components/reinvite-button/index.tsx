@@ -8,7 +8,7 @@ import { useUpdateUserConnectionsMutation } from "../../graphql.generated";
 import { useToaster } from "src/utils/useToaster";
 
 export const ReinviteButton: FC<{
-  connection: ListConnectionsQuery["get_user_connections"][0];
+  connection: ListConnectionsQuery["get_user_connections"]["data"][0];
   onComplete?: () => void;
 }> = ({ connection, onComplete }) => {
   const toaster = useToaster();
@@ -38,7 +38,7 @@ export const ReinviteButton: FC<{
     onComplete && onComplete();
   };
 
-  if (connection.revoked && connection.user?.uuid === userUuidVar())
+  if (connection.revoked && connection.user?.data.uuid === userUuidVar())
     return (
       <Button
         size="small"

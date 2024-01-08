@@ -92,10 +92,10 @@ const ViewContent = () => {
           <EncryptedCard todo={todo} />
           <div className="border-t border-gray-200 mt-4 pt-4 flex justify-between">
             <Avatar.Group>
-              {todo?.access.map((a) => (
+              {todo?.access.data.map((a) => (
                 <UserAvatar
                   key={a?.uuid}
-                  user={a?.user}
+                  user={a?.user.data}
                   showStatus
                   button
                   tooltip

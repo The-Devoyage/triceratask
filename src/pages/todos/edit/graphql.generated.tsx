@@ -9,7 +9,7 @@ export type UpdateTodosMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null }> };
+export type UpdateTodosMutation = { __typename?: 'Mutation', update_todos: { __typename?: 'updatemany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null }> } };
 
 export type EditGetTodoQueryVariables = Types.Exact<{
   get_todo_input: Types.Get_Todo_Input;
@@ -17,18 +17,20 @@ export type EditGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, is_encrypted?: boolean | null, access: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, revoked: boolean, user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> } };
+export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, is_encrypted?: boolean | null, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, revoked: boolean, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } } } };
 
 
 export const UpdateTodosDocument = gql`
     mutation UpdateTodos($update_todos_input: update_todos_input!) {
   update_todos(update_todos_input: $update_todos_input) {
-    uuid
-    title
-    description
-    completed
-    completed_at
-    goal_date
+    data {
+      uuid
+      title
+      description
+      completed
+      completed_at
+      goal_date
+    }
   }
 }
     `;
@@ -61,23 +63,29 @@ export type UpdateTodosMutationOptions = Apollo.BaseMutationOptions<UpdateTodosM
 export const EditGetTodoDocument = gql`
     query EditGetTodo($get_todo_input: get_todo_input!, $get_todo_accesss_input: get_todo_accesss_input!) {
   get_todo(get_todo_input: $get_todo_input) {
-    uuid
-    title
-    description
-    completed
-    completed_at
-    goal_date
-    is_encrypted
-    access(access: $get_todo_accesss_input) {
+    data {
       uuid
-      user(user: {query: {}}) {
-        uuid
-        identifier
-        profile_img
+      title
+      description
+      completed
+      completed_at
+      goal_date
+      is_encrypted
+      access(access: $get_todo_accesss_input) {
+        data {
+          uuid
+          user(user: {query: {}}) {
+            data {
+              uuid
+              identifier
+              profile_img
+            }
+          }
+          manage
+          edit
+          revoked
+        }
       }
-      manage
-      edit
-      revoked
     }
   }
 }

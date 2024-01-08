@@ -9,24 +9,26 @@ export type UpdateUserProfileMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateUserProfileMutation = { __typename?: 'Mutation', update_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null }> };
+export type UpdateUserProfileMutation = { __typename?: 'Mutation', update_users: { __typename?: 'updatemany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null }> } };
 
 export type GetUserProfileQueryVariables = Types.Exact<{
   get_user_input: Types.Get_User_Input;
 }>;
 
 
-export type GetUserProfileQuery = { __typename?: 'Query', get_user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null } };
+export type GetUserProfileQuery = { __typename?: 'Query', get_user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null } } };
 
 
 export const UpdateUserProfileDocument = gql`
     mutation UpdateUserProfile($update_users_input: update_users_input!) {
   update_users(update_users_input: $update_users_input) {
-    uuid
-    identifier
-    profile_img
-    created_at
-    share_active
+    data {
+      uuid
+      identifier
+      profile_img
+      created_at
+      share_active
+    }
   }
 }
     `;
@@ -59,12 +61,14 @@ export type UpdateUserProfileMutationOptions = Apollo.BaseMutationOptions<Update
 export const GetUserProfileDocument = gql`
     query GetUserProfile($get_user_input: get_user_input!) {
   get_user(get_user_input: $get_user_input) {
-    uuid
-    identifier
-    profile_img
-    created_at
-    share_active
-    status
+    data {
+      uuid
+      identifier
+      profile_img
+      created_at
+      share_active
+      status
+    }
   }
 }
     `;

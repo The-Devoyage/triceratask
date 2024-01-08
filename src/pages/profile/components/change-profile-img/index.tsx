@@ -22,7 +22,7 @@ export const ChangeProfileImg: FC<{
   });
   const [showModal, setShowModal] = useState(false);
   const toaster = useToaster();
-  const allowEdit = data?.get_user?.uuid === userUuidVar();
+  const allowEdit = data?.get_user?.data.uuid === userUuidVar();
 
   const handleUpdateProfileImage = () => {
     updateUser({
@@ -32,7 +32,7 @@ export const ChangeProfileImg: FC<{
             uuid: userUuidVar(),
           },
           values: {
-            profile_img: profileImage ?? data?.get_user?.profile_img ?? "",
+            profile_img: profileImage ?? data?.get_user?.data.profile_img ?? "",
           },
         },
       },
@@ -61,7 +61,7 @@ export const ChangeProfileImg: FC<{
             "mr-2 rounded-lg shadow-lg hover:shadow-xl w-full":
               !loading && !updating,
           })}
-          src={profileImage ?? data?.get_user?.profile_img ?? ""}
+          src={profileImage ?? data?.get_user?.data.profile_img ?? ""}
           role={allowEdit ? "button" : undefined}
           onClick={() => allowEdit && setShowModal(true)}
         />
@@ -105,7 +105,7 @@ export const ChangeProfileImg: FC<{
               "mr-2 rounded-lg shadow-lg hover:shadow-xl w-full":
                 !loading && !updating,
             })}
-            src={profileImage ?? data?.get_user?.profile_img ?? ""}
+            src={profileImage ?? data?.get_user?.data.profile_img ?? ""}
             role="button"
           />
         </Modal>

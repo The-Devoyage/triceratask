@@ -9,37 +9,47 @@ export type NavbarGetNotificationsQueryVariables = Types.Exact<{
 }>;
 
 
-export type NavbarGetNotificationsQuery = { __typename?: 'Query', get_notifications: Array<{ __typename?: 'notification', uuid: string, created_at: string, user: { __typename?: 'user', uuid: string, identifier: string }, notification_message: { __typename?: 'notification_message', identifier: string, message: string }, todo?: { __typename?: 'todo', title: string, uuid: string } | null, created_by: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }> };
+export type NavbarGetNotificationsQuery = { __typename?: 'Query', get_notifications: { __typename?: 'findmany_notification_response', data: Array<{ __typename?: 'notification', uuid: string, created_at: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string } }, notification_message: { __typename?: 'findone_notification_message_response', data: { __typename?: 'notification_message', identifier: string, message: string } }, todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', title: string, uuid: string } }, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } };
 
 export type NavbarUpdateNotificationsMutationVariables = Types.Exact<{
   update_notifications_input: Types.Update_Notifications_Input;
 }>;
 
 
-export type NavbarUpdateNotificationsMutation = { __typename?: 'Mutation', update_notifications: Array<{ __typename?: 'notification', uuid: string }> };
+export type NavbarUpdateNotificationsMutation = { __typename?: 'Mutation', update_notifications: { __typename?: 'updatemany_notification_response', data: Array<{ __typename?: 'notification', uuid: string }> } };
 
 
 export const NavbarGetNotificationsDocument = gql`
     query NavbarGetNotifications($get_notifications_input: get_notifications_input!) {
   get_notifications(get_notifications_input: $get_notifications_input) {
-    uuid
-    user(user: {query: {}}) {
+    data {
       uuid
-      identifier
-    }
-    created_at
-    notification_message(notification_message: {query: {}}) {
-      identifier
-      message
-    }
-    todo(todo: {query: {}}) {
-      title
-      uuid
-    }
-    created_by(created_by: {query: {}}) {
-      uuid
-      identifier
-      profile_img
+      user(user: {query: {}}) {
+        data {
+          uuid
+          identifier
+        }
+      }
+      created_at
+      notification_message(notification_message: {query: {}}) {
+        data {
+          identifier
+          message
+        }
+      }
+      todo(todo: {query: {}}) {
+        data {
+          title
+          uuid
+        }
+      }
+      created_by(created_by: {query: {}}) {
+        data {
+          uuid
+          identifier
+          profile_img
+        }
+      }
     }
   }
 }
@@ -75,7 +85,9 @@ export type NavbarGetNotificationsQueryResult = Apollo.QueryResult<NavbarGetNoti
 export const NavbarUpdateNotificationsDocument = gql`
     mutation NavbarUpdateNotifications($update_notifications_input: update_notifications_input!) {
   update_notifications(update_notifications_input: $update_notifications_input) {
-    uuid
+    data {
+      uuid
+    }
   }
 }
     `;

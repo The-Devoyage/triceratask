@@ -9,14 +9,16 @@ export type UpdateUserLastActiveMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateUserLastActiveMutation = { __typename?: 'Mutation', update_users: Array<{ __typename?: 'user', uuid: string, last_active?: string | null }> };
+export type UpdateUserLastActiveMutation = { __typename?: 'Mutation', update_users: { __typename?: 'updatemany_user_response', data: Array<{ __typename?: 'user', uuid: string, last_active?: string | null }> } };
 
 
 export const UpdateUserLastActiveDocument = gql`
     mutation UpdateUserLastActive($update_users_input: update_users_input!) {
   update_users(update_users_input: $update_users_input) {
-    uuid
-    last_active
+    data {
+      uuid
+      last_active
+    }
   }
 }
     `;

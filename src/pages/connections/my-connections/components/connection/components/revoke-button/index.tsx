@@ -10,7 +10,7 @@ import { MdGroupRemove } from "react-icons/md";
 import clsx from "clsx";
 
 export const RevokeButton: FC<{
-  connection: ListConnectionsQuery["get_user_connections"][0];
+  connection: ListConnectionsQuery["get_user_connections"]["data"][0];
   onComplete?: () => void;
 }> = ({ connection, onComplete }) => {
   const toaster = useToaster();
@@ -44,7 +44,7 @@ export const RevokeButton: FC<{
   if (
     (!connection.accepted &&
       !connection.revoked &&
-      connection.user?.uuid === userUuidVar()) ||
+      connection.user?.data.uuid === userUuidVar()) ||
     connection.accepted
   )
     return (

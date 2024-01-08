@@ -18,22 +18,22 @@ export type Mutation = {
   __typename?: 'Mutation';
   authenticate_finish: Authenticate_Success;
   authenticate_start: Scalars['String']['output'];
-  create_notification: Notification;
-  create_notification_message: Notification_Message;
-  create_todo: Todo;
-  create_todo_access: Todo_Access;
-  create_todo_history: Todo_History;
-  create_user: User;
-  create_user_connection: User_Connection;
+  create_notification: Createone_Notification_Response;
+  create_notification_message: Createone_Notification_Message_Response;
+  create_todo: Createone_Todo_Response;
+  create_todo_access: Createone_Todo_Access_Response;
+  create_todo_history: Createone_Todo_History_Response;
+  create_user: Createone_User_Response;
+  create_user_connection: Createone_User_Connection_Response;
   register_finish: Scalars['Boolean']['output'];
   register_start: Scalars['String']['output'];
-  update_notification_messages: Array<Notification_Message>;
-  update_notifications: Array<Notification>;
-  update_todo_accesss: Array<Todo_Access>;
-  update_todo_historys: Array<Todo_History>;
-  update_todos: Array<Todo>;
-  update_user_connections: Array<User_Connection>;
-  update_users: Array<User>;
+  update_notification_messages: Updatemany_Notification_Message_Response;
+  update_notifications: Updatemany_Notification_Response;
+  update_todo_accesss: Updatemany_Todo_Access_Response;
+  update_todo_historys: Updatemany_Todo_History_Response;
+  update_todos: Updatemany_Todo_Response;
+  update_user_connections: Updatemany_User_Connection_Response;
+  update_users: Updatemany_User_Response;
 };
 
 
@@ -131,20 +131,20 @@ export type MutationUpdate_UsersArgs = {
 export type Query = {
   __typename?: 'Query';
   _service: _Service;
-  get_notification: Notification;
-  get_notification_message: Notification_Message;
-  get_notification_messages: Array<Notification_Message>;
-  get_notifications: Array<Notification>;
-  get_todo: Todo;
-  get_todo_access: Todo_Access;
-  get_todo_accesss: Array<Todo_Access>;
-  get_todo_history: Todo_History;
-  get_todo_historys: Array<Todo_History>;
-  get_todos: Array<Todo>;
-  get_user: User;
-  get_user_connection: User_Connection;
-  get_user_connections: Array<User_Connection>;
-  get_users: Array<User>;
+  get_notification: Findone_Notification_Response;
+  get_notification_message: Findone_Notification_Message_Response;
+  get_notification_messages: Findmany_Notification_Message_Response;
+  get_notifications: Findmany_Notification_Response;
+  get_todo: Findone_Todo_Response;
+  get_todo_access: Findone_Todo_Access_Response;
+  get_todo_accesss: Findmany_Todo_Access_Response;
+  get_todo_history: Findone_Todo_History_Response;
+  get_todo_historys: Findmany_Todo_History_Response;
+  get_todos: Findmany_Todo_Response;
+  get_user: Findone_User_Response;
+  get_user_connection: Findone_User_Connection_Response;
+  get_user_connections: Findmany_User_Connection_Response;
+  get_users: Findmany_User_Response;
 };
 
 
@@ -302,6 +302,132 @@ export type Create_User_Values_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Createone_Notification_Message_Response = {
+  __typename?: 'createone_notification_message_response';
+  data: Notification_Message;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_Notification_Response = {
+  __typename?: 'createone_notification_response';
+  data: Notification;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_Todo_Access_Response = {
+  __typename?: 'createone_todo_access_response';
+  data: Todo_Access;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_Todo_History_Response = {
+  __typename?: 'createone_todo_history_response';
+  data: Todo_History;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_Todo_Response = {
+  __typename?: 'createone_todo_response';
+  data: Todo;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_User_Connection_Response = {
+  __typename?: 'createone_user_connection_response';
+  data: User_Connection;
+  meta?: Maybe<Meta>;
+};
+
+export type Createone_User_Response = {
+  __typename?: 'createone_user_response';
+  data: User;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_Notification_Message_Response = {
+  __typename?: 'findmany_notification_message_response';
+  data: Array<Notification_Message>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_Notification_Response = {
+  __typename?: 'findmany_notification_response';
+  data: Array<Notification>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_Todo_Access_Response = {
+  __typename?: 'findmany_todo_access_response';
+  data: Array<Todo_Access>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_Todo_History_Response = {
+  __typename?: 'findmany_todo_history_response';
+  data: Array<Todo_History>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_Todo_Response = {
+  __typename?: 'findmany_todo_response';
+  data: Array<Todo>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_User_Connection_Response = {
+  __typename?: 'findmany_user_connection_response';
+  data: Array<User_Connection>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findmany_User_Response = {
+  __typename?: 'findmany_user_response';
+  data: Array<User>;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Notification_Message_Response = {
+  __typename?: 'findone_notification_message_response';
+  data: Notification_Message;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Notification_Response = {
+  __typename?: 'findone_notification_response';
+  data: Notification;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Todo_Access_Response = {
+  __typename?: 'findone_todo_access_response';
+  data: Todo_Access;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Todo_History_Response = {
+  __typename?: 'findone_todo_history_response';
+  data: Todo_History;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Todo_Response = {
+  __typename?: 'findone_todo_response';
+  data: Todo;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_User_Connection_Response = {
+  __typename?: 'findone_user_connection_response';
+  data: User_Connection;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_User_Response = {
+  __typename?: 'findone_user_response';
+  data: User;
+  meta?: Maybe<Meta>;
+};
+
 export type Get_Notification_Input = {
   query: Get_Notification_Query_Input;
 };
@@ -318,6 +444,7 @@ export type Get_Notification_Message_Query_Input = {
 };
 
 export type Get_Notification_Messages_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Notification_Messages_Querys_Input;
 };
 
@@ -342,6 +469,7 @@ export type Get_Notification_Query_Input = {
 };
 
 export type Get_Notifications_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Notifications_Querys_Input;
 };
 
@@ -376,6 +504,7 @@ export type Get_Todo_Access_Query_Input = {
 };
 
 export type Get_Todo_Accesss_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Todo_Accesss_Querys_Input;
 };
 
@@ -407,6 +536,7 @@ export type Get_Todo_History_Query_Input = {
 };
 
 export type Get_Todo_Historys_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Todo_Historys_Querys_Input;
 };
 
@@ -438,6 +568,7 @@ export type Get_Todo_Query_Input = {
 };
 
 export type Get_Todos_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Todos_Querys_Input;
 };
 
@@ -476,6 +607,7 @@ export type Get_User_Connection_Query_Input = {
 };
 
 export type Get_User_Connections_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_User_Connections_Querys_Input;
 };
 
@@ -512,6 +644,7 @@ export type Get_User_Query_Input = {
 };
 
 export type Get_Users_Input = {
+  opts?: InputMaybe<Options_Input>;
   query: Get_Users_Querys_Input;
 };
 
@@ -526,15 +659,28 @@ export type Get_Users_Querys_Input = {
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Meta = {
+  __typename?: 'meta';
+  count: Scalars['Int']['output'];
+  executed_at: Scalars['String']['output'];
+  page: Scalars['Int']['output'];
+  request_id: Scalars['String']['output'];
+  service_name: Scalars['String']['output'];
+  service_version?: Maybe<Scalars['String']['output']>;
+  total_count: Scalars['Int']['output'];
+  total_pages: Scalars['Int']['output'];
+  user_uuid?: Maybe<Scalars['String']['output']>;
+};
+
 export type Notification = {
   __typename?: 'notification';
   created_at: Scalars['String']['output'];
-  created_by: User;
-  notification_message: Notification_Message;
+  created_by: Findone_User_Response;
+  notification_message: Findone_Notification_Message_Response;
   read: Scalars['Boolean']['output'];
-  todo?: Maybe<Todo>;
+  todo: Findone_Todo_Response;
   updated_at: Scalars['String']['output'];
-  user: User;
+  user: Findone_User_Response;
   uuid: Scalars['String']['output'];
 };
 
@@ -564,17 +710,22 @@ export type Notification_Message = {
   message: Scalars['String']['output'];
 };
 
+export type Options_Input = {
+  page?: InputMaybe<Scalars['Int']['input']>;
+  per_page?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type Todo = {
   __typename?: 'todo';
-  access: Array<Todo_Access>;
+  access: Findmany_Todo_Access_Response;
   completed: Scalars['Boolean']['output'];
   completed_at?: Maybe<Scalars['String']['output']>;
   completed_by?: Maybe<Scalars['Int']['output']>;
   created_at: Scalars['String']['output'];
-  created_by?: Maybe<User>;
+  created_by: Findone_User_Response;
   description: Scalars['String']['output'];
   goal_date?: Maybe<Scalars['String']['output']>;
-  history: Array<Maybe<Todo_History>>;
+  history: Findmany_Todo_History_Response;
   is_encrypted?: Maybe<Scalars['Boolean']['output']>;
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
@@ -600,15 +751,15 @@ export type TodoHistoryArgs = {
 export type Todo_Access = {
   __typename?: 'todo_access';
   created_at: Scalars['String']['output'];
-  created_by: User;
+  created_by: Findone_User_Response;
   edit: Scalars['Boolean']['output'];
   id: Scalars['Int']['output'];
   manage: Scalars['Boolean']['output'];
   revoked: Scalars['Boolean']['output'];
-  todo: Todo;
+  todo: Findone_Todo_Response;
   updated_at: Scalars['String']['output'];
-  updated_by: User;
-  user: User;
+  updated_by: Findone_User_Response;
+  user: Findone_User_Response;
   uuid: Scalars['String']['output'];
 };
 
@@ -635,7 +786,7 @@ export type Todo_AccessUserArgs = {
 export type Todo_History = {
   __typename?: 'todo_history';
   created_at: Scalars['String']['output'];
-  created_by: User;
+  created_by: Findone_User_Response;
   id: Scalars['Int']['output'];
   new_value?: Maybe<Scalars['String']['output']>;
   old_value?: Maybe<Scalars['String']['output']>;
@@ -815,6 +966,48 @@ export type Update_Users_Values_Input = {
   status?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Updatemany_Notification_Message_Response = {
+  __typename?: 'updatemany_notification_message_response';
+  data: Array<Notification_Message>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_Notification_Response = {
+  __typename?: 'updatemany_notification_response';
+  data: Array<Notification>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_Todo_Access_Response = {
+  __typename?: 'updatemany_todo_access_response';
+  data: Array<Todo_Access>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_Todo_History_Response = {
+  __typename?: 'updatemany_todo_history_response';
+  data: Array<Todo_History>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_Todo_Response = {
+  __typename?: 'updatemany_todo_response';
+  data: Array<Todo>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_User_Connection_Response = {
+  __typename?: 'updatemany_user_connection_response';
+  data: Array<User_Connection>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updatemany_User_Response = {
+  __typename?: 'updatemany_user_response';
+  data: Array<User>;
+  meta?: Maybe<Meta>;
+};
+
 export type User = {
   __typename?: 'user';
   authentication_state?: Maybe<Scalars['String']['output']>;
@@ -834,9 +1027,9 @@ export type User_Connection = {
   __typename?: 'user_connection';
   accepted: Scalars['Boolean']['output'];
   accepted_at?: Maybe<Scalars['String']['output']>;
-  connected_user?: Maybe<User>;
+  connected_user: Findone_User_Response;
   created_at: Scalars['String']['output'];
-  created_by: User;
+  created_by: Findone_User_Response;
   id: Scalars['Int']['output'];
   identifier: Scalars['String']['output'];
   revoked: Scalars['Boolean']['output'];
@@ -845,7 +1038,7 @@ export type User_Connection = {
   status: Scalars['Boolean']['output'];
   updated_at: Scalars['String']['output'];
   updated_by?: Maybe<Scalars['Int']['output']>;
-  user: User;
+  user: Findone_User_Response;
   user_uuid?: Maybe<Scalars['String']['output']>;
   uuid: Scalars['String']['output'];
 };

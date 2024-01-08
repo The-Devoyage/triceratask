@@ -9,7 +9,7 @@ import { useToaster } from "src/utils/useToaster";
 import { NEW_CONNECTIONS } from "src/views/sidebar/graphql";
 
 export const AcceptOrDeclineButton: FC<{
-  connection: ListConnectionsQuery["get_user_connections"][0];
+  connection: ListConnectionsQuery["get_user_connections"]["data"][0];
   onComplete?: () => void;
 }> = ({ connection, onComplete }) => {
   const toaster = useToaster();
@@ -68,7 +68,10 @@ export const AcceptOrDeclineButton: FC<{
     });
   };
 
-  if (connection.connected_user?.uuid === userUuidVar() && !connection.accepted)
+  if (
+    connection.connected_user?.data.uuid === userUuidVar() &&
+    !connection.accepted
+  )
     return (
       <Button.Group>
         <Button

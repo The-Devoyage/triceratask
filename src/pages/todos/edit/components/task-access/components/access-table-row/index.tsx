@@ -11,7 +11,10 @@ import { useIsUserActive } from "src/utils/useIsUserActive";
 
 export const AccessTableRow: FC<{
   access: Pick<Todo_Access, "manage" | "edit" | "uuid" | "revoked">;
-  user: Pick<Todo_Access["user"], "identifier" | "uuid" | "profile_img">;
+  user: Pick<
+    Todo_Access["user"]["data"],
+    "identifier" | "uuid" | "profile_img"
+  >;
 }> = ({ access, user }) => {
   const toaster = useToaster();
   const [updateAccess] = useTaskAccessUpdateAccesssMutation({

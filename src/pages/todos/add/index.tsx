@@ -62,7 +62,7 @@ export const Add = () => {
       },
       onCompleted: (res) => {
         navigate(
-          appRoutes.editTodo.path.replace(":uuid", res.create_todo.uuid)
+          appRoutes.editTodo.path.replace(":uuid", res.create_todo.data.uuid)
         );
         toaster.addToast("success", "Todo created successfully!");
       },

@@ -9,7 +9,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export const EncryptedNewValue: FC<{
-  history: ViewGetTodoQuery["get_todo"]["history"][0];
+  history: ViewGetTodoQuery["get_todo"]["data"]["history"]["data"][0];
   attemptDecrypt?: boolean;
 }> = ({ history, attemptDecrypt }) => {
   const { isDecrypted, password } = useContext(ViewTodoContext);

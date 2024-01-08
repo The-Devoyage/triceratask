@@ -45,24 +45,24 @@ export const Edit = () => {
   });
 
   useEffect(() => {
-    if (data?.get_todo?.is_encrypted) {
+    if (data?.get_todo?.data.is_encrypted) {
       setIsDecrypted(false);
     }
     reset({
-      title: data?.get_todo?.title,
-      description: data?.get_todo?.description,
-      completed: data?.get_todo?.completed,
+      title: data?.get_todo?.data.title,
+      description: data?.get_todo?.data.description,
+      completed: data?.get_todo?.data.completed,
       goal_date: dayjs
-        .utc(data?.get_todo?.goal_date)
+        .utc(data?.get_todo?.data.goal_date)
         .local()
         .format("YYYY-MM-DDTHH:mm"),
     });
   }, [data, reset]);
 
   useEffect(() => {
-    if (password && data?.get_todo?.is_encrypted) {
+    if (password && data?.get_todo?.data.is_encrypted) {
       const value = Crypto.AES.decrypt(
-        data?.get_todo?.description ?? "",
+        data?.get_todo?.data.description ?? "",
         password
       );
 
@@ -76,8 +76,8 @@ export const Edit = () => {
         setIsDecrypted(false);
         return;
       }
-    } else if (!password && !data?.get_todo?.is_encrypted) {
-      setValue("description", data?.get_todo?.description);
+    } else if (!password && !data?.get_todo?.data.is_encrypted) {
+      setValue("description", data?.get_todo?.data.description);
     }
   }, [password, data, setValue]);
 
@@ -86,7 +86,7 @@ export const Edit = () => {
   ) => {
     const { password, ...rest } = values;
 
-    if (data?.get_todo?.is_encrypted && password) {
+    if (data?.get_todo?.data.is_encrypted && password) {
       const encrypted = Crypto.AES.encrypt(
         JSON.stringify({ description: rest.description }),
         password
@@ -94,7 +94,7 @@ export const Edit = () => {
       rest.description = encrypted;
     }
 
-    if (data?.get_todo?.is_encrypted && !isDecrypted && password) {
+    if (data?.get_todo?.data.is_encrypted && !isDecrypted && password) {
       toaster.addToast("error", "Please use the correct password.");
       return;
     }
@@ -141,7 +141,7 @@ export const Edit = () => {
             />
             <EncryptedTextarea
               label=""
-              requirePassword={data?.get_todo?.is_encrypted ?? false}
+              requirePassword={data?.get_todo?.data.is_encrypted ?? false}
               disablePassword
               placeholder="Encrypted Description"
               onChange={(v) => setValue("description", v)}
@@ -178,8 +178,8 @@ export const Edit = () => {
         </form>
       </Card>
       <TaskAccess
-        access={data?.get_todo?.access}
-        todo_uuid={data?.get_todo?.uuid}
+        access={data?.get_todo?.data.access.data}
+        todo_uuid={data?.get_todo?.data.uuid}
       />
     </>
   );

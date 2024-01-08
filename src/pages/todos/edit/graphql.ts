@@ -3,12 +3,14 @@ import { gql } from "@apollo/client";
 export const UPDATE_TODOS = gql`
   mutation UpdateTodos($update_todos_input: update_todos_input!) {
     update_todos(update_todos_input: $update_todos_input) {
-      uuid
-      title
-      description
-      completed
-      completed_at
-      goal_date
+      data {
+        uuid
+        title
+        description
+        completed
+        completed_at
+        goal_date
+      }
     }
   }
 `;
@@ -19,23 +21,29 @@ export const EDIT_GET_TODO = gql`
     $get_todo_accesss_input: get_todo_accesss_input!
   ) {
     get_todo(get_todo_input: $get_todo_input) {
-      uuid
-      title
-      description
-      completed
-      completed_at
-      goal_date
-      is_encrypted
-      access(access: $get_todo_accesss_input) {
+      data {
         uuid
-        user(user: { query: {} }) {
-          uuid
-          identifier
-          profile_img
+        title
+        description
+        completed
+        completed_at
+        goal_date
+        is_encrypted
+        access(access: $get_todo_accesss_input) {
+          data {
+            uuid
+            user(user: { query: {} }) {
+              data {
+                uuid
+                identifier
+                profile_img
+              }
+            }
+            manage
+            edit
+            revoked
+          }
         }
-        manage
-        edit
-        revoked
       }
     }
   }

@@ -82,7 +82,7 @@ export const MyConnections = () => {
                 <>
                   <span>{ConnectionTabs.Invites}</span>
                   <Badge className="ml-2" size="xs" color="gray">
-                    {data?.get_user_connections?.length}
+                    {data?.get_user_connections?.data.length}
                   </Badge>
                 </>
               }
@@ -160,10 +160,10 @@ const ConnectionList = forwardRef<
     return <Loader message="Loading connections..." />;
   }
 
-  if (!data?.get_user_connections?.length)
+  if (!data?.get_user_connections?.data.length)
     return <EmptyConnections ref={ref} />;
 
-  return data.get_user_connections?.map((connection, index) => (
+  return data.get_user_connections?.data.map((connection, index) => (
     <Connection
       key={connection.uuid ?? index}
       connection={connection}

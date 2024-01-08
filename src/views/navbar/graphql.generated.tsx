@@ -9,18 +9,20 @@ export type GetUserQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', get_user: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null } };
+export type GetUserQuery = { __typename?: 'Query', get_user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null } } };
 
 
 export const GetUserDocument = gql`
     query GetUser($get_user_input: get_user_input!) {
   get_user(get_user_input: $get_user_input) {
-    uuid
-    identifier
-    profile_img
-    created_at
-    share_active
-    status
+    data {
+      uuid
+      identifier
+      profile_img
+      created_at
+      share_active
+      status
+    }
   }
 }
     `;

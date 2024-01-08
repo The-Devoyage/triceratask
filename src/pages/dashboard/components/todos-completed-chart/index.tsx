@@ -6,7 +6,7 @@ import dayjs from "src/utils/dayjs";
 import { DashboardGetTodosQuery } from "../../graphql.generated";
 
 interface TodosCompletedProps {
-  todos: DashboardGetTodosQuery["get_todos"];
+  todos: DashboardGetTodosQuery["get_todos"]["data"];
 }
 
 export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {

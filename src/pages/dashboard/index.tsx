@@ -24,7 +24,7 @@ export const Dashboard = () => {
     },
     fetchPolicy: "cache-and-network",
   });
-  const todos = data?.get_todos ?? [];
+  const todos = data?.get_todos.data ?? [];
 
   return (
     <>

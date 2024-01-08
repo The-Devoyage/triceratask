@@ -109,7 +109,7 @@ export const List = () => {
           </Dropdown>
         </Table.HeadCell>
       </Table.Head>
-      <TodosListBody todos={data?.get_todos} loading={loading} />
+      <TodosListBody todos={data?.get_todos.data} loading={loading} />
     </Table>
   );
 };

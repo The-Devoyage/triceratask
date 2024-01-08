@@ -7,7 +7,9 @@ export const NEW_CONNECTIONS = gql`
     get_user_connections(
       get_user_connections_input: $get_user_connections_input
     ) {
-      uuid
+      data {
+        uuid
+      }
     }
   }
 `;

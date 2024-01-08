@@ -7,41 +7,53 @@ export const VIEW_GET_TODO = gql`
     $get_todo_accesss_input: get_todo_accesss_input!
   ) {
     get_todo(get_todo_input: $get_todo_input) {
-      uuid
-      title
-      description
-      completed
-      completed_at
-      created_at
-      goal_date
-      is_encrypted
-      created_by(created_by: { query: {} }) {
+      data {
         uuid
-        identifier
-        profile_img
-      }
-      history(history: $get_todo_historys_input) {
-        uuid
-        todo
+        title
+        description
+        completed
+        completed_at
         created_at
-        property
-        old_value
-        new_value
+        goal_date
+        is_encrypted
         created_by(created_by: { query: {} }) {
-          uuid
-          identifier
-          profile_img
+          data {
+            uuid
+            identifier
+            profile_img
+          }
         }
-      }
-      access(access: $get_todo_accesss_input) {
-        uuid
-        user(user: { query: {} }) {
-          uuid
-          identifier
-          profile_img
+        history(history: $get_todo_historys_input) {
+          data {
+            uuid
+            todo
+            created_at
+            property
+            old_value
+            new_value
+            created_by(created_by: { query: {} }) {
+              data {
+                uuid
+                identifier
+                profile_img
+              }
+            }
+          }
         }
-        manage
-        edit
+        access(access: $get_todo_accesss_input) {
+          data {
+            uuid
+            user(user: { query: {} }) {
+              data {
+                uuid
+                identifier
+                profile_img
+              }
+            }
+            manage
+            edit
+          }
+        }
       }
     }
   }

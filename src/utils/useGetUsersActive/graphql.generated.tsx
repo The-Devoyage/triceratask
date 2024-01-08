@@ -9,14 +9,16 @@ export type GetUsersActiveQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetUsersActiveQuery = { __typename?: 'Query', get_users: Array<{ __typename?: 'user', uuid: string, last_active?: string | null }> };
+export type GetUsersActiveQuery = { __typename?: 'Query', get_users: { __typename?: 'findmany_user_response', data: Array<{ __typename?: 'user', uuid: string, last_active?: string | null }> } };
 
 
 export const GetUsersActiveDocument = gql`
     query GetUsersActive($get_users_input: get_users_input!) {
   get_users(get_users_input: $get_users_input) {
-    uuid
-    last_active
+    data {
+      uuid
+      last_active
+    }
   }
 }
     `;

@@ -5,7 +5,7 @@ import { ViewGetTodoQuery } from "../../context/graphql.generated";
 import { HiOutlineClock } from "react-icons/hi";
 
 export const GoalDateAlert: FC<{
-  todo: ViewGetTodoQuery["get_todo"];
+  todo: ViewGetTodoQuery["get_todo"]["data"];
   visible: boolean;
 }> = ({ todo, visible }) =>
   visible && (

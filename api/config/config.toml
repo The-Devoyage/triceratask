@@ -1,5 +1,6 @@
 [service]
 name = "tricertask"
+version = "0.1.0"
 #license_key = "E6BC079C-70634B2E-80F9B871-FEA8F2E3"
 port = 5555
 imports = [

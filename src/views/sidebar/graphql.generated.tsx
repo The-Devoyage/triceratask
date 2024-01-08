@@ -9,13 +9,15 @@ export type NewConnectionsSidebarQueryVariables = Types.Exact<{
 }>;
 
 
-export type NewConnectionsSidebarQuery = { __typename?: 'Query', get_user_connections: Array<{ __typename?: 'user_connection', uuid: string }> };
+export type NewConnectionsSidebarQuery = { __typename?: 'Query', get_user_connections: { __typename?: 'findmany_user_connection_response', data: Array<{ __typename?: 'user_connection', uuid: string }> } };
 
 
 export const NewConnectionsSidebarDocument = gql`
     query NewConnectionsSidebar($get_user_connections_input: get_user_connections_input!) {
   get_user_connections(get_user_connections_input: $get_user_connections_input) {
-    uuid
+    data {
+      uuid
+    }
   }
 }
     `;

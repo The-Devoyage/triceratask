@@ -9,14 +9,14 @@ export type CreateConnectionMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateConnectionMutation = { __typename?: 'Mutation', create_user_connection: { __typename?: 'user_connection', uuid: string } };
+export type CreateConnectionMutation = { __typename?: 'Mutation', create_user_connection: { __typename?: 'createone_user_connection_response', data: { __typename?: 'user_connection', uuid: string } } };
 
 export type GetUsersAddConnectionInputQueryVariables = Types.Exact<{
   get_users_input: Types.Get_Users_Input;
 }>;
 
 
-export type GetUsersAddConnectionInputQuery = { __typename?: 'Query', get_users: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> };
+export type GetUsersAddConnectionInputQuery = { __typename?: 'Query', get_users: { __typename?: 'findmany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> } };
 
 
 export const CreateConnectionDocument = gql`
@@ -24,7 +24,9 @@ export const CreateConnectionDocument = gql`
   create_user_connection(
     create_user_connection_input: $create_user_connection_input
   ) {
-    uuid
+    data {
+      uuid
+    }
   }
 }
     `;
@@ -57,9 +59,11 @@ export type CreateConnectionMutationOptions = Apollo.BaseMutationOptions<CreateC
 export const GetUsersAddConnectionInputDocument = gql`
     query GetUsersAddConnectionInput($get_users_input: get_users_input!) {
   get_users(get_users_input: $get_users_input) {
-    uuid
-    identifier
-    profile_img
+    data {
+      uuid
+      identifier
+      profile_img
+    }
   }
 }
     `;

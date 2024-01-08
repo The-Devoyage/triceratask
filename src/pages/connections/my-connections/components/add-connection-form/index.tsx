@@ -77,7 +77,7 @@ export const AddConnection = forwardRef<
                 ref(e);
                 (inputRef as React.MutableRefObject<HTMLInputElement>).current = e as HTMLInputElement;
               }}
-              options={data?.get_users
+              options={data?.get_users.data
                 ?.filter((user) =>
                   user.identifier
                     .toLowerCase()
