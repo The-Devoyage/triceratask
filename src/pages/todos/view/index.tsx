@@ -1,4 +1,4 @@
-import { Alert, Avatar, Button, Card } from "flowbite-react";
+import { Avatar, Button, Card } from "flowbite-react";
 import {
   GoalDateAlert,
   OverdueAlert,
@@ -11,7 +11,6 @@ import { appRoutes } from "src/routes";
 import { BsFillCheckSquareFill } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 import { TbCheckbox } from "react-icons/tb";
-import { LuPartyPopper } from "react-icons/lu";
 import { useUpdateTodosMutation } from "../edit/graphql.generated";
 import dayjs from "src/utils/dayjs";
 import { ViewTodoContext, ViewTodoProvider } from "./context";
@@ -147,12 +146,7 @@ const ViewContent = () => {
             !!todo?.goal_date && dayjs().isBefore(dayjs.tz(todo?.goal_date))
           }
         />
-        <Card className="p-2">
-          <TodoTimeline todo={todo} />
-          <Alert color="info" icon={LuPartyPopper}>
-            Hooray! You are off to a great start!
-          </Alert>
-        </Card>
+        <TodoTimeline todo={todo} />
       </div>
     </div>
   );

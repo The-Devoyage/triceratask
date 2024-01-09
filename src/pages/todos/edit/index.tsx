@@ -16,6 +16,7 @@ import { Loader } from "src/components";
 import { EncryptedTextarea } from "src/components/encrypted-textarea";
 import Crypto from "crypto-js";
 import { useToaster } from "src/utils/useToaster";
+import { TodoTimelineGetHistoriesDocument } from "../view/components/todo-timeline/graphql.generated";
 
 export const Edit = () => {
   const [isDecrypted, setIsDecrypted] = useState(true);
@@ -24,7 +25,9 @@ export const Edit = () => {
   const { register, handleSubmit, reset, setValue, watch } = useForm<
     Update_Todos_Input["values"] & { password: string }
   >();
-  const [updateTodo] = useUpdateTodosMutation();
+  const [updateTodo] = useUpdateTodosMutation({
+    refetchQueries: [TodoTimelineGetHistoriesDocument],
+  });
   const password = watch("password");
   const toaster = useToaster();
   const { data, loading } = useEditGetTodoQuery({

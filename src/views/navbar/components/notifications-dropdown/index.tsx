@@ -108,16 +108,17 @@ export const NotificationsDropdown = () => {
   return (
     <Dropdown
       arrowIcon={false}
-      inline
+      gradientMonochrome="teal"
+      outline
       label={
-        <Button outline gradientMonochrome="teal" className="h-full mx-1">
+        <>
           <HiBell className="h-4" />
           {notifications?.length > 0 && (
             <div className="absolute -top-1 -left-1 rounded-full bg-teal-500 text-white text-xs px-1">
               {notifications.length}
             </div>
           )}
-        </Button>
+        </>
       }
     >
       <Dropdown.Header>Notifications</Dropdown.Header>

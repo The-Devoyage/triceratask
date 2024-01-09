@@ -40,16 +40,12 @@ export const ViewTodoProvider: FC<{
           },
         },
       },
-      get_todo_historys_input: {
-        query: {},
-      },
       get_todo_accesss_input: {
         query: {
           revoked: false,
         },
       },
     },
-    fetchPolicy: "cache-and-network",
   });
   const todo = data?.get_todo.data;
   const userAccess = todo?.access.data.find(

@@ -14,6 +14,10 @@ export const Dashboard = () => {
         query: {},
       },
       get_todos_input: {
+        opts: {
+          per_page: -1,
+          page: 1,
+        },
         query: {
           access: {
             user: { uuid: userUuidVar() },

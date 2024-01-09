@@ -531,7 +531,7 @@ export type Get_Todo_History_Query_Input = {
   created_by?: InputMaybe<Scalars['Int']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
-  todo?: InputMaybe<Scalars['Int']['input']>;
+  todo?: InputMaybe<Get_Todo_Query_Input>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -546,7 +546,7 @@ export type Get_Todo_Historys_Querys_Input = {
   created_by?: InputMaybe<Scalars['Int']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
   old_value?: InputMaybe<Scalars['String']['input']>;
-  todo?: InputMaybe<Scalars['Int']['input']>;
+  todo?: InputMaybe<Get_Todo_Query_Input>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -711,9 +711,16 @@ export type Notification_Message = {
 };
 
 export type Options_Input = {
+  order?: InputMaybe<Order_Enum>;
   page?: InputMaybe<Scalars['Int']['input']>;
   per_page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
+
+export enum Order_Enum {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
 
 export type Todo = {
   __typename?: 'todo';
@@ -791,13 +798,18 @@ export type Todo_History = {
   new_value?: Maybe<Scalars['String']['output']>;
   old_value?: Maybe<Scalars['String']['output']>;
   property: Scalars['String']['output'];
-  todo: Scalars['Int']['output'];
+  todo: Findone_Todo_Response;
   uuid: Scalars['String']['output'];
 };
 
 
 export type Todo_HistoryCreated_ByArgs = {
   created_by: Get_User_Input;
+};
+
+
+export type Todo_HistoryTodoArgs = {
+  todo: Get_Todo_Input;
 };
 
 export type Update_Notification_Messages_Input = {

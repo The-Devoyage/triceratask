@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const GET_TODOS = gql`
   query TodosListGetTodos(
     $get_todos_input: get_todos_input!
-    $get_user_input: get_user_input!
     $get_todo_accesss_input: get_todo_accesss_input!
   ) {
     get_todos(get_todos_input: $get_todos_input) {
@@ -12,17 +11,8 @@ export const GET_TODOS = gql`
         title
         description
         completed
-        created_at
-        updated_at
         completed_at
         goal_date
-        created_by(created_by: $get_user_input) {
-          data {
-            uuid
-            identifier
-            profile_img
-          }
-        }
         access(access: $get_todo_accesss_input) {
           data {
             uuid
@@ -35,6 +25,8 @@ export const GET_TODOS = gql`
             }
           }
         }
+        created_at
+        updated_at
       }
       meta {
         request_id

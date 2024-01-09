@@ -67,10 +67,23 @@ const client = new ApolloClient({
     typePolicies: {
       Query: {
         fields: {
-          get_todos: {
-            keyArgs: false,
-            merge(_existing, incoming) {
-              return incoming;
+          get_todo_historys: {
+            keyArgs: [["get_todo_historys_input", ["query"]]],
+            merge(existing, incoming) {
+              console.log("existing", existing?.data);
+              console.log("incoming", incoming?.data);
+              const uniqueHistories = [
+                ...new Map(
+                  [
+                    ...(existing?.data ?? []),
+                    ...(incoming?.data ?? []),
+                  ].map((item) => [item.uuid, item])
+                ).values(),
+              ];
+              return {
+                ...incoming,
+                data: uniqueHistories,
+              };
             },
           },
         },
