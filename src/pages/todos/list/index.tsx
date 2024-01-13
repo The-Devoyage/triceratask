@@ -1,11 +1,21 @@
-import { useEffect } from "react";
-import { Dropdown, Pagination, Select, Table } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { Checkbox, Dropdown, Pagination, Select, Table } from "flowbite-react";
 import { TodosListBody } from "./components";
 import { userUuidVar } from "src/state";
-import { useLocation } from "react-router-dom";
-import { Get_Todos_Input } from "src/types/generated";
+import { createSearchParams, useSearchParams } from "react-router-dom";
+import { Get_Todos_Input, Sort_Direction, Todo } from "src/types/generated";
 import { useTodosListGetTodosLazyQuery } from "./graphql.generated";
 import { useWindowSize } from "src/utils/useWindowSize";
+import { useTodoListBulkUpdateMutation } from "./graphql.generated";
+import { useToaster } from "src/utils/useToaster";
+
+interface QueryParams extends Record<string, string | undefined> {
+  completed?: string;
+  page?: string;
+  per_page?: string;
+  sort?: string;
+  order?: Sort_Direction;
+}
 
 export const List = () => {
   const [
@@ -14,17 +24,31 @@ export const List = () => {
   ] = useTodosListGetTodosLazyQuery({
     notifyOnNetworkStatusChange: true,
   });
-  const locationState: { state: { completed?: boolean } } = useLocation();
   const { isMobile } = useWindowSize();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selected, setSelected] = useState<string[]>([]); // uuids of todos being updated
+  const toaster = useToaster();
+  const [updateTodo, { loading: updating }] = useTodoListBulkUpdateMutation();
 
   useEffect(() => {
-    let getTodosInput: Get_Todos_Input = {
+    const getTodosInput: Get_Todos_Input = {
       opts: {
-        per_page: variables?.get_todos_input?.opts?.per_page || 15,
-        page: 1,
+        per_page: parseInt(searchParams.get("per_page") || "15"),
+        page: parseInt(searchParams.get("page") || "1"),
+        sort: [
+          {
+            field: searchParams.get("sort") || "todo.created_at",
+            direction:
+              (searchParams.get("order") as Sort_Direction) ||
+              Sort_Direction.Desc,
+          },
+        ],
       },
       query: {
-        completed: false,
+        completed: searchParams.has("completed")
+          ? searchParams.get("completed") === "true"
+          : undefined,
+
         access: {
           user: {
             uuid: userUuidVar(),
@@ -34,24 +58,6 @@ export const List = () => {
       },
     };
 
-    if (
-      locationState?.state?.completed !== undefined &&
-      locationState?.state?.completed !== null
-    ) {
-      getTodosInput = {
-        opts: {
-          per_page: variables?.get_todos_input?.opts?.per_page || 15,
-          page: 1,
-        },
-        query: {
-          ...getTodosInput.query,
-          completed: locationState?.state?.completed,
-        },
-      };
-    } else if (locationState?.state?.completed === null) {
-      delete getTodosInput.query.completed;
-    }
-
     getTodos({
       variables: {
         get_todos_input: getTodosInput,
@@ -59,19 +65,63 @@ export const List = () => {
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getTodos, locationState]);
+  }, []);
 
-  const handleFilter = (v: { completed?: boolean }) => {
-    getTodos({
+  const handleBulkEdit = (
+    uuid: Todo["uuid"][],
+    completed: Todo["completed"]
+  ) => {
+    updateTodo({
       variables: {
-        get_todo_accesss_input: {
+        update_todos_input: {
           query: {
-            revoked: false,
+            OR: uuid.map((u) => ({ uuid: u })),
+          },
+          values: {
+            completed,
           },
         },
+      },
+      onCompleted: () => {
+        setSelected([]);
+        toaster.addToast("success", "Todo updated!");
+      },
+      onError: () => {
+        toaster.addToast("error", "Todo update failed!");
+      },
+    });
+  };
+
+  const handleFilter = (v: {
+    completed?: boolean | null;
+    sort?: string;
+    order?: Sort_Direction;
+  }) => {
+    const searchParamsObj = Object.fromEntries(searchParams.entries());
+    const query: QueryParams = {
+      ...searchParamsObj,
+    };
+    if (v.completed === true || v.completed === false)
+      query.completed = v.completed.toString();
+    if (v.completed === null) delete query.completed;
+    if (v.sort) query.sort = v.sort;
+    if (v.order) query.order = v.order;
+    const searchQuery = createSearchParams(
+      Object.entries(query).reduce(
+        (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
+        {}
+      )
+    );
+
+    setSearchParams(searchQuery);
+
+    getTodos({
+      variables: {
+        ...variables!,
         get_todos_input: {
           query: {
-            completed: v.completed,
+            ...variables?.get_todos_input?.query,
+            completed: v.completed === null ? undefined : v.completed,
             access: {
               user: {
                 uuid: userUuidVar(),
@@ -80,12 +130,33 @@ export const List = () => {
             },
           },
           opts: {
+            ...variables?.get_todos_input?.opts,
             per_page: variables?.get_todos_input?.opts?.per_page || 15,
             page: 1,
+            sort: [
+              {
+                field:
+                  v.sort ||
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.field,
+                direction:
+                  v.order ||
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.direction,
+              },
+            ],
           },
         },
       },
     });
+  };
+
+  const getSortDirection = (sortKey: string) => {
+    if (variables?.get_todos_input?.opts?.sort?.at(0)?.field === sortKey) {
+      return variables?.get_todos_input?.opts?.sort?.at(0)?.direction ===
+        Sort_Direction.Desc
+        ? "▼"
+        : "▲";
+    }
+    return "";
   };
 
   return (
@@ -102,13 +173,103 @@ export const List = () => {
         }}
       >
         <Table.Head>
-          <Table.HeadCell className="w-2/5 text-left">Title</Table.HeadCell>
-          <Table.HeadCell className="text-left">Team</Table.HeadCell>
-          <Table.HeadCell className="hidden md:table-cell text-left">
-            Created At
+          <Table.HeadCell>
+            <Dropdown
+              label={
+                <Checkbox
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelected(
+                        data?.get_todos.data.map((t) => t.uuid) || []
+                      );
+                    } else {
+                      setSelected([]);
+                    }
+                  }}
+                />
+              }
+              inline
+              theme={{
+                inlineWrapper:
+                  "flex flex-row items-center justify-center w-full",
+              }}
+            >
+              <Dropdown.Item
+                onClick={() => handleBulkEdit(selected, true)}
+                disabled={selected.length === 0}
+              >
+                Mark Completed
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => handleBulkEdit(selected, false)}
+                disabled={selected.length === 0}
+              >
+                Mark Incomplete
+              </Dropdown.Item>
+            </Dropdown>
           </Table.HeadCell>
-          <Table.HeadCell className="hidden md:table-cell text-left">
+          <Table.HeadCell
+            className="w-2/5 text-left"
+            role="button"
+            onClick={() =>
+              handleFilter({
+                completed: variables?.get_todos_input?.query.completed,
+                sort: "todo.title",
+                order:
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.field ===
+                    "todo.title" &&
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.direction ===
+                    Sort_Direction.Desc
+                    ? Sort_Direction.Asc
+                    : Sort_Direction.Desc,
+              })
+            }
+          >
+            Title
+            {getSortDirection("todo.title")}
+          </Table.HeadCell>
+          <Table.HeadCell className="text-left hidden md:table-cell">
+            Team
+          </Table.HeadCell>
+          <Table.HeadCell
+            className="hidden md:table-cell text-left cursor-pointer"
+            role="button"
+            onClick={() =>
+              handleFilter({
+                completed: variables?.get_todos_input?.query.completed,
+                sort: "todo.created_at",
+                order:
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.field ===
+                    "todo.created_at" &&
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.direction ===
+                    Sort_Direction.Desc
+                    ? Sort_Direction.Asc
+                    : Sort_Direction.Desc,
+              })
+            }
+          >
+            Created At
+            {getSortDirection("todo.created_at")}
+          </Table.HeadCell>
+          <Table.HeadCell
+            className="hidden md:table-cell text-left"
+            role="button"
+            onClick={() =>
+              handleFilter({
+                completed: variables?.get_todos_input?.query.completed,
+                sort: "todo.updated_at",
+                order:
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.field ===
+                    "todo.updated_at" &&
+                  variables?.get_todos_input?.opts?.sort?.at(0)?.direction ===
+                    Sort_Direction.Desc
+                    ? Sort_Direction.Asc
+                    : Sort_Direction.Desc,
+              })
+            }
+          >
             Updated At
+            {getSortDirection("todo.updated_at")}
           </Table.HeadCell>
           <Table.HeadCell className="text-center">
             <Dropdown
@@ -131,13 +292,25 @@ export const List = () => {
               <Dropdown.Item onClick={() => handleFilter({ completed: false })}>
                 Not Complete
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => handleFilter({})}>
+              <Dropdown.Item
+                onClick={() =>
+                  handleFilter({
+                    completed: null,
+                  })
+                }
+              >
                 All
               </Dropdown.Item>
             </Dropdown>
           </Table.HeadCell>
         </Table.Head>
-        <TodosListBody todos={data?.get_todos.data} loading={loading} />
+        <TodosListBody
+          todos={data?.get_todos.data}
+          loading={loading}
+          updating={updating}
+          selected={selected}
+          setSelected={setSelected}
+        />
       </Table>
       <div className="flex justify-between">
         <Select
@@ -155,6 +328,7 @@ export const List = () => {
                     ...variables?.get_todos_input.query,
                   },
                   opts: {
+                    ...variables?.get_todos_input.opts,
                     per_page: parseInt(e.currentTarget.value),
                     page: 1,
                   },
@@ -168,7 +342,6 @@ export const List = () => {
           <option value="50">50</option>
           <option value="100">100</option>
         </Select>
-
         <Pagination
           currentPage={data?.get_todos.meta?.page || 1}
           totalPages={data?.get_todos.meta?.total_pages || 1}
@@ -185,6 +358,7 @@ export const List = () => {
                     ...variables?.get_todos_input.query,
                   },
                   opts: {
+                    ...variables?.get_todos_input.opts,
                     per_page: variables?.get_todos_input.opts?.per_page || 15,
                     page,
                   },

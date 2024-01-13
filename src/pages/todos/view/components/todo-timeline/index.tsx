@@ -14,7 +14,7 @@ import {
   TodoTimelineGetHistoriesQuery,
   useTodoTimelineGetHistoriesQuery,
 } from "./graphql.generated";
-import { Order_Enum } from "src/types/generated";
+import { Sort_Direction } from "src/types/generated";
 import { LuPartyPopper } from "react-icons/lu";
 
 export const TodoTimeline: FC<{
@@ -37,8 +37,12 @@ export const TodoTimeline: FC<{
         opts: {
           per_page: 5,
           page: 1,
-          sort: "created_at",
-          order: Order_Enum.Desc,
+          sort: [
+            {
+              field: "todo_history.created_at",
+              direction: Sort_Direction.Desc,
+            },
+          ],
         },
       },
     },

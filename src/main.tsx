@@ -70,8 +70,6 @@ const client = new ApolloClient({
           get_todo_historys: {
             keyArgs: [["get_todo_historys_input", ["query"]]],
             merge(existing, incoming) {
-              console.log("existing", existing?.data);
-              console.log("incoming", incoming?.data);
               const uniqueHistories = [
                 ...new Map(
                   [
@@ -87,6 +85,24 @@ const client = new ApolloClient({
             },
           },
         },
+      },
+      todo: {
+        keyFields: ["uuid"],
+      },
+      user: {
+        keyFields: ["uuid"],
+      },
+      notification: {
+        keyFields: ["uuid"],
+      },
+      user_connection: {
+        keyFields: ["uuid"],
+      },
+      todo_access: {
+        keyFields: ["uuid"],
+      },
+      todo_history: {
+        keyFields: ["uuid"],
       },
     },
   }),

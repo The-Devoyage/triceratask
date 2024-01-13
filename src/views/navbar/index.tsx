@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import { Avatar, Button, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import { HiMenu, HiPlus } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import {
   darkModeVar,
@@ -70,7 +70,10 @@ export const AppNavbar = () => {
         <div
           onClick={() =>
             isLoggedIn
-              ? navigate(appRoutes.listTodos.path)
+              ? navigate({
+                  pathname: appRoutes.listTodos.path,
+                  search: createSearchParams({ completed: "false" }).toString(),
+                })
               : navigate(appRoutes.home.path)
           }
           className="flex items-center cursor-pointer"

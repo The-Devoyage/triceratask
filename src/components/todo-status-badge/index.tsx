@@ -38,6 +38,9 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
 
   return (
     <Tooltip
+      theme={{
+        target: "h-full",
+      }}
       content={
         todo?.completed && todo?.completed_at
           ? dayjs.tz(todo?.completed_at).local().format("MMMM D, YYYY h:mm A")
@@ -50,7 +53,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
         color={getColor()}
         icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
         size="sm"
-        className="px-2 rounded-md gap-0 md:gap-1"
+        className="px-2 rounded-md gap-0 md:gap-1 flex justify-center align-center"
         theme={{
           icon: {
             size: {

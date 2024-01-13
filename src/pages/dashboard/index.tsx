@@ -1,6 +1,6 @@
 import { Badge, Card } from "flowbite-react";
 import { TodoStats, TodosCompletedChart } from "./components";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
 import { useDashboardGetTodosQuery } from "./graphql.generated";
@@ -48,16 +48,15 @@ export const Dashboard = () => {
           <TodoStats
             label="Total Tasks"
             total={todos.length ?? 0}
-            onClick={() =>
-              navigate(appRoutes.listTodos.path, { state: { completed: null } })
-            }
+            onClick={() => navigate(appRoutes.listTodos.path)}
           />
           <TodoStats
             label="Not Complete"
             total={todos.filter((todo) => !todo?.completed).length ?? 0}
             onClick={() =>
-              navigate(appRoutes.listTodos.path, {
-                state: { completed: false },
+              navigate({
+                pathname: appRoutes.listTodos.path,
+                search: createSearchParams({ completed: "false" }).toString(),
               })
             }
           />
@@ -65,7 +64,10 @@ export const Dashboard = () => {
             label="Complete"
             total={todos.filter((t) => t?.completed).length}
             onClick={() =>
-              navigate(appRoutes.listTodos.path, { state: { completed: true } })
+              navigate({
+                pathname: appRoutes.listTodos.path,
+                search: createSearchParams({ completed: "true" }).toString(),
+              })
             }
           />
         </div>

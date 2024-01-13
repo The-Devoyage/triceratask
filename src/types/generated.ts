@@ -711,16 +711,20 @@ export type Notification_Message = {
 };
 
 export type Options_Input = {
-  order?: InputMaybe<Order_Enum>;
   page?: InputMaybe<Scalars['Int']['input']>;
   per_page?: InputMaybe<Scalars['Int']['input']>;
-  sort?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<Array<Sort_Input>>;
 };
 
-export enum Order_Enum {
+export enum Sort_Direction {
   Asc = 'ASC',
   Desc = 'DESC'
 }
+
+export type Sort_Input = {
+  direction?: InputMaybe<Sort_Direction>;
+  field?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type Todo = {
   __typename?: 'todo';

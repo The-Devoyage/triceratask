@@ -3,7 +3,7 @@ import { Sidebar } from "flowbite-react";
 import { useEffect } from "react";
 import { HiChartPie, HiClipboardCheck } from "react-icons/hi";
 import { TbUserBolt } from "react-icons/tb";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { isLoggedInVar, sidebarHiddenVar, userUuidVar } from "src/state";
 import { useWindowSize } from "src/utils/useWindowSize";
@@ -45,9 +45,12 @@ export const AppSidebar = () => {
     }
   }, [isMobile]);
 
-  const handleNavigate = (path: string) => {
+  const handleNavigate = (path: string, search?: string) => {
     if (isMobile) sidebarHiddenVar(true);
-    navigate(path);
+    navigate({
+      pathname: path,
+      search: search,
+    });
   };
 
   const sidebarItems = [
@@ -59,7 +62,11 @@ export const AppSidebar = () => {
     {
       children: <p>Tasks</p>,
       icon: HiClipboardCheck,
-      onClick: () => handleNavigate(appRoutes.listTodos.path),
+      onClick: () =>
+        handleNavigate(
+          appRoutes.listTodos.path,
+          createSearchParams({ completed: "false" }).toString()
+        ),
     },
     {
       children: <p>Connections</p>,

@@ -42,3 +42,14 @@ export const GET_TODOS = gql`
     }
   }
 `;
+
+export const TODO_LIST_BULK_UPDATE = gql`
+  mutation TodoListBulkUpdate($update_todos_input: update_todos_input!) {
+    update_todos(update_todos_input: $update_todos_input) {
+      data {
+        uuid
+        completed
+      }
+    }
+  }
+`;
