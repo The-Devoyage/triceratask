@@ -438,6 +438,9 @@ export type Get_Notification_Message_Input = {
 
 export type Get_Notification_Message_Query_Input = {
   AND?: InputMaybe<Array<Get_Notification_Message_Query_Input>>;
+  GT?: InputMaybe<Get_Notification_Message_Query_Input>;
+  LIKE?: InputMaybe<Get_Notification_Message_Query_Input>;
+  LT?: InputMaybe<Get_Notification_Message_Query_Input>;
   OR?: InputMaybe<Array<Get_Notification_Message_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
@@ -450,6 +453,9 @@ export type Get_Notification_Messages_Input = {
 
 export type Get_Notification_Messages_Querys_Input = {
   AND?: InputMaybe<Array<Get_Notification_Messages_Querys_Input>>;
+  GT?: InputMaybe<Get_Notification_Messages_Querys_Input>;
+  LIKE?: InputMaybe<Get_Notification_Messages_Querys_Input>;
+  LT?: InputMaybe<Get_Notification_Messages_Querys_Input>;
   OR?: InputMaybe<Array<Get_Notification_Messages_Querys_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
@@ -457,6 +463,9 @@ export type Get_Notification_Messages_Querys_Input = {
 
 export type Get_Notification_Query_Input = {
   AND?: InputMaybe<Array<Get_Notification_Query_Input>>;
+  GT?: InputMaybe<Get_Notification_Query_Input>;
+  LIKE?: InputMaybe<Get_Notification_Query_Input>;
+  LT?: InputMaybe<Get_Notification_Query_Input>;
   OR?: InputMaybe<Array<Get_Notification_Query_Input>>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
@@ -475,6 +484,9 @@ export type Get_Notifications_Input = {
 
 export type Get_Notifications_Querys_Input = {
   AND?: InputMaybe<Array<Get_Notifications_Querys_Input>>;
+  GT?: InputMaybe<Get_Notifications_Querys_Input>;
+  LIKE?: InputMaybe<Get_Notifications_Querys_Input>;
+  LT?: InputMaybe<Get_Notifications_Querys_Input>;
   OR?: InputMaybe<Array<Get_Notifications_Querys_Input>>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
@@ -492,6 +504,9 @@ export type Get_Todo_Access_Input = {
 
 export type Get_Todo_Access_Query_Input = {
   AND?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
+  GT?: InputMaybe<Get_Todo_Access_Query_Input>;
+  LIKE?: InputMaybe<Get_Todo_Access_Query_Input>;
+  LT?: InputMaybe<Get_Todo_Access_Query_Input>;
   OR?: InputMaybe<Array<Get_Todo_Access_Query_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
   manage?: InputMaybe<Scalars['Boolean']['input']>;
@@ -510,6 +525,9 @@ export type Get_Todo_Accesss_Input = {
 
 export type Get_Todo_Accesss_Querys_Input = {
   AND?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
+  GT?: InputMaybe<Get_Todo_Accesss_Querys_Input>;
+  LIKE?: InputMaybe<Get_Todo_Accesss_Querys_Input>;
+  LT?: InputMaybe<Get_Todo_Accesss_Querys_Input>;
   OR?: InputMaybe<Array<Get_Todo_Accesss_Querys_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
   manage?: InputMaybe<Scalars['Boolean']['input']>;
@@ -527,6 +545,9 @@ export type Get_Todo_History_Input = {
 
 export type Get_Todo_History_Query_Input = {
   AND?: InputMaybe<Array<Get_Todo_History_Query_Input>>;
+  GT?: InputMaybe<Get_Todo_History_Query_Input>;
+  LIKE?: InputMaybe<Get_Todo_History_Query_Input>;
+  LT?: InputMaybe<Get_Todo_History_Query_Input>;
   OR?: InputMaybe<Array<Get_Todo_History_Query_Input>>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
@@ -542,6 +563,9 @@ export type Get_Todo_Historys_Input = {
 
 export type Get_Todo_Historys_Querys_Input = {
   AND?: InputMaybe<Array<Get_Todo_Historys_Querys_Input>>;
+  GT?: InputMaybe<Get_Todo_Historys_Querys_Input>;
+  LIKE?: InputMaybe<Get_Todo_Historys_Querys_Input>;
+  LT?: InputMaybe<Get_Todo_Historys_Querys_Input>;
   OR?: InputMaybe<Array<Get_Todo_Historys_Querys_Input>>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
@@ -556,14 +580,20 @@ export type Get_Todo_Input = {
 
 export type Get_Todo_Query_Input = {
   AND?: InputMaybe<Array<Get_Todo_Query_Input>>;
+  GT?: InputMaybe<Get_Todo_Query_Input>;
+  LIKE?: InputMaybe<Get_Todo_Query_Input>;
+  LT?: InputMaybe<Get_Todo_Query_Input>;
   OR?: InputMaybe<Array<Get_Todo_Query_Input>>;
   access?: InputMaybe<Get_Todo_Access_Query_Input>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -574,14 +604,20 @@ export type Get_Todos_Input = {
 
 export type Get_Todos_Querys_Input = {
   AND?: InputMaybe<Array<Get_Todos_Querys_Input>>;
+  GT?: InputMaybe<Get_Todos_Querys_Input>;
+  LIKE?: InputMaybe<Get_Todos_Querys_Input>;
+  LT?: InputMaybe<Get_Todos_Querys_Input>;
   OR?: InputMaybe<Array<Get_Todos_Querys_Input>>;
   access?: InputMaybe<Get_Todo_Access_Query_Input>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -591,6 +627,9 @@ export type Get_User_Connection_Input = {
 
 export type Get_User_Connection_Query_Input = {
   AND?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
+  GT?: InputMaybe<Get_User_Connection_Query_Input>;
+  LIKE?: InputMaybe<Get_User_Connection_Query_Input>;
+  LT?: InputMaybe<Get_User_Connection_Query_Input>;
   OR?: InputMaybe<Array<Get_User_Connection_Query_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
   accepted_at?: InputMaybe<Scalars['String']['input']>;
@@ -613,6 +652,9 @@ export type Get_User_Connections_Input = {
 
 export type Get_User_Connections_Querys_Input = {
   AND?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
+  GT?: InputMaybe<Get_User_Connections_Querys_Input>;
+  LIKE?: InputMaybe<Get_User_Connections_Querys_Input>;
+  LT?: InputMaybe<Get_User_Connections_Querys_Input>;
   OR?: InputMaybe<Array<Get_User_Connections_Querys_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
   accepted_at?: InputMaybe<Scalars['String']['input']>;
@@ -634,6 +676,9 @@ export type Get_User_Input = {
 
 export type Get_User_Query_Input = {
   AND?: InputMaybe<Array<Get_User_Query_Input>>;
+  GT?: InputMaybe<Get_User_Query_Input>;
+  LIKE?: InputMaybe<Get_User_Query_Input>;
+  LT?: InputMaybe<Get_User_Query_Input>;
   OR?: InputMaybe<Array<Get_User_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
@@ -650,6 +695,9 @@ export type Get_Users_Input = {
 
 export type Get_Users_Querys_Input = {
   AND?: InputMaybe<Array<Get_Users_Querys_Input>>;
+  GT?: InputMaybe<Get_Users_Querys_Input>;
+  LIKE?: InputMaybe<Get_Users_Querys_Input>;
+  LT?: InputMaybe<Get_Users_Querys_Input>;
   OR?: InputMaybe<Array<Get_Users_Querys_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
@@ -823,6 +871,9 @@ export type Update_Notification_Messages_Input = {
 
 export type Update_Notification_Messages_Query_Input = {
   AND?: InputMaybe<Array<Update_Notification_Messages_Query_Input>>;
+  GT?: InputMaybe<Update_Notification_Messages_Query_Input>;
+  LIKE?: InputMaybe<Update_Notification_Messages_Query_Input>;
+  LT?: InputMaybe<Update_Notification_Messages_Query_Input>;
   OR?: InputMaybe<Array<Update_Notification_Messages_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
@@ -840,6 +891,9 @@ export type Update_Notifications_Input = {
 
 export type Update_Notifications_Query_Input = {
   AND?: InputMaybe<Array<Update_Notifications_Query_Input>>;
+  GT?: InputMaybe<Update_Notifications_Query_Input>;
+  LIKE?: InputMaybe<Update_Notifications_Query_Input>;
+  LT?: InputMaybe<Update_Notifications_Query_Input>;
   OR?: InputMaybe<Array<Update_Notifications_Query_Input>>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
@@ -863,6 +917,9 @@ export type Update_Todo_Accesss_Input = {
 
 export type Update_Todo_Accesss_Query_Input = {
   AND?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
+  GT?: InputMaybe<Update_Todo_Accesss_Query_Input>;
+  LIKE?: InputMaybe<Update_Todo_Accesss_Query_Input>;
+  LT?: InputMaybe<Update_Todo_Accesss_Query_Input>;
   OR?: InputMaybe<Array<Update_Todo_Accesss_Query_Input>>;
   edit?: InputMaybe<Scalars['Boolean']['input']>;
   manage?: InputMaybe<Scalars['Boolean']['input']>;
@@ -889,6 +946,9 @@ export type Update_Todo_Historys_Input = {
 
 export type Update_Todo_Historys_Query_Input = {
   AND?: InputMaybe<Array<Update_Todo_Historys_Query_Input>>;
+  GT?: InputMaybe<Update_Todo_Historys_Query_Input>;
+  LIKE?: InputMaybe<Update_Todo_Historys_Query_Input>;
+  LT?: InputMaybe<Update_Todo_Historys_Query_Input>;
   OR?: InputMaybe<Array<Update_Todo_Historys_Query_Input>>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   new_value?: InputMaybe<Scalars['String']['input']>;
@@ -909,14 +969,20 @@ export type Update_Todos_Input = {
 
 export type Update_Todos_Query_Input = {
   AND?: InputMaybe<Array<Update_Todos_Query_Input>>;
+  GT?: InputMaybe<Update_Todos_Query_Input>;
+  LIKE?: InputMaybe<Update_Todos_Query_Input>;
+  LT?: InputMaybe<Update_Todos_Query_Input>;
   OR?: InputMaybe<Array<Update_Todos_Query_Input>>;
   access?: InputMaybe<Array<Scalars['Int']['input']>>;
   completed?: InputMaybe<Scalars['Boolean']['input']>;
+  completed_at?: InputMaybe<Scalars['String']['input']>;
+  created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['String']['input']>;
   uuid?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -934,6 +1000,9 @@ export type Update_User_Connections_Input = {
 
 export type Update_User_Connections_Query_Input = {
   AND?: InputMaybe<Array<Update_User_Connections_Query_Input>>;
+  GT?: InputMaybe<Update_User_Connections_Query_Input>;
+  LIKE?: InputMaybe<Update_User_Connections_Query_Input>;
+  LT?: InputMaybe<Update_User_Connections_Query_Input>;
   OR?: InputMaybe<Array<Update_User_Connections_Query_Input>>;
   accepted?: InputMaybe<Scalars['Boolean']['input']>;
   accepted_at?: InputMaybe<Scalars['String']['input']>;
@@ -965,6 +1034,9 @@ export type Update_Users_Input = {
 
 export type Update_Users_Query_Input = {
   AND?: InputMaybe<Array<Update_Users_Query_Input>>;
+  GT?: InputMaybe<Update_Users_Query_Input>;
+  LIKE?: InputMaybe<Update_Users_Query_Input>;
+  LT?: InputMaybe<Update_Users_Query_Input>;
   OR?: InputMaybe<Array<Update_Users_Query_Input>>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;

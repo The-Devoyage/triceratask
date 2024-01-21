@@ -1,15 +1,15 @@
 import { FC, useContext, useState, useEffect } from "react";
 import { ViewTodoContext } from "src/pages/todos/view/context";
-import { ViewGetTodoQuery } from "src/pages/todos/view/context/graphql.generated";
 import Crypto from "crypto-js";
 import { Todo } from "src/types/generated";
 import { Tooltip } from "flowbite-react";
 import { useWindowSize } from "src/utils/useWindowSize";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { TodoTimelineGetHistoriesQuery } from "../../graphql.generated";
 
 export const EncryptedNewValue: FC<{
-  history: ViewGetTodoQuery["get_todo"]["data"]["history"]["data"][0];
+  history: TodoTimelineGetHistoriesQuery["get_todo_historys"]["data"][0];
   attemptDecrypt?: boolean;
 }> = ({ history, attemptDecrypt }) => {
   const { isDecrypted, password } = useContext(ViewTodoContext);

@@ -1,58 +1,91 @@
 import { Badge, Card } from "flowbite-react";
-import { TodoStats, TodosCompletedChart } from "./components";
+import { GoalMetChart, TodoStats, TodosCompletedChart } from "./components";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
-import { useDashboardGetTodosQuery } from "./graphql.generated";
+import { useDashboardGetTodoCountQuery } from "./graphql.generated";
 import clsx from "clsx";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const { data, loading } = useDashboardGetTodosQuery({
+  const {
+    data: completed,
+    loading: loadingCompleted,
+  } = useDashboardGetTodoCountQuery({
     variables: {
-      get_user_input: {
-        query: {},
-      },
       get_todos_input: {
+        query: {
+          completed: true,
+          access: {
+            revoked: false,
+            user: { uuid: userUuidVar() },
+          },
+        },
         opts: {
           per_page: -1,
           page: 1,
         },
+      },
+    },
+  });
+  const { data: total, loading: loadingTotal } = useDashboardGetTodoCountQuery({
+    variables: {
+      get_todos_input: {
         query: {
           access: {
-            user: { uuid: userUuidVar() },
             revoked: false,
+            user: { uuid: userUuidVar() },
           },
+        },
+        opts: {
+          per_page: -1,
+          page: 1,
         },
       },
     },
-    fetchPolicy: "cache-and-network",
   });
-  const todos = data?.get_todos.data ?? [];
+  const {
+    data: incomplete,
+    loading: loadingIncomplete,
+  } = useDashboardGetTodoCountQuery({
+    variables: {
+      get_todos_input: {
+        query: {
+          completed: false,
+          access: {
+            revoked: false,
+            user: { uuid: userUuidVar() },
+          },
+        },
+        opts: {
+          per_page: -1,
+          page: 1,
+        },
+      },
+    },
+  });
 
   return (
     <>
-      <div
-        className={clsx("grid gap-4 sm:grid-cols-1 md:grid-cols-2", {
-          "animate-pulse": loading,
-        })}
-      >
+      <div className={clsx("grid gap-4 sm:grid-cols-1 md:grid-cols-2")}>
         <Card>
           <div className="flex flex-row justify-between">
-            <h4 className="text-xl font-bold">This Week</h4>
+            <h4 className="text-2xl font-bold">Overview</h4>
             <Badge>This Week</Badge>
           </div>
-          <TodosCompletedChart todos={todos} />
+          <TodosCompletedChart />
         </Card>
         <div className="grid grid-cols-2 gap-4">
           <TodoStats
             label="Total Tasks"
-            total={todos.length ?? 0}
+            total={total?.get_todos.meta?.total_count ?? 0}
+            loading={loadingTotal}
             onClick={() => navigate(appRoutes.listTodos.path)}
           />
           <TodoStats
             label="Not Complete"
-            total={todos.filter((todo) => !todo?.completed).length ?? 0}
+            total={incomplete?.get_todos.meta?.total_count ?? 0}
+            loading={loadingIncomplete}
             onClick={() =>
               navigate({
                 pathname: appRoutes.listTodos.path,
@@ -62,7 +95,8 @@ export const Dashboard = () => {
           />
           <TodoStats
             label="Complete"
-            total={todos.filter((t) => t?.completed).length}
+            total={completed?.get_todos.meta?.total_count ?? 0}
+            loading={loadingCompleted}
             onClick={() =>
               navigate({
                 pathname: appRoutes.listTodos.path,
@@ -71,6 +105,7 @@ export const Dashboard = () => {
             }
           />
         </div>
+        <GoalMetChart />
       </div>
     </>
   );

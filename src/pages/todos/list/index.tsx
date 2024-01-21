@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Checkbox, Dropdown, Pagination, Select, Table } from "flowbite-react";
+import { Checkbox, Dropdown, Table } from "flowbite-react";
 import { TodosListBody } from "./components";
 import { userUuidVar } from "src/state";
 import { createSearchParams, useSearchParams } from "react-router-dom";
@@ -8,6 +8,18 @@ import { useTodosListGetTodosLazyQuery } from "./graphql.generated";
 import { useWindowSize } from "src/utils/useWindowSize";
 import { useTodoListBulkUpdateMutation } from "./graphql.generated";
 import { useToaster } from "src/utils/useToaster";
+import { ListFooter } from "./components/list-footer";
+
+interface HandleFilterParams {
+  completed?: boolean | null;
+  sort?: string;
+  order?: Sort_Direction;
+}
+
+export interface PaginationParams {
+  page?: number;
+  per_page?: number;
+}
 
 interface QueryParams extends Record<string, string | undefined> {
   completed?: string;
@@ -92,20 +104,23 @@ export const List = () => {
     });
   };
 
-  const handleFilter = (v: {
-    completed?: boolean | null;
-    sort?: string;
-    order?: Sort_Direction;
-  }) => {
+  const createSearchQuery = (
+    filterParams?: HandleFilterParams,
+    paginationParams?: PaginationParams
+  ) => {
     const searchParamsObj = Object.fromEntries(searchParams.entries());
     const query: QueryParams = {
       ...searchParamsObj,
     };
-    if (v.completed === true || v.completed === false)
-      query.completed = v.completed.toString();
-    if (v.completed === null) delete query.completed;
-    if (v.sort) query.sort = v.sort;
-    if (v.order) query.order = v.order;
+    if (filterParams?.completed === true || filterParams?.completed === false)
+      query.completed = filterParams.completed.toString();
+    if (filterParams?.completed === null) delete query.completed;
+    if (filterParams?.sort) query.sort = filterParams.sort;
+    if (filterParams?.order) query.order = filterParams.order;
+    if (paginationParams?.page) query.page = paginationParams.page.toString();
+    if (paginationParams?.per_page) {
+      query.per_page = paginationParams.per_page.toString();
+    }
     const searchQuery = createSearchParams(
       Object.entries(query).reduce(
         (acc, [key, value]) => (value ? { ...acc, [key]: value } : acc),
@@ -114,7 +129,10 @@ export const List = () => {
     );
 
     setSearchParams(searchQuery);
+  };
 
+  const handleFilter = (v: HandleFilterParams) => {
+    createSearchQuery(v);
     getTodos({
       variables: {
         ...variables!,
@@ -157,6 +175,33 @@ export const List = () => {
         : "▲";
     }
     return "";
+  };
+
+  const handlePagination = (paginationParams: PaginationParams) => {
+    createSearchQuery(undefined, paginationParams);
+    getTodos({
+      fetchPolicy: "cache-first",
+      onCompleted: () => window.scrollTo(0, 0),
+      variables: {
+        ...variables!,
+        get_todos_input: {
+          query: {
+            ...variables?.get_todos_input.query,
+          },
+          opts: {
+            ...variables?.get_todos_input.opts,
+            per_page:
+              paginationParams.per_page ||
+              variables?.get_todos_input.opts?.per_page ||
+              15,
+            page:
+              paginationParams.page ||
+              variables?.get_todos_input.opts?.page ||
+              1,
+          },
+        },
+      },
+    });
   };
 
   return (
@@ -312,62 +357,12 @@ export const List = () => {
           setSelected={setSelected}
         />
       </Table>
-      <div className="flex justify-between">
-        <Select
-          className="mt-2"
-          sizing="sm"
-          value={variables?.get_todos_input?.opts?.per_page || 15}
-          onChange={(e) =>
-            getTodos({
-              fetchPolicy: "cache-first",
-              onCompleted: () => window.scrollTo(0, 0),
-              variables: {
-                ...variables!,
-                get_todos_input: {
-                  query: {
-                    ...variables?.get_todos_input.query,
-                  },
-                  opts: {
-                    ...variables?.get_todos_input.opts,
-                    per_page: parseInt(e.currentTarget.value),
-                    page: 1,
-                  },
-                },
-              },
-            })
-          }
-        >
-          <option value="15">15</option>
-          <option value="30">30</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </Select>
-        <Pagination
-          currentPage={data?.get_todos.meta?.page || 1}
-          totalPages={data?.get_todos.meta?.total_pages || 1}
-          layout={isMobile ? "navigation" : "pagination"}
-          showIcons
-          onPageChange={(page) =>
-            getTodos({
-              fetchPolicy: "cache-first",
-              onCompleted: () => window.scrollTo(0, 0),
-              variables: {
-                ...variables!,
-                get_todos_input: {
-                  query: {
-                    ...variables?.get_todos_input.query,
-                  },
-                  opts: {
-                    ...variables?.get_todos_input.opts,
-                    per_page: variables?.get_todos_input.opts?.per_page || 15,
-                    page,
-                  },
-                },
-              },
-            })
-          }
-        />
-      </div>
+      <ListFooter
+        handlePagination={handlePagination}
+        perPage={variables?.get_todos_input?.opts?.per_page || 15}
+        page={variables?.get_todos_input?.opts?.page || 1}
+        totalPages={data?.get_todos?.meta?.total_pages || 1}
+      />
     </>
   );
 };

@@ -1,29 +1,67 @@
 import { useReactiveVar } from "@apollo/client";
-import { FC } from "react";
+import { useEffect } from "react";
 import Chart from "react-apexcharts";
-import { darkModeVar } from "src/state";
+import { darkModeVar, userUuidVar } from "src/state";
 import dayjs from "src/utils/dayjs";
-import { DashboardGetTodosQuery } from "../../graphql.generated";
+import { useTodoCompletedChartGetTodosLazyQuery } from "./graphql.generated";
 
-interface TodosCompletedProps {
-  todos: DashboardGetTodosQuery["get_todos"]["data"];
-}
-
-export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
+export const TodosCompletedChart = () => {
   const darkMode = useReactiveVar(darkModeVar);
+  const [
+    getCompletedLastWeek,
+    { data: completedLastWeek },
+  ] = useTodoCompletedChartGetTodosLazyQuery();
+  const [
+    getIncompleteLastWeek,
+    { data: incompleteLastWeek },
+  ] = useTodoCompletedChartGetTodosLazyQuery();
 
-  const completedLastWeek = todos.filter((todo) => {
-    if (!todo.completed || !todo?.completed_at) return false;
-    const lastWeek = dayjs().subtract(6, "day");
-    const completedDate = dayjs.tz(todo?.completed_at).local();
-    return completedDate.isAfter(lastWeek);
-  });
-  const incompleteLastWeek = todos.filter((todo) => {
-    if (todo.completed || !todo.goal_date) return false;
-    const lastWeek = dayjs().subtract(6, "day");
-    const goalDate = dayjs(todo.goal_date);
-    return goalDate.isAfter(lastWeek) && goalDate.isBefore(dayjs());
-  });
+  useEffect(() => {
+    getCompletedLastWeek({
+      variables: {
+        get_todos_input: {
+          query: {
+            completed: true,
+            access: { revoked: false, user: { uuid: userUuidVar() } },
+            AND: [
+              {
+                GT: {
+                  completed_at: dayjs().subtract(6, "day").toISOString(),
+                },
+              },
+              {
+                LT: {
+                  completed_at: dayjs().toISOString(),
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+    getIncompleteLastWeek({
+      variables: {
+        get_todos_input: {
+          query: {
+            completed: false,
+            access: { revoked: false, user: { uuid: userUuidVar() } },
+            AND: [
+              {
+                GT: {
+                  goal_date: dayjs().subtract(6, "day").toISOString(),
+                },
+              },
+              {
+                LT: {
+                  goal_date: dayjs().toISOString(),
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+  }, [getCompletedLastWeek, getIncompleteLastWeek]);
 
   const sortTodos = <T,>(arr: T[]) => {
     const today = dayjs().day();
@@ -33,7 +71,7 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
 
   const xAxisLabelsSorted = sortTodos(dayjs.weekdaysShort(true));
 
-  const completed = completedLastWeek.reduce(
+  const completed = completedLastWeek?.get_todos.data.reduce(
     (acc, todo) => {
       if (todo?.completed_at) {
         const todoDay = dayjs.tz(todo?.completed_at).local().day();
@@ -44,9 +82,9 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
     },
     [0, 0, 0, 0, 0, 0, 0]
   );
-  const sortedCompleted = sortTodos(completed);
+  const sortedCompleted = sortTodos(completed ?? []);
 
-  const incomplete = incompleteLastWeek.reduce(
+  const incomplete = incompleteLastWeek?.get_todos.data.reduce(
     (acc, todo) => {
       if (todo?.goal_date) {
         const todoDay = dayjs(todo?.goal_date).day();
@@ -56,7 +94,7 @@ export const TodosCompletedChart: FC<TodosCompletedProps> = ({ todos }) => {
     },
     [0, 0, 0, 0, 0, 0, 0]
   );
-  const sortedIncomplete = sortTodos(incomplete);
+  const sortedIncomplete = sortTodos(incomplete ?? []);
 
   return (
     <Chart
