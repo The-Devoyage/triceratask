@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import Chart from "react-apexcharts";
-import { Badge, Card, Tooltip } from "flowbite-react";
+import { Card, Tooltip } from "flowbite-react";
 import { useReactiveVar } from "@apollo/client";
 import { darkModeVar, userUuidVar } from "src/state";
 import { useGoalMetChartGetTodosCountLazyQuery } from "./graphql.generated";
 import { Loader } from "src/components";
 import { TbMath } from "react-icons/tb";
+import { FaInfoCircle } from "react-icons/fa";
 
 export const GoalMetChart = () => {
   const darkMode = useReactiveVar(darkModeVar);
@@ -81,9 +82,11 @@ export const GoalMetChart = () => {
   return (
     <Card>
       <div className="flex justify-between">
-        <h3 className="text-2xl font-bold">Goal Met</h3>
-        <Tooltip content="The percentage of goals met.">
-          <Badge>All Time</Badge>
+        <h3 className="text-2xl font-bold">Goal Score</h3>
+        <Tooltip
+          content={`You are ${percentage}% likely to meet goals on time.`}
+        >
+          <FaInfoCircle />
         </Tooltip>
       </div>
       <Chart
@@ -111,6 +114,9 @@ export const GoalMetChart = () => {
         }}
         series={[percentage]}
       />
+      <p className="text-lg text-center">
+        Of {totalCount} goals, you have completed {completedCount} on time.
+      </p>
     </Card>
   );
 };
