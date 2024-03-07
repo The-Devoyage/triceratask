@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Card,
+  TextInput,
   Textarea,
   ToggleSwitch,
   Tooltip,
@@ -29,7 +30,7 @@ export const Profile = () => {
       toaster.addToast("success", "Settings Saved!");
     },
   });
-  const { register, handleSubmit, reset } = useForm<
+  const { register, handleSubmit, reset, formState } = useForm<
     Update_Users_Input["values"]
   >();
   const toaster = useToaster();
@@ -47,8 +48,10 @@ export const Profile = () => {
   useEffect(() => {
     reset({
       status: data?.get_user?.data.status ?? "",
+      email: data?.get_user?.data.email ?? "",
+      phone: data?.get_user?.data.phone ?? "",
     });
-  }, [data?.get_user?.data.status, reset]);
+  }, [data?.get_user?.data, reset]);
 
   const handleActive = (checked: boolean) => {
     isActiveVar(checked);
@@ -137,7 +140,34 @@ export const Profile = () => {
               )}
             </div>
             {uuid === userUuidVar() ? (
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit(onSubmit)} className="py-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div className="col">
+                    <TextInput
+                      type="email"
+                      {...register("email", {
+                        required: true,
+                        pattern: /^\S+@\S+\.\S+$/,
+                      })}
+                      placeholder="Email"
+                      color={formState.errors.email ? "failure" : undefined}
+                    />
+                  </div>
+                  <div>
+                    <TextInput
+                      type="tel"
+                      {...register("phone", {
+                        pattern: /^\+\d{1,3}\s?\(\d{1,3}\)\s?\d{3,}-?\d{2,}$/,
+                      })}
+                      placeholder="+1 (555) 555-5555"
+                      color={formState.errors.phone ? "failure" : undefined}
+                      multiple
+                      helperText={
+                        formState.errors.phone && "Format: +1 (555) 555-5555"
+                      }
+                    />
+                  </div>
+                </div>
                 <Textarea
                   className="my-2"
                   placeholder="Share your status with other users."

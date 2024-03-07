@@ -23,6 +23,12 @@ fields = [
 from = "triceratask_ds"
 
 [[entities.data_source.resolvers.find_one.guards]]
+name = "require_uuid"
+if_expr = '''
+  len(input("query", "uuid")) == 0
+'''
+then_msg = "Provide input value `uuid`."
+[[entities.data_source.resolvers.find_one.guards]]
 name = "require_access_user_uuid"
 if_expr = '''
   !every(input("query", "access.user.uuid"), token_data("user_uuid"))

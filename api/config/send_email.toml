@@ -1,0 +1,166 @@
+[[entities]]
+name = "send_email"
+required = true
+exclude_from_output = true
+
+[entities.data_source]
+from = "sendgrid"
+path = "/v3/mail"
+[entities.data_source.resolvers]
+[entities.data_source.resolvers.create_one]
+path = "/send"
+
+[[entities.fields]]
+name = "personalizations" 
+scalar = "Object"
+required = true
+list = true
+fields = [
+  { name = "to", scalar = "Object", list = true, required = true, fields = [
+    { name = "email", scalar = "String", required = true },
+    { name = "name", scalar = "String" }
+  ]},
+  { name = "cc", scalar = "Object", list = true, fields = [
+    { name = "email", scalar = "String", required = true },
+    { name = "name", scalar = "String" }
+  ]},
+  { name = "bcc", scalar = "Object", list = true, fields = [
+    { name = "email", scalar = "String", required = true },
+    { name = "name", scalar = "String" }
+  ]},
+  { name = "dynamic_template_data", scalar = "Object", fields = [
+    { name = "invitor", scalar = "String" }
+  ] }
+]
+
+[[entities.fields]]
+name = "from"
+scalar = "Object"
+required = true
+fields = [
+  { name = "email", scalar = "String" },
+  { name = "name", scalar = "String" }
+]
+
+[[entities.fields]]
+name = "replyTo"
+scalar = "Object"
+fields = [
+  { name = "email", scalar = "String" },
+  { name = "name", scalar = "String" }
+]
+
+[[entities.fields]]
+name = "subject"
+scalar = "String"
+required = true
+
+[[entities.fields]]
+name = "content"
+scalar = "Object"
+required = true
+list = true
+fields = [
+  { name = "type", scalar = "String", required = true },
+  { name = "value", scalar = "String", required = true }
+]
+
+[[entities.fields]]
+name = "attachments"
+scalar = "Object"
+list = true
+fields = [
+  { name = "content", scalar = "String", required = true },
+  { name = "filename", scalar = "String", required = true },
+  { name = "type", scalar = "String" },
+  { name = "disposition", scalar = "String" }
+]
+
+[[entities.fields]]
+name = "categories"
+scalar = "String"
+list = true
+
+[[entities.fields]]
+name = "template_id"
+scalar = "String"
+
+[[entities.fields]]
+name = "sendAt"
+scalar = "Int"
+
+[[entities.fields]]
+name = "batchId"
+scalar = "String"
+
+[[entities.fields]]
+name = "asm"
+scalar = "Object"
+fields = [
+  { name = "groupId", scalar = "Int", required = true },
+  { name = "groupsToDisplay", scalar = "Int", list = true }
+]
+
+[[entities.fields]]
+name = "ipPoolName"
+scalar = "String"
+
+[[entities.fields]]
+name = "mailSettings"
+scalar = "Object"
+fields = [
+  { name = "bcc", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "email", scalar = "String" }
+  ]},
+  { name = "bypassListManagement", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" }
+  ]},
+  { name = "bypassBounceManagement", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" }
+  ]},
+  { name = "bypassUnsubscribeManagement", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" }
+  ]},
+  { name = "footer", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "text", scalar = "String" },
+    { name = "html", scalar = "String" }
+  ]},
+  { name = "sandboxMode", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" }
+  ]},
+  { name = "spamCheck", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "threshold", scalar = "Int" },
+    { name = "postToUrl", scalar = "String" }
+  ]}
+]
+
+[[entities.fields]]
+name = "trackingSettings"
+scalar = "Object"
+fields = [
+  { name = "clickTracking", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "enableText", scalar = "Boolean" }
+  ]},
+  { name = "openTracking", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "substitutionTag", scalar = "String" }
+  ]},
+  { name = "subscriptionTracking", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "text", scalar = "String" },
+    { name = "html", scalar = "String" },
+    { name = "substitutionTag", scalar = "String" }
+  ]},
+  { name = "ganalytics", scalar = "Object", fields = [
+    { name = "enable", scalar = "Boolean" },
+    { name = "utmSource", scalar = "String" },
+    { name = "utmMedium", scalar = "String" },
+    { name = "utmTerm", scalar = "String" },
+    { name = "utmContent", scalar = "String" },
+    { name = "utmCampaign", scalar = "String" }
+  ]}
+]

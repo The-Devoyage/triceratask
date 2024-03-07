@@ -6,8 +6,12 @@ fields = [
   { name = "id", scalar = "Int", required = true, exclude_from_input = ["All"], exclude_from_output = true },
   { name = "uuid", scalar = "UUID", required = true, exclude_from_input = ["CreateOne", "UpdateOne", "UpdateMany"] },
   { name = "identifier", scalar = "String", required = true },
-  { name = "created_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
-  { name = "updated_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
+  { name = "profile_img", scalar = "String" },
+  { name = "last_active", scalar = "DateTime" },
+  { name = "share_active", scalar = "Boolean"},
+  { name = "status", scalar = "String" },
+  { name = "email", scalar = "String" },
+  { name = "phone", scalar = "String" },
   { name = "registration_state", scalar = "String", exclude_from_input = ["All"] },
   { name = "passkey", scalar = "String", exclude_from_input = ["All"], guards = [
     { name = "Permissions Error", if_expr = "!every(input(\"query\", \"uuid\"), token_data(\"user_uuid\"))", then_msg = "You may not request pass keys that belong to other users." }
@@ -15,8 +19,6 @@ fields = [
   { name = "authentication_state", scalar = "String", exclude_from_input = ["All"], guards = [
     { name = "Permissions Error", if_expr = "!every(input(\"query\", \"uuid\"), token_data(\"user_uuid\"))", then_msg = "You may not request pass keys that belong to other users." }
   ] },
-  { name = "profile_img", scalar = "String" },
-  { name = "last_active", scalar = "DateTime" },
-  { name = "share_active", scalar = "Boolean"},
-  { name = "status", scalar = "String" }
+  { name = "created_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
+  { name = "updated_at", scalar = "DateTime", required = true, exclude_from_input = ["All"] },
 ]

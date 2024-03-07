@@ -10,6 +10,8 @@ export const GET_USER = gql`
         created_at
         share_active
         status
+        email
+        phone
       }
     }
   }

@@ -9,6 +9,8 @@ export const UPDATE_USERS = gql`
         profile_img
         created_at
         share_active
+        email
+        phone
       }
     }
   }
@@ -24,6 +26,8 @@ export const GET_USER = gql`
         created_at
         share_active
         status
+        email
+        phone
       }
     }
   }

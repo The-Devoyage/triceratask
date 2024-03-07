@@ -82,7 +82,7 @@ export const GoalMetChart = () => {
   return (
     <Card>
       <div className="flex justify-between">
-        <h3 className="text-2xl font-bold">Goal Score</h3>
+        <h3 className="text-2xl font-bold">Reliability Index</h3>
         <Tooltip
           content={`You are ${percentage}% likely to meet goals on time.`}
         >

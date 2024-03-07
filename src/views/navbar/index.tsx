@@ -8,7 +8,9 @@ import {
   isActiveVar,
   isLoggedInVar,
   sidebarHiddenVar,
+  userEmailVar,
   userIdentifierVar,
+  userPhoneVar,
   userUuidVar,
 } from "src/state";
 import { useGetUserQuery } from "./graphql.generated";
@@ -33,6 +35,10 @@ export const AppNavbar = () => {
       if (data?.get_user?.data.share_active) {
         isActiveVar(data.get_user.data.share_active);
       }
+      userEmailVar(data?.get_user?.data.email);
+      userPhoneVar(data?.get_user?.data.phone);
+      localStorage.setItem("user_email", data?.get_user?.data.email ?? "");
+      localStorage.setItem("user_phone", data?.get_user?.data.phone ?? "");
     },
   });
 

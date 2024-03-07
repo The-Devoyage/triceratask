@@ -295,8 +295,10 @@ export type Create_User_Input = {
 };
 
 export type Create_User_Values_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
   identifier: Scalars['String']['input'];
   last_active?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -680,8 +682,10 @@ export type Get_User_Query_Input = {
   LIKE?: InputMaybe<Get_User_Query_Input>;
   LT?: InputMaybe<Get_User_Query_Input>;
   OR?: InputMaybe<Array<Get_User_Query_Input>>;
+  email?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -699,8 +703,10 @@ export type Get_Users_Querys_Input = {
   LIKE?: InputMaybe<Get_Users_Querys_Input>;
   LT?: InputMaybe<Get_Users_Querys_Input>;
   OR?: InputMaybe<Array<Get_Users_Querys_Input>>;
+  email?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1038,8 +1044,10 @@ export type Update_Users_Query_Input = {
   LIKE?: InputMaybe<Update_Users_Query_Input>;
   LT?: InputMaybe<Update_Users_Query_Input>;
   OR?: InputMaybe<Array<Update_Users_Query_Input>>;
+  email?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1047,8 +1055,10 @@ export type Update_Users_Query_Input = {
 };
 
 export type Update_Users_Values_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<Scalars['String']['input']>;
   last_active?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   profile_img?: InputMaybe<Scalars['String']['input']>;
   share_active?: InputMaybe<Scalars['Boolean']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1100,9 +1110,11 @@ export type User = {
   __typename?: 'user';
   authentication_state?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['String']['output'];
+  email?: Maybe<Scalars['String']['output']>;
   identifier: Scalars['String']['output'];
   last_active?: Maybe<Scalars['String']['output']>;
   passkey?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
   profile_img?: Maybe<Scalars['String']['output']>;
   registration_state?: Maybe<Scalars['String']['output']>;
   share_active?: Maybe<Scalars['Boolean']['output']>;

@@ -9,7 +9,8 @@ imports = [
   "./todo_access.toml",
   "./user_connections.toml",
   "./user.toml",
-  "./notification.toml"
+  "./notification.toml",
+  "./send_email.toml"
 ]
 
 [service.cors]
@@ -27,15 +28,13 @@ dialect = "SQLITE"
 sqlite_extensions = ["$TRICERATASK_SQLITE_EXTENSIONS"]
 migrations_path = "$TRICERATASK_MIGRATIONS_PATH"
 
-# [service.data_sources.SQL]
-# name = "triceratask_ds"
-# uri = "postgre://root:rootroot@localhost:5432/triceratask"
-# dialect = "POSTGRES"
-
-# [service.data_sources.SQL]
-# name = "triceratask_ds"
-# dialect = "MYSQL"
-# uri = "mysql://root:rootroot1234@localhost:3306/triceratask"
+[[service.data_sources]]
+[service.data_sources.HTTP]
+name = "sendgrid"
+url = "https://api.sendgrid.com"
+default_headers = [
+  { name = "Authorization", value = "Bearer $SENDGRID_API_KEY" }
+]
 
 [service.auth]
 requesting_party = "$TRICERATASK_RP" #"localhost"
