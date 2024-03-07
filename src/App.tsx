@@ -43,14 +43,25 @@ export const App = () => {
   useGetUsersActive();
 
   useEffect(() => {
+    const lastBackupRequest = localStorage.getItem("lastBackupRequest");
     if (!isLoggedIn) return;
 
-    if (!userEmail || !userPhone) setShowModal(true);
+    if (
+      (!userEmail || !userPhone) &&
+      new Date().getTime() - new Date(lastBackupRequest!).getTime() >
+        1000 * 60 * 60 * 24 * 7
+    )
+      setShowModal(true);
     if (userEmail || userPhone) setShowModal(false);
   }, [userEmail, userPhone, isLoggedIn]);
 
   const handleHideSidebar = () => {
     if (!sidebarHidden && isMobile) sidebarHiddenVar(true);
+  };
+
+  const handleMaybeLater = () => {
+    localStorage.setItem("lastBackupRequest", new Date().toISOString());
+    setShowModal(false);
   };
 
   return (
@@ -85,7 +96,7 @@ export const App = () => {
             Please backup your account by adding your email and phone number.
           </p>
           <div className="flex flex-row space-x-4">
-            <Button outline onClick={() => setShowModal(false)}>
+            <Button outline onClick={handleMaybeLater}>
               Maybe Later
             </Button>
             <Button
