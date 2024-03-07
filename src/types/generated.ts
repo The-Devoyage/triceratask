@@ -20,6 +20,7 @@ export type Mutation = {
   authenticate_start: Scalars['String']['output'];
   create_notification: Createone_Notification_Response;
   create_notification_message: Createone_Notification_Message_Response;
+  create_send_email: Createone_Send_Email_Response;
   create_todo: Createone_Todo_Response;
   create_todo_access: Createone_Todo_Access_Response;
   create_todo_history: Createone_Todo_History_Response;
@@ -29,6 +30,8 @@ export type Mutation = {
   register_start: Scalars['String']['output'];
   update_notification_messages: Updatemany_Notification_Message_Response;
   update_notifications: Updatemany_Notification_Response;
+  update_send_email: Updateone_Send_Email_Response;
+  update_send_emails: Updatemany_Send_Email_Response;
   update_todo_accesss: Updatemany_Todo_Access_Response;
   update_todo_historys: Updatemany_Todo_History_Response;
   update_todos: Updatemany_Todo_Response;
@@ -55,6 +58,11 @@ export type MutationCreate_NotificationArgs = {
 
 export type MutationCreate_Notification_MessageArgs = {
   create_notification_message_input: Create_Notification_Message_Input;
+};
+
+
+export type MutationCreate_Send_EmailArgs = {
+  create_send_email_input: Create_Send_Email_Input;
 };
 
 
@@ -104,6 +112,16 @@ export type MutationUpdate_NotificationsArgs = {
 };
 
 
+export type MutationUpdate_Send_EmailArgs = {
+  update_send_email_input: Update_Send_Email_Input;
+};
+
+
+export type MutationUpdate_Send_EmailsArgs = {
+  update_send_emails_input: Update_Send_Emails_Input;
+};
+
+
 export type MutationUpdate_Todo_AccesssArgs = {
   update_todo_accesss_input: Update_Todo_Accesss_Input;
 };
@@ -135,6 +153,8 @@ export type Query = {
   get_notification_message: Findone_Notification_Message_Response;
   get_notification_messages: Findmany_Notification_Message_Response;
   get_notifications: Findmany_Notification_Response;
+  get_send_email: Findone_Send_Email_Response;
+  get_send_emails: Findmany_Send_Email_Response;
   get_todo: Findone_Todo_Response;
   get_todo_access: Findone_Todo_Access_Response;
   get_todo_accesss: Findmany_Todo_Access_Response;
@@ -165,6 +185,16 @@ export type QueryGet_Notification_MessagesArgs = {
 
 export type QueryGet_NotificationsArgs = {
   get_notifications_input: Get_Notifications_Input;
+};
+
+
+export type QueryGet_Send_EmailArgs = {
+  get_send_email_input: Get_Send_Email_Input;
+};
+
+
+export type QueryGet_Send_EmailsArgs = {
+  get_send_emails_input: Get_Send_Emails_Input;
 };
 
 
@@ -247,6 +277,156 @@ export type Create_Notification_Values_Input = {
   read: Scalars['Boolean']['input'];
 };
 
+export type Create_Send_Email_Input = {
+  values: Create_Send_Email_Values_Input;
+};
+
+export type Create_Send_Email_Values_Asm_Input = {
+  groupId: Scalars['Int']['input'];
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Create_Send_Email_Values_Attachments_Input = {
+  content: Scalars['String']['input'];
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename: Scalars['String']['input'];
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_Content_Input = {
+  type: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
+export type Create_Send_Email_Values_From_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_Input = {
+  asm?: InputMaybe<Create_Send_Email_Values_Asm_Input>;
+  attachments?: InputMaybe<Array<Create_Send_Email_Values_Attachments_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content: Array<Create_Send_Email_Values_Content_Input>;
+  from: Create_Send_Email_Values_From_Input;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Create_Send_Email_Values_MailSettings_Input>;
+  personalizations: Array<Create_Send_Email_Values_Personalizations_Input>;
+  replyTo?: InputMaybe<Create_Send_Email_Values_ReplyTo_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject: Scalars['String']['input'];
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Create_Send_Email_Values_TrackingSettings_Input>;
+};
+
+export type Create_Send_Email_Values_MailSettings_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_BypassBounceManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_BypassListManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_BypassUnsubscribeManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_Footer_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_Input = {
+  bcc?: InputMaybe<Create_Send_Email_Values_MailSettings_Bcc_Input>;
+  bypassBounceManagement?: InputMaybe<Create_Send_Email_Values_MailSettings_BypassBounceManagement_Input>;
+  bypassListManagement?: InputMaybe<Create_Send_Email_Values_MailSettings_BypassListManagement_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Create_Send_Email_Values_MailSettings_BypassUnsubscribeManagement_Input>;
+  footer?: InputMaybe<Create_Send_Email_Values_MailSettings_Footer_Input>;
+  sandboxMode?: InputMaybe<Create_Send_Email_Values_MailSettings_SandboxMode_Input>;
+  spamCheck?: InputMaybe<Create_Send_Email_Values_MailSettings_SpamCheck_Input>;
+};
+
+export type Create_Send_Email_Values_MailSettings_SandboxMode_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_MailSettings_SpamCheck_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Create_Send_Email_Values_Personalizations_Bcc_Input = {
+  email: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_Personalizations_Cc_Input = {
+  email: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_Personalizations_Dynamic_Template_Data_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_Personalizations_Input = {
+  bcc?: InputMaybe<Array<Create_Send_Email_Values_Personalizations_Bcc_Input>>;
+  cc?: InputMaybe<Array<Create_Send_Email_Values_Personalizations_Cc_Input>>;
+  dynamic_template_data?: InputMaybe<Create_Send_Email_Values_Personalizations_Dynamic_Template_Data_Input>;
+  to: Array<Create_Send_Email_Values_Personalizations_To_Input>;
+};
+
+export type Create_Send_Email_Values_Personalizations_To_Input = {
+  email: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_ReplyTo_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_TrackingSettings_ClickTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Create_Send_Email_Values_TrackingSettings_Ganalytics_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_TrackingSettings_Input = {
+  clickTracking?: InputMaybe<Create_Send_Email_Values_TrackingSettings_ClickTracking_Input>;
+  ganalytics?: InputMaybe<Create_Send_Email_Values_TrackingSettings_Ganalytics_Input>;
+  openTracking?: InputMaybe<Create_Send_Email_Values_TrackingSettings_OpenTracking_Input>;
+  subscriptionTracking?: InputMaybe<Create_Send_Email_Values_TrackingSettings_SubscriptionTracking_Input>;
+};
+
+export type Create_Send_Email_Values_TrackingSettings_OpenTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Create_Send_Email_Values_TrackingSettings_SubscriptionTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Create_Todo_Access_Input = {
   values: Create_Todo_Access_Values_Input;
 };
@@ -316,6 +496,11 @@ export type Createone_Notification_Response = {
   meta?: Maybe<Meta>;
 };
 
+export type Createone_Send_Email_Response = {
+  __typename?: 'createone_send_email_response';
+  meta?: Maybe<Meta>;
+};
+
 export type Createone_Todo_Access_Response = {
   __typename?: 'createone_todo_access_response';
   data: Todo_Access;
@@ -358,6 +543,11 @@ export type Findmany_Notification_Response = {
   meta?: Maybe<Meta>;
 };
 
+export type Findmany_Send_Email_Response = {
+  __typename?: 'findmany_send_email_response';
+  meta?: Maybe<Meta>;
+};
+
 export type Findmany_Todo_Access_Response = {
   __typename?: 'findmany_todo_access_response';
   data: Array<Todo_Access>;
@@ -397,6 +587,11 @@ export type Findone_Notification_Message_Response = {
 export type Findone_Notification_Response = {
   __typename?: 'findone_notification_response';
   data: Notification;
+  meta?: Maybe<Meta>;
+};
+
+export type Findone_Send_Email_Response = {
+  __typename?: 'findone_send_email_response';
   meta?: Maybe<Meta>;
 };
 
@@ -498,6 +693,306 @@ export type Get_Notifications_Querys_Input = {
   updated_at?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<Get_User_Query_Input>;
   uuid?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Input = {
+  query: Get_Send_Email_Query_Input;
+};
+
+export type Get_Send_Email_Query_Asm_Input = {
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Get_Send_Email_Query_Attachments_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_Content_Input = {
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_From_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_Input = {
+  asm?: InputMaybe<Get_Send_Email_Query_Asm_Input>;
+  attachments?: InputMaybe<Array<Get_Send_Email_Query_Attachments_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content?: InputMaybe<Array<Get_Send_Email_Query_Content_Input>>;
+  from?: InputMaybe<Get_Send_Email_Query_From_Input>;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Get_Send_Email_Query_MailSettings_Input>;
+  personalizations?: InputMaybe<Array<Get_Send_Email_Query_Personalizations_Input>>;
+  replyTo?: InputMaybe<Get_Send_Email_Query_ReplyTo_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Get_Send_Email_Query_TrackingSettings_Input>;
+};
+
+export type Get_Send_Email_Query_MailSettings_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_BypassBounceManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_BypassListManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_BypassUnsubscribeManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_Footer_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_Input = {
+  bcc?: InputMaybe<Get_Send_Email_Query_MailSettings_Bcc_Input>;
+  bypassBounceManagement?: InputMaybe<Get_Send_Email_Query_MailSettings_BypassBounceManagement_Input>;
+  bypassListManagement?: InputMaybe<Get_Send_Email_Query_MailSettings_BypassListManagement_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Get_Send_Email_Query_MailSettings_BypassUnsubscribeManagement_Input>;
+  footer?: InputMaybe<Get_Send_Email_Query_MailSettings_Footer_Input>;
+  sandboxMode?: InputMaybe<Get_Send_Email_Query_MailSettings_SandboxMode_Input>;
+  spamCheck?: InputMaybe<Get_Send_Email_Query_MailSettings_SpamCheck_Input>;
+};
+
+export type Get_Send_Email_Query_MailSettings_SandboxMode_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_MailSettings_SpamCheck_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Get_Send_Email_Query_Personalizations_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_Personalizations_Cc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_Personalizations_Dynamic_Template_Data_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_Personalizations_Input = {
+  bcc?: InputMaybe<Array<Get_Send_Email_Query_Personalizations_Bcc_Input>>;
+  cc?: InputMaybe<Array<Get_Send_Email_Query_Personalizations_Cc_Input>>;
+  dynamic_template_data?: InputMaybe<Get_Send_Email_Query_Personalizations_Dynamic_Template_Data_Input>;
+  to?: InputMaybe<Array<Get_Send_Email_Query_Personalizations_To_Input>>;
+};
+
+export type Get_Send_Email_Query_Personalizations_To_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_ReplyTo_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_TrackingSettings_ClickTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Email_Query_TrackingSettings_Ganalytics_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_TrackingSettings_Input = {
+  clickTracking?: InputMaybe<Get_Send_Email_Query_TrackingSettings_ClickTracking_Input>;
+  ganalytics?: InputMaybe<Get_Send_Email_Query_TrackingSettings_Ganalytics_Input>;
+  openTracking?: InputMaybe<Get_Send_Email_Query_TrackingSettings_OpenTracking_Input>;
+  subscriptionTracking?: InputMaybe<Get_Send_Email_Query_TrackingSettings_SubscriptionTracking_Input>;
+};
+
+export type Get_Send_Email_Query_TrackingSettings_OpenTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Email_Query_TrackingSettings_SubscriptionTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Input = {
+  query: Get_Send_Emails_Querys_Input;
+};
+
+export type Get_Send_Emails_Querys_Asms_Input = {
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Get_Send_Emails_Querys_Attachmentss_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Contents_Input = {
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Froms_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Input = {
+  asm?: InputMaybe<Get_Send_Emails_Querys_Asms_Input>;
+  attachments?: InputMaybe<Array<Get_Send_Emails_Querys_Attachmentss_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content?: InputMaybe<Array<Get_Send_Emails_Querys_Contents_Input>>;
+  from?: InputMaybe<Get_Send_Emails_Querys_Froms_Input>;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_Input>;
+  personalizations?: InputMaybe<Array<Get_Send_Emails_Querys_Personalizationss_Input>>;
+  replyTo?: InputMaybe<Get_Send_Emails_Querys_ReplyTos_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Get_Send_Emails_Querys_TrackingSettingss_Input>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_Bccs_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_BypassBounceManagements_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_BypassListManagements_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_BypassUnsubscribeManagements_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_Footers_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_Input = {
+  bcc?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_Bccs_Input>;
+  bypassBounceManagement?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_BypassBounceManagements_Input>;
+  bypassListManagement?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_BypassListManagements_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_BypassUnsubscribeManagements_Input>;
+  footer?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_Footers_Input>;
+  sandboxMode?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_SandboxModes_Input>;
+  spamCheck?: InputMaybe<Get_Send_Emails_Querys_MailSettingss_SpamChecks_Input>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_SandboxModes_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_MailSettingss_SpamChecks_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Personalizationss_Bccs_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Personalizationss_Ccs_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Personalizationss_Dynamic_Template_Datas_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_Personalizationss_Input = {
+  bcc?: InputMaybe<Array<Get_Send_Emails_Querys_Personalizationss_Bccs_Input>>;
+  cc?: InputMaybe<Array<Get_Send_Emails_Querys_Personalizationss_Ccs_Input>>;
+  dynamic_template_data?: InputMaybe<Get_Send_Emails_Querys_Personalizationss_Dynamic_Template_Datas_Input>;
+  to?: InputMaybe<Array<Get_Send_Emails_Querys_Personalizationss_Tos_Input>>;
+};
+
+export type Get_Send_Emails_Querys_Personalizationss_Tos_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_ReplyTos_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_TrackingSettingss_ClickTrackings_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Get_Send_Emails_Querys_TrackingSettingss_Ganalyticss_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_TrackingSettingss_Input = {
+  clickTracking?: InputMaybe<Get_Send_Emails_Querys_TrackingSettingss_ClickTrackings_Input>;
+  ganalytics?: InputMaybe<Get_Send_Emails_Querys_TrackingSettingss_Ganalyticss_Input>;
+  openTracking?: InputMaybe<Get_Send_Emails_Querys_TrackingSettingss_OpenTrackings_Input>;
+  subscriptionTracking?: InputMaybe<Get_Send_Emails_Querys_TrackingSettingss_SubscriptionTrackings_Input>;
+};
+
+export type Get_Send_Emails_Querys_TrackingSettingss_OpenTrackings_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Get_Send_Emails_Querys_TrackingSettingss_SubscriptionTrackings_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Get_Todo_Access_Input = {
@@ -916,6 +1411,454 @@ export type Update_Notifications_Values_Input = {
   read?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+export type Update_Send_Email_Input = {
+  query: Get_Send_Email_Query_Input;
+  values: Update_Send_Email_Values_Input;
+};
+
+export type Update_Send_Email_Values_Asm_Input = {
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Update_Send_Email_Values_Attachments_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_Content_Input = {
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_From_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_Input = {
+  asm?: InputMaybe<Update_Send_Email_Values_Asm_Input>;
+  attachments?: InputMaybe<Array<Update_Send_Email_Values_Attachments_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content?: InputMaybe<Array<Update_Send_Email_Values_Content_Input>>;
+  from?: InputMaybe<Update_Send_Email_Values_From_Input>;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Update_Send_Email_Values_MailSettings_Input>;
+  personalizations?: InputMaybe<Array<Update_Send_Email_Values_Personalizations_Input>>;
+  replyTo?: InputMaybe<Update_Send_Email_Values_ReplyTo_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Update_Send_Email_Values_TrackingSettings_Input>;
+};
+
+export type Update_Send_Email_Values_MailSettings_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_BypassBounceManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_BypassListManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_BypassUnsubscribeManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_Footer_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_Input = {
+  bcc?: InputMaybe<Update_Send_Email_Values_MailSettings_Bcc_Input>;
+  bypassBounceManagement?: InputMaybe<Update_Send_Email_Values_MailSettings_BypassBounceManagement_Input>;
+  bypassListManagement?: InputMaybe<Update_Send_Email_Values_MailSettings_BypassListManagement_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Update_Send_Email_Values_MailSettings_BypassUnsubscribeManagement_Input>;
+  footer?: InputMaybe<Update_Send_Email_Values_MailSettings_Footer_Input>;
+  sandboxMode?: InputMaybe<Update_Send_Email_Values_MailSettings_SandboxMode_Input>;
+  spamCheck?: InputMaybe<Update_Send_Email_Values_MailSettings_SpamCheck_Input>;
+};
+
+export type Update_Send_Email_Values_MailSettings_SandboxMode_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_MailSettings_SpamCheck_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Update_Send_Email_Values_Personalizations_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_Personalizations_Cc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_Personalizations_Dynamic_Template_Data_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_Personalizations_Input = {
+  bcc?: InputMaybe<Array<Update_Send_Email_Values_Personalizations_Bcc_Input>>;
+  cc?: InputMaybe<Array<Update_Send_Email_Values_Personalizations_Cc_Input>>;
+  dynamic_template_data?: InputMaybe<Update_Send_Email_Values_Personalizations_Dynamic_Template_Data_Input>;
+  to?: InputMaybe<Array<Update_Send_Email_Values_Personalizations_To_Input>>;
+};
+
+export type Update_Send_Email_Values_Personalizations_To_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_ReplyTo_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_TrackingSettings_ClickTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Email_Values_TrackingSettings_Ganalytics_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_TrackingSettings_Input = {
+  clickTracking?: InputMaybe<Update_Send_Email_Values_TrackingSettings_ClickTracking_Input>;
+  ganalytics?: InputMaybe<Update_Send_Email_Values_TrackingSettings_Ganalytics_Input>;
+  openTracking?: InputMaybe<Update_Send_Email_Values_TrackingSettings_OpenTracking_Input>;
+  subscriptionTracking?: InputMaybe<Update_Send_Email_Values_TrackingSettings_SubscriptionTracking_Input>;
+};
+
+export type Update_Send_Email_Values_TrackingSettings_OpenTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Email_Values_TrackingSettings_SubscriptionTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Input = {
+  query: Update_Send_Emails_Query_Input;
+  values: Update_Send_Emails_Values_Input;
+};
+
+export type Update_Send_Emails_Query_Asm_Input = {
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Update_Send_Emails_Query_Attachments_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_Content_Input = {
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_From_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_Input = {
+  asm?: InputMaybe<Update_Send_Emails_Query_Asm_Input>;
+  attachments?: InputMaybe<Array<Update_Send_Emails_Query_Attachments_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content?: InputMaybe<Array<Update_Send_Emails_Query_Content_Input>>;
+  from?: InputMaybe<Update_Send_Emails_Query_From_Input>;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Update_Send_Emails_Query_MailSettings_Input>;
+  personalizations?: InputMaybe<Array<Update_Send_Emails_Query_Personalizations_Input>>;
+  replyTo?: InputMaybe<Update_Send_Emails_Query_ReplyTo_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Update_Send_Emails_Query_TrackingSettings_Input>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_BypassBounceManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_BypassListManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_BypassUnsubscribeManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_Footer_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_Input = {
+  bcc?: InputMaybe<Update_Send_Emails_Query_MailSettings_Bcc_Input>;
+  bypassBounceManagement?: InputMaybe<Update_Send_Emails_Query_MailSettings_BypassBounceManagement_Input>;
+  bypassListManagement?: InputMaybe<Update_Send_Emails_Query_MailSettings_BypassListManagement_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Update_Send_Emails_Query_MailSettings_BypassUnsubscribeManagement_Input>;
+  footer?: InputMaybe<Update_Send_Emails_Query_MailSettings_Footer_Input>;
+  sandboxMode?: InputMaybe<Update_Send_Emails_Query_MailSettings_SandboxMode_Input>;
+  spamCheck?: InputMaybe<Update_Send_Emails_Query_MailSettings_SpamCheck_Input>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_SandboxMode_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_MailSettings_SpamCheck_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Update_Send_Emails_Query_Personalizations_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_Personalizations_Cc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_Personalizations_Dynamic_Template_Data_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_Personalizations_Input = {
+  bcc?: InputMaybe<Array<Update_Send_Emails_Query_Personalizations_Bcc_Input>>;
+  cc?: InputMaybe<Array<Update_Send_Emails_Query_Personalizations_Cc_Input>>;
+  dynamic_template_data?: InputMaybe<Update_Send_Emails_Query_Personalizations_Dynamic_Template_Data_Input>;
+  to?: InputMaybe<Array<Update_Send_Emails_Query_Personalizations_To_Input>>;
+};
+
+export type Update_Send_Emails_Query_Personalizations_To_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_ReplyTo_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_TrackingSettings_ClickTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Query_TrackingSettings_Ganalytics_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_TrackingSettings_Input = {
+  clickTracking?: InputMaybe<Update_Send_Emails_Query_TrackingSettings_ClickTracking_Input>;
+  ganalytics?: InputMaybe<Update_Send_Emails_Query_TrackingSettings_Ganalytics_Input>;
+  openTracking?: InputMaybe<Update_Send_Emails_Query_TrackingSettings_OpenTracking_Input>;
+  subscriptionTracking?: InputMaybe<Update_Send_Emails_Query_TrackingSettings_SubscriptionTracking_Input>;
+};
+
+export type Update_Send_Emails_Query_TrackingSettings_OpenTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Query_TrackingSettings_SubscriptionTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Asm_Input = {
+  groupId?: InputMaybe<Scalars['Int']['input']>;
+  groupsToDisplay?: InputMaybe<Array<Scalars['Int']['input']>>;
+};
+
+export type Update_Send_Emails_Values_Attachments_Input = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  disposition?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Content_Input = {
+  type?: InputMaybe<Scalars['String']['input']>;
+  value?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_From_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Input = {
+  asm?: InputMaybe<Update_Send_Emails_Values_Asm_Input>;
+  attachments?: InputMaybe<Array<Update_Send_Emails_Values_Attachments_Input>>;
+  batchId?: InputMaybe<Scalars['String']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  content?: InputMaybe<Array<Update_Send_Emails_Values_Content_Input>>;
+  from?: InputMaybe<Update_Send_Emails_Values_From_Input>;
+  ipPoolName?: InputMaybe<Scalars['String']['input']>;
+  mailSettings?: InputMaybe<Update_Send_Emails_Values_MailSettings_Input>;
+  personalizations?: InputMaybe<Array<Update_Send_Emails_Values_Personalizations_Input>>;
+  replyTo?: InputMaybe<Update_Send_Emails_Values_ReplyTo_Input>;
+  sendAt?: InputMaybe<Scalars['Int']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  template_id?: InputMaybe<Scalars['String']['input']>;
+  trackingSettings?: InputMaybe<Update_Send_Emails_Values_TrackingSettings_Input>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_BypassBounceManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_BypassListManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_BypassUnsubscribeManagement_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_Footer_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_Input = {
+  bcc?: InputMaybe<Update_Send_Emails_Values_MailSettings_Bcc_Input>;
+  bypassBounceManagement?: InputMaybe<Update_Send_Emails_Values_MailSettings_BypassBounceManagement_Input>;
+  bypassListManagement?: InputMaybe<Update_Send_Emails_Values_MailSettings_BypassListManagement_Input>;
+  bypassUnsubscribeManagement?: InputMaybe<Update_Send_Emails_Values_MailSettings_BypassUnsubscribeManagement_Input>;
+  footer?: InputMaybe<Update_Send_Emails_Values_MailSettings_Footer_Input>;
+  sandboxMode?: InputMaybe<Update_Send_Emails_Values_MailSettings_SandboxMode_Input>;
+  spamCheck?: InputMaybe<Update_Send_Emails_Values_MailSettings_SpamCheck_Input>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_SandboxMode_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_MailSettings_SpamCheck_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  postToUrl?: InputMaybe<Scalars['String']['input']>;
+  threshold?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type Update_Send_Emails_Values_Personalizations_Bcc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Personalizations_Cc_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Personalizations_Dynamic_Template_Data_Input = {
+  invitor?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_Personalizations_Input = {
+  bcc?: InputMaybe<Array<Update_Send_Emails_Values_Personalizations_Bcc_Input>>;
+  cc?: InputMaybe<Array<Update_Send_Emails_Values_Personalizations_Cc_Input>>;
+  dynamic_template_data?: InputMaybe<Update_Send_Emails_Values_Personalizations_Dynamic_Template_Data_Input>;
+  to?: InputMaybe<Array<Update_Send_Emails_Values_Personalizations_To_Input>>;
+};
+
+export type Update_Send_Emails_Values_Personalizations_To_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_ReplyTo_Input = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_TrackingSettings_ClickTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  enableText?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type Update_Send_Emails_Values_TrackingSettings_Ganalytics_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  utmCampaign?: InputMaybe<Scalars['String']['input']>;
+  utmContent?: InputMaybe<Scalars['String']['input']>;
+  utmMedium?: InputMaybe<Scalars['String']['input']>;
+  utmSource?: InputMaybe<Scalars['String']['input']>;
+  utmTerm?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_TrackingSettings_Input = {
+  clickTracking?: InputMaybe<Update_Send_Emails_Values_TrackingSettings_ClickTracking_Input>;
+  ganalytics?: InputMaybe<Update_Send_Emails_Values_TrackingSettings_Ganalytics_Input>;
+  openTracking?: InputMaybe<Update_Send_Emails_Values_TrackingSettings_OpenTracking_Input>;
+  subscriptionTracking?: InputMaybe<Update_Send_Emails_Values_TrackingSettings_SubscriptionTracking_Input>;
+};
+
+export type Update_Send_Emails_Values_TrackingSettings_OpenTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Update_Send_Emails_Values_TrackingSettings_SubscriptionTracking_Input = {
+  enable?: InputMaybe<Scalars['Boolean']['input']>;
+  html?: InputMaybe<Scalars['String']['input']>;
+  substitutionTag?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type Update_Todo_Accesss_Input = {
   query: Update_Todo_Accesss_Query_Input;
   values: Update_Todo_Accesss_Values_Input;
@@ -1076,6 +2019,11 @@ export type Updatemany_Notification_Response = {
   meta?: Maybe<Meta>;
 };
 
+export type Updatemany_Send_Email_Response = {
+  __typename?: 'updatemany_send_email_response';
+  meta?: Maybe<Meta>;
+};
+
 export type Updatemany_Todo_Access_Response = {
   __typename?: 'updatemany_todo_access_response';
   data: Array<Todo_Access>;
@@ -1103,6 +2051,11 @@ export type Updatemany_User_Connection_Response = {
 export type Updatemany_User_Response = {
   __typename?: 'updatemany_user_response';
   data: Array<User>;
+  meta?: Maybe<Meta>;
+};
+
+export type Updateone_Send_Email_Response = {
+  __typename?: 'updateone_send_email_response';
   meta?: Maybe<Meta>;
 };
 

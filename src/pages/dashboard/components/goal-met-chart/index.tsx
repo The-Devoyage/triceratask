@@ -1,62 +1,52 @@
-import { useEffect } from "react";
 import Chart from "react-apexcharts";
 import { Card, Tooltip } from "flowbite-react";
 import { useReactiveVar } from "@apollo/client";
 import { darkModeVar, userUuidVar } from "src/state";
-import { useGoalMetChartGetTodosCountLazyQuery } from "./graphql.generated";
+import { useGoalMetChartGetTodosCountQuery } from "./graphql.generated";
 import { Loader } from "src/components";
 import { TbMath } from "react-icons/tb";
 import { FaInfoCircle } from "react-icons/fa";
+import dayjs from "src/utils/dayjs";
+
+const currentDate = dayjs().toISOString();
 
 export const GoalMetChart = () => {
   const darkMode = useReactiveVar(darkModeVar);
 
-  const [
-    getTotal,
-    { data: totalData, loading: loadingTotal },
-  ] = useGoalMetChartGetTodosCountLazyQuery();
-  const [
-    getCompleted,
-    { data: completedData, loading: loadingCompleted },
-  ] = useGoalMetChartGetTodosCountLazyQuery();
+  const { data: totalData, loading } = useGoalMetChartGetTodosCountQuery({
+    variables: {
+      get_todos_input: {
+        query: {
+          completed: true,
+          OR: [
+            {
+              LT: {
+                goal_date: currentDate,
+              },
+            },
+            {
+              GT: {
+                goal_date: currentDate,
+              },
+            },
+          ],
+          access: {
+            revoked: false,
+            user: { uuid: userUuidVar() },
+          },
+        },
+        opts: {
+          per_page: -1,
+        },
+      },
+    },
+  });
   const totalCount = totalData?.get_todos?.meta?.total_count || 0;
-  const completedCount = completedData?.get_todos?.meta?.total_count || 0;
+  const completedCount =
+    totalData?.get_todos?.data?.filter((t) =>
+      dayjs(t.completed_at).isBefore(t.goal_date)
+    ).length ?? 0;
   const percentage = Math.round((completedCount / totalCount) * 100) || 0;
-  const loading = loadingTotal || loadingCompleted;
-
-  useEffect(() => {
-    getTotal({
-      variables: {
-        get_todos_input: {
-          query: {
-            LT: {
-              goal_date: new Date().toISOString(),
-            },
-            access: {
-              revoked: false,
-              user: { uuid: userUuidVar() },
-            },
-          },
-        },
-      },
-    });
-    getCompleted({
-      variables: {
-        get_todos_input: {
-          query: {
-            completed: true,
-            LT: {
-              goal_date: new Date().toISOString(),
-            },
-            access: {
-              revoked: false,
-              user: { uuid: userUuidVar() },
-            },
-          },
-        },
-      },
-    });
-  }, [getTotal, getCompleted]);
 
   const getPercentageColor = () => {
     if (percentage > 70) {
