@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { HiClipboardCheck, HiLockClosed, HiOutlineLogin } from "react-icons/hi";
 import { TbUserBolt } from "react-icons/tb";
+import { isLoggedInVar } from "src/state";
+import { useReactiveVar } from "@apollo/client";
 
 export const HomePage = () => {
   const navigate = useNavigate();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const ctaRef = useRef<HTMLElement>(null);
 
   return (
@@ -25,21 +28,23 @@ export const HomePage = () => {
             <div className="flex flex-col space-y-3 lg:flex-row lg:space-y-0 lg:space-x-3">
               <a
                 onClick={() => navigate(appRoutes.login.path)}
-                className="inline-flex items-center justify-center px-5 py-3 cursor-pointer text-base font-medium text-center text-gray-500 dark:text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+                className="inline-flex items-center justify-center cursor-pointer text-base font-medium text-center text-gray-500 dark:text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
               >
-                Get started
-                <svg
-                  className="w-5 h-5 ml-2 -mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
+                <Button outline className="w-full">
+                  {isLoggedIn ? "Dashboard" : "Login"}
+                  <svg
+                    className="w-5 h-5 ml-2 -mr-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </Button>
               </a>
               <Button
                 gradientDuoTone="purpleToBlue"

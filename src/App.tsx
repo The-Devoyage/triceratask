@@ -18,6 +18,7 @@ import { useGetUsersActive } from "./utils/useGetUsersActive/index.tsx";
 import { MdContacts } from "react-icons/md";
 import clsx from "clsx";
 import { appRoutes } from "./routes.tsx";
+import { usePullToRefresh } from "./utils/usePullToRefresh/index.tsx";
 
 export interface Todo {
   _id: string;
@@ -41,6 +42,7 @@ export const App = () => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   useUpdateActive();
   useGetUsersActive();
+  usePullToRefresh();
 
   useEffect(() => {
     const lastBackupRequest = localStorage.getItem("lastBackupRequest");
@@ -73,6 +75,7 @@ export const App = () => {
       {showAlert && (
         <Alert
           color="warning"
+          className="rounded-none"
           onDismiss={() => {
             localStorage.setItem("showAlert", "false");
             setShowAlert(false);
@@ -112,7 +115,11 @@ export const App = () => {
           </div>
         </Modal.Body>
       </Modal>
-      <div className={`${darkMode && "dark"}`}>
+      <div
+        className={clsx({
+          dark: darkMode,
+        })}
+      >
         <div
           className={
             darkMode ? "gradient-background-dark" : "gradient-background"

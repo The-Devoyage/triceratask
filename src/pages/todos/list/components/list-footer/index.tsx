@@ -1,30 +1,26 @@
 import { Pagination, Select } from "flowbite-react";
-import { FC } from "react";
-import { Meta, Options_Input } from "src/types/generated";
+import { FC, useContext } from "react";
 import { useWindowSize } from "src/utils/useWindowSize";
-import { PaginationParams } from "../..";
+import { TodosListContext } from "../../provider";
+import clsx from "clsx";
 
-interface ListFooterProps {
-  handlePagination: (paginationParams: PaginationParams) => void;
-  page: Meta["page"];
-  perPage: Options_Input["per_page"];
-  totalPages: Meta["total_pages"];
-}
-
-export const ListFooter: FC<ListFooterProps> = ({
-  handlePagination,
-  perPage,
-  page,
-  totalPages,
-}) => {
+export const ListFooter: FC<{ isFooter?: boolean }> = ({ isFooter }) => {
   const { isMobile } = useWindowSize();
+  const { getTodos, handlePagination } = useContext(TodosListContext);
+  const { variables } = getTodos?.[1] || {};
+  const { per_page } = variables?.get_todos_input?.opts || {};
+  const { page, total_pages } = getTodos?.[1]?.data?.get_todos?.meta || {};
 
   return (
-    <div className="flex justify-between">
+    <div
+      className={clsx("flex justify-between mb-2", {
+        "items-start mt-2": isFooter,
+        "items-end": !isFooter,
+      })}
+    >
       <Select
-        className="mt-2"
         sizing="sm"
-        value={perPage || 15}
+        value={per_page || 15}
         onChange={(e) =>
           handlePagination({ page: 1, per_page: parseInt(e.target.value) })
         }
@@ -36,9 +32,14 @@ export const ListFooter: FC<ListFooterProps> = ({
       </Select>
       <Pagination
         currentPage={page || 1}
-        totalPages={totalPages || 1}
+        totalPages={total_pages || 1}
         layout={isMobile ? "navigation" : "pagination"}
         showIcons
+        theme={{
+          pages: {
+            base: "mt-0 flex",
+          },
+        }}
         onPageChange={(page) =>
           handlePagination({
             page,

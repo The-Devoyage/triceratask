@@ -1,33 +1,37 @@
 import { Avatar, Checkbox, Table, Tooltip } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { FC } from "react";
+import { useContext } from "react";
 import { EmptyTodos, TodosLoading } from "../";
 import { appRoutes } from "src/routes";
 import { TodoStatusBadge, UserAvatar } from "src/components";
 import dayjs from "src/utils/dayjs";
-import { TodosListGetTodosQuery } from "../../graphql.generated";
 import clsx from "clsx";
-import { Todo } from "src/types/generated";
+import { TodosListContext } from "../../provider";
 
-interface Props {
-  selected: Todo["uuid"][];
-  setSelected: React.Dispatch<React.SetStateAction<Todo["uuid"][]>>;
-  todos?: TodosListGetTodosQuery["get_todos"]["data"];
-  loading?: boolean;
-  updating?: boolean;
-}
-
-export const TodosListBody: FC<Props> = ({
-  todos,
-  loading,
-  selected,
-  setSelected,
-  updating,
-}) => {
+export const TodosListBody = () => {
   const navigate = useNavigate();
+  const { getTodos, selected, updateTodos, setSelected } = useContext(
+    TodosListContext
+  );
+  const { loading: updating } = updateTodos?.[1] || {};
+  const { loading, data } = getTodos?.[1] || {};
+  const todos = data?.get_todos.data;
 
-  if (loading) return <TodosLoading />;
-  if (!todos?.length) return <EmptyTodos />;
+  if (loading) {
+    return (
+      <Table.Body>
+        <TodosLoading />
+      </Table.Body>
+    );
+  }
+
+  if (!todos?.length) {
+    return (
+      <Table.Body>
+        <EmptyTodos />
+      </Table.Body>
+    );
+  }
 
   return (
     <Table.Body>
@@ -64,6 +68,7 @@ export const TodosListBody: FC<Props> = ({
             <Avatar.Group>
               {todo?.access?.data.map((a) => (
                 <UserAvatar
+                  key={a.user.data.uuid}
                   user={a.user.data}
                   showStatus
                   size="sm"

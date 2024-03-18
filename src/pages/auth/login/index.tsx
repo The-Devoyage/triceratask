@@ -120,7 +120,7 @@ export const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-2xl">Login</h1>
             <Label>Username</Label>
-            <TextInput {...register("identifier")} />
+            <TextInput {...register("identifier")} autoComplete="username" />
             <div className="flex flex-row justify-end pt-4 mt-4">
               <Button type="submit" color="info">
                 Login
