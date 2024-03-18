@@ -37,7 +37,7 @@ export const EncryptedCard: FC<{
         setIsDecrypted(true);
         setTimeout(() => {
           const todo: Pick<Todo, "description"> = JSON.parse(decrypted);
-          setDecryptedDescription(todo.description);
+          setDecryptedDescription(todo.description || "");
         }, 2000);
       } catch (err) {
         setSuccess(false);
@@ -45,7 +45,11 @@ export const EncryptedCard: FC<{
     }
   }, [password, todo?.description, todo?.is_encrypted, setIsDecrypted]);
 
-  if (todo?.is_encrypted && !decrypedDescription) {
+  if (
+    todo?.is_encrypted &&
+    !decrypedDescription &&
+    decrypedDescription !== ""
+  ) {
     return (
       <Card
         className={clsx("flex flex-col border-2 border-gray-700 rounded-md", {
@@ -96,6 +100,13 @@ export const EncryptedCard: FC<{
         </div>
       </Card>
     );
+  }
+
+  if (
+    (!todo?.description && !todo.is_encrypted) ||
+    (todo?.is_encrypted && !decrypedDescription)
+  ) {
+    return null;
   }
 
   return (
