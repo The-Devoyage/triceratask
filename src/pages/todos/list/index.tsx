@@ -1,12 +1,12 @@
 import { Table } from "flowbite-react";
-import { TodosListBody, TodosListHeader } from "./components";
+import { TodoListSearch, TodosListBody, TodosListHeader } from "./components";
 import { ListFooter } from "./components/list-footer";
 import { TodosListProvider } from "./provider";
 
 export const List = () => {
   return (
     <TodosListProvider>
-      <ListFooter />
+      <TodoListSearch />
       <Table
         hoverable
         theme={{

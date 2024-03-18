@@ -24,6 +24,7 @@ export interface HandleFilterParams {
   completed?: boolean | null;
   sort?: string;
   order?: Sort_Direction;
+  search?: string;
 }
 
 interface QueryParams extends Record<string, string | undefined> {
@@ -118,6 +119,11 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
       if (filterParams?.completed === true || filterParams?.completed === false)
         query.completed = filterParams.completed.toString();
       if (filterParams?.completed === null) delete query.completed;
+      if (filterParams?.search) {
+        query.search = filterParams.search;
+      } else {
+        delete query.search;
+      }
       if (filterParams?.sort) query.sort = filterParams.sort;
       if (filterParams?.order) query.order = filterParams.order;
       if (paginationParams?.page) query.page = paginationParams.page.toString();
@@ -169,20 +175,31 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
   const handleFilter = useCallback(
     (v: HandleFilterParams) => {
       createSearchQuery(v);
+
+      const query = {
+        ...getTodos[1].variables?.get_todos_input?.query,
+        completed: v.completed === null ? undefined : v.completed,
+        access: {
+          user: {
+            uuid: userUuidVar(),
+          },
+          revoked: false,
+        },
+      };
+
+      if (v.search) {
+        query.LIKE = {
+          title: `%${v.search}%`,
+        };
+      } else {
+        delete query.LIKE;
+      }
+
       getTodos[0]({
         variables: {
           ...getTodos[1].variables!,
           get_todos_input: {
-            query: {
-              ...getTodos[1].variables?.get_todos_input?.query,
-              completed: v.completed === null ? undefined : v.completed,
-              access: {
-                user: {
-                  uuid: userUuidVar(),
-                },
-                revoked: false,
-              },
-            },
+            query,
             opts: {
               ...getTodos[1].variables?.get_todos_input?.opts,
               per_page:
