@@ -47,6 +47,7 @@ export interface TodosListContext {
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
   handleFilter: (v: HandleFilterParams) => void;
   handleBulkEdit: (uuid: Todo["uuid"][], completed: Todo["completed"]) => void;
+  searchParams?: URLSearchParams;
 }
 
 export const TodosListContext = createContext<TodosListContext>({
@@ -91,7 +92,6 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
         completed: searchParams.has("completed")
           ? searchParams.get("completed") === "true"
           : undefined,
-
         access: {
           user: {
             uuid: userUuidVar(),
@@ -100,6 +100,12 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
         },
       },
     };
+
+    if (searchParams.has("search")) {
+      getTodosInput.query.LIKE = {
+        title: `%${searchParams.get("search")}%`,
+      };
+    }
 
     getTodos[0]({
       variables: {
@@ -121,7 +127,7 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
       if (filterParams?.completed === null) delete query.completed;
       if (filterParams?.search) {
         query.search = filterParams.search;
-      } else {
+      } else if (filterParams?.search === "") {
         delete query.search;
       }
       if (filterParams?.sort) query.sort = filterParams.sort;
@@ -178,7 +184,6 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
 
       const query = {
         ...getTodos[1].variables?.get_todos_input?.query,
-        completed: v.completed === null ? undefined : v.completed,
         access: {
           user: {
             uuid: userUuidVar(),
@@ -191,8 +196,14 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
         query.LIKE = {
           title: `%${v.search}%`,
         };
-      } else {
+      } else if (v.search === "") {
         delete query.LIKE;
+      }
+
+      if (v.completed === true || v.completed === false) {
+        query.completed = v.completed;
+      } else if (v.completed === null) {
+        delete query.completed;
       }
 
       getTodos[0]({
@@ -260,6 +271,7 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
       setSelected,
       handleFilter,
       handleBulkEdit,
+      searchParams,
     }),
     [
       updateTodos,
@@ -269,6 +281,7 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
       selected,
       handleFilter,
       handleBulkEdit,
+      searchParams,
     ]
   );
 

@@ -6,7 +6,7 @@ import { useDebounce } from "src/utils/useDebounce";
 import { useWindowSize } from "src/utils/useWindowSize";
 
 export const TodoListSearch = () => {
-  const { handleFilter } = useContext(TodosListContext);
+  const { handleFilter, searchParams } = useContext(TodosListContext);
   const ref = useRef<HTMLInputElement>(null);
   const handleSearch = useDebounce<string>((value) => {
     handleFilter({ search: value });
@@ -26,6 +26,7 @@ export const TodoListSearch = () => {
         className="mb-4"
         onChange={(e) => handleSearch(e.target.value)}
         ref={ref}
+        defaultValue={searchParams?.get("search") || ""}
       />
     </>
   );
