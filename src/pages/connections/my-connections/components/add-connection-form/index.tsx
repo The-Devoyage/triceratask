@@ -72,14 +72,14 @@ export const AddConnection = forwardRef<
             <DropdownSelect
               {...rest}
               placeholder="Identifier"
-              onSelected={(user) => reset({ identifier: user.identifier })}
+              onSelected={(user) => reset({ identifier: user?.identifier })}
               inputRef={(e) => {
                 ref(e);
                 (inputRef as React.MutableRefObject<HTMLInputElement>).current = e as HTMLInputElement;
               }}
               options={data?.get_users.data
                 ?.filter((user) =>
-                  user.identifier
+                  user?.identifier
                     .toLowerCase()
                     .includes(identifier?.toLowerCase() ?? "")
                 )

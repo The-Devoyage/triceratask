@@ -32,13 +32,13 @@ export const AppNavbar = () => {
       },
     },
     onCompleted: (data) => {
-      if (data?.get_user?.data.share_active) {
+      if (data?.get_user?.data?.share_active) {
         isActiveVar(data.get_user.data.share_active);
       }
-      userEmailVar(data?.get_user?.data.email);
-      userPhoneVar(data?.get_user?.data.phone);
-      localStorage.setItem("user_email", data?.get_user?.data.email ?? "");
-      localStorage.setItem("user_phone", data?.get_user?.data.phone ?? "");
+      userEmailVar(data?.get_user?.data?.email);
+      userPhoneVar(data?.get_user?.data?.phone);
+      localStorage.setItem("user_email", data?.get_user?.data?.email ?? "");
+      localStorage.setItem("user_phone", data?.get_user?.data?.phone ?? "");
     },
   });
 
@@ -112,7 +112,7 @@ export const AppNavbar = () => {
             arrowIcon={false}
             label={
               <Avatar
-                img={data?.get_user.data.profile_img ?? ""}
+                img={data?.get_user.data?.profile_img ?? ""}
                 className="ml-1 cursor-pointer hover:scale-110"
                 status={isActive ? "online" : "offline"}
                 onClick={() =>

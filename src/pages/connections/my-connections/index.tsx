@@ -165,7 +165,7 @@ const ConnectionList = forwardRef<
 
   return data.get_user_connections?.data.map((connection, index) => (
     <Connection
-      key={connection.uuid ?? index}
+      key={connection?.uuid ?? index}
       connection={connection}
       activeTab={activeTab}
       setActiveTab={setActiveTab}

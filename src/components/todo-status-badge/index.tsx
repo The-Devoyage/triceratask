@@ -21,6 +21,10 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       return "Overdue";
     }
 
+    if (goalDate) {
+      return dayjs.tz(goalDate).local().fromNow();
+    }
+
     return "Pending";
   };
 
@@ -33,6 +37,12 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       return "failure";
     }
 
+    if (goalDate) {
+      if (dayjs.tz(goalDate).local().isBefore(dayjs.tz().add(3, "day"))) {
+        return "warning";
+      }
+      return "purple";
+    }
     return "indigo";
   };
 
@@ -45,15 +55,15 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
         todo?.completed && todo?.completed_at
           ? dayjs.tz(todo?.completed_at).local().format("MMMM D, YYYY h:mm A")
           : goalDate
-          ? `Due ${dayjs.tz(goalDate).local().fromNow()}`
-          : "No due date"
+          ? `Goal: ${dayjs.tz(goalDate).local().format("MMMM D, YYYY h:mm A")}`
+          : "No goal set"
       }
     >
       <Badge
         color={getColor()}
         icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
         size="sm"
-        className="px-2 rounded-md gap-0 md:gap-1 flex justify-center align-center"
+        className="rounded-md gap-0 md:gap-1 flex justify-center align-center text-xs"
         theme={{
           icon: {
             size: {
@@ -62,7 +72,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
           },
         }}
       >
-        <span className="hidden md:inline">{getStatus()}</span>
+        <span className="ml-1">{getStatus()}</span>
       </Badge>
     </Tooltip>
   );

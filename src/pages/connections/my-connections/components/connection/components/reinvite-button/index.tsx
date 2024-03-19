@@ -23,7 +23,7 @@ export const ReinviteButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            uuid: connection?.uuid,
           },
           values: {
             revoked: false,
@@ -38,7 +38,7 @@ export const ReinviteButton: FC<{
     onComplete && onComplete();
   };
 
-  if (connection.revoked && connection.user?.data.uuid === userUuidVar())
+  if (connection?.revoked && connection.user?.data?.uuid === userUuidVar())
     return (
       <Button
         size="small"

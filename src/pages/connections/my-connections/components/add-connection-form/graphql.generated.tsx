@@ -9,14 +9,14 @@ export type CreateConnectionMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateConnectionMutation = { __typename?: 'Mutation', create_user_connection: { __typename?: 'createone_user_connection_response', data: { __typename?: 'user_connection', uuid: string } } };
+export type CreateConnectionMutation = { __typename?: 'Mutation', create_user_connection: { __typename?: 'createone_user_connection_response', data?: { __typename?: 'user_connection', uuid: string } | null } };
 
 export type GetUsersAddConnectionInputQueryVariables = Types.Exact<{
   get_users_input: Types.Get_Users_Input;
 }>;
 
 
-export type GetUsersAddConnectionInputQuery = { __typename?: 'Query', get_users: { __typename?: 'findmany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null }> } };
+export type GetUsersAddConnectionInputQuery = { __typename?: 'Query', get_users: { __typename?: 'findmany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null> } };
 
 
 export const CreateConnectionDocument = gql`

@@ -11,7 +11,7 @@ export type TaskAccessSelectGetConnectionsQueryVariables = Types.Exact<{
 }>;
 
 
-export type TaskAccessSelectGetConnectionsQuery = { __typename?: 'Query', get_user_connections: { __typename?: 'findmany_user_connection_response', data: Array<{ __typename?: 'user_connection', uuid: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } }, connected_user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } };
+export type TaskAccessSelectGetConnectionsQuery = { __typename?: 'Query', get_user_connections: { __typename?: 'findmany_user_connection_response', data: Array<{ __typename?: 'user_connection', uuid: string, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null }, connected_user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } } | null> } };
 
 export type TaskAccessCreateAccessMutationVariables = Types.Exact<{
   create_todo_access_input: Types.Create_Todo_Access_Input;

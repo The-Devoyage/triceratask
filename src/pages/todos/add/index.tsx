@@ -17,6 +17,7 @@ import { useToaster } from "src/utils/useToaster";
 import { FaCircleInfo, FaSquareCheck } from "react-icons/fa6";
 import { EncryptedTextarea } from "src/components/encrypted-textarea";
 import Crypto from "crypto-js";
+import { TodosListGetTodosDocument } from "../list/provider/graphql.generated";
 
 export const Add = () => {
   const [isEncrypting, setIsEncrypting] = useState(false);
@@ -66,6 +67,7 @@ export const Add = () => {
         );
         toaster.addToast("success", "Todo created successfully!");
       },
+      refetchQueries: [TodosListGetTodosDocument],
     });
   };
 

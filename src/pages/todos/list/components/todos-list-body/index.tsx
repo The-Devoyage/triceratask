@@ -68,7 +68,7 @@ export const TodosListBody = () => {
             <Avatar.Group>
               {todo?.access?.data.map((a) => (
                 <UserAvatar
-                  key={a.user.data.uuid}
+                  key={a.user.data?.uuid}
                   user={a.user.data}
                   showStatus
                   size="sm"

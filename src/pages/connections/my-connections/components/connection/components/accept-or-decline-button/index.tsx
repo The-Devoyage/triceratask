@@ -24,7 +24,7 @@ export const AcceptOrDeclineButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            uuid: connection?.uuid,
           },
           values: {
             accepted: true,
@@ -49,7 +49,7 @@ export const AcceptOrDeclineButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            uuid: connection?.uuid,
           },
           values: {
             revoked: true,
@@ -69,8 +69,8 @@ export const AcceptOrDeclineButton: FC<{
   };
 
   if (
-    connection.connected_user?.data.uuid === userUuidVar() &&
-    !connection.accepted
+    connection?.connected_user?.data?.uuid === userUuidVar() &&
+    !connection?.accepted
   )
     return (
       <Button.Group>

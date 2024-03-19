@@ -9,7 +9,7 @@ export type TodoTimelineGetHistoriesQueryVariables = Types.Exact<{
 }>;
 
 
-export type TodoTimelineGetHistoriesQuery = { __typename?: 'Query', get_todo_historys: { __typename?: 'findmany_todo_history_response', data: Array<{ __typename?: 'todo_history', uuid: string, created_at: string, property: string, old_value?: string | null, new_value?: string | null, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }>, meta?: { __typename?: 'meta', total_count: number, total_pages: number } | null } };
+export type TodoTimelineGetHistoriesQuery = { __typename?: 'Query', get_todo_historys: { __typename?: 'findmany_todo_history_response', data: Array<{ __typename?: 'todo_history', uuid: string, created_at: string, property: string, old_value?: string | null, new_value?: string | null, created_by: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }>, meta?: { __typename?: 'meta', total_count: number, total_pages: number } | null } };
 
 
 export const TodoTimelineGetHistoriesDocument = gql`

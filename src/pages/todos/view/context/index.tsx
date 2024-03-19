@@ -49,7 +49,7 @@ export const ViewTodoProvider: FC<{
   });
   const todo = data?.get_todo.data;
   const userAccess = todo?.access.data.find(
-    (a) => a?.user?.data.uuid === userUuidVar()
+    (a) => a?.user?.data?.uuid === userUuidVar()
   );
 
   useEffect(() => {

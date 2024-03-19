@@ -108,7 +108,7 @@ export const EncryptedTextarea: FC<EncryptedTextareaProps> = ({
         value={value?.toString() ?? ""}
         onChange={!disabled ? onChange : () => null}
         placeholder={placeholder}
-        className={clsx("prose dark:prose-invert")}
+        className={clsx("prose dark:prose-invert max-w-none")}
       />
     </>
   );

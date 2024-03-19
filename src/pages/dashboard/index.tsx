@@ -1,5 +1,10 @@
 import { Badge, Card } from "flowbite-react";
-import { GoalMetChart, TodoStats, TodosCompletedChart } from "./components";
+import {
+  ReliabilityIndex,
+  TodoStats,
+  TodosCompletedChart,
+  UpcomingGoals,
+} from "./components";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import { userUuidVar } from "src/state";
@@ -105,7 +110,8 @@ export const Dashboard = () => {
             }
           />
         </div>
-        <GoalMetChart />
+        <ReliabilityIndex />
+        <UpcomingGoals />
       </div>
     </>
   );

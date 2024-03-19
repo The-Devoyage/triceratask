@@ -25,7 +25,7 @@ export const RevokeButton: FC<{
       variables: {
         update_user_connections_input: {
           query: {
-            uuid: connection.uuid,
+            uuid: connection?.uuid,
           },
           values: {
             revoked: true,
@@ -42,10 +42,10 @@ export const RevokeButton: FC<{
   };
 
   if (
-    (!connection.accepted &&
-      !connection.revoked &&
-      connection.user?.data.uuid === userUuidVar()) ||
-    connection.accepted
+    (!connection?.accepted &&
+      !connection?.revoked &&
+      connection?.user?.data?.uuid === userUuidVar()) ||
+    connection?.accepted
   )
     return (
       <Button

@@ -69,6 +69,8 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const getTodos = useTodosListGetTodosLazyQuery({
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
+    pollInterval: 1000 * 60 * 5,
   });
   const updateTodos = useTodoListBulkUpdateMutation();
   const [selected, setSelected] = useState<string[]>([]); // uuids of todos being updated

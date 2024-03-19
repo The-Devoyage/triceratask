@@ -1,7 +1,11 @@
 import { Badge, Button, Card, ToggleSwitch } from "flowbite-react";
 import { FC } from "react";
 import { MdGroupRemove } from "react-icons/md";
-import { Todo_Access, Update_Todo_Accesss_Input } from "src/types/generated";
+import {
+  Todo_Access,
+  Update_Todo_Accesss_Input,
+  User,
+} from "src/types/generated";
 import { useTaskAccessUpdateAccesssMutation } from "./graphql.generated";
 import { EDIT_GET_TODO } from "src/pages/todos/edit/graphql";
 import { getOperationName } from "@apollo/client/utilities";
@@ -11,19 +15,16 @@ import { useIsUserActive } from "src/utils/useIsUserActive";
 
 export const AccessTableRow: FC<{
   access: Pick<Todo_Access, "manage" | "edit" | "uuid" | "revoked">;
-  user: Pick<
-    Todo_Access["user"]["data"],
-    "identifier" | "uuid" | "profile_img"
-  >;
+  user?: Pick<User, "identifier" | "uuid" | "profile_img"> | null;
 }> = ({ access, user }) => {
   const toaster = useToaster();
   const [updateAccess] = useTaskAccessUpdateAccesssMutation({
     refetchQueries: [getOperationName(EDIT_GET_TODO) ?? ""],
   });
-  const isActive = useIsUserActive(user.uuid);
+  const isActive = useIsUserActive(user?.uuid);
 
   const handleChange = (values: Update_Todo_Accesss_Input["values"]) => {
-    if (user.uuid === userUuidVar()) {
+    if (user?.uuid === userUuidVar()) {
       return toaster.addToast("error", "You cannot manage your own access");
     }
     updateAccess({
@@ -42,7 +43,7 @@ export const AccessTableRow: FC<{
   return (
     <Card
       imgAlt="User profile image."
-      imgSrc={user.profile_img ?? ""}
+      imgSrc={user?.profile_img ?? ""}
       className="border-2 flex w-full"
       horizontal
       theme={{
@@ -53,7 +54,7 @@ export const AccessTableRow: FC<{
     >
       <div>
         <div className="flex flex-row justify-between items-center w-full">
-          <h4 className="text-lg font-bold">{user.identifier}</h4>
+          <h4 className="text-lg font-bold">{user?.identifier}</h4>
           <Badge color={isActive ? "success" : "failure"}>
             {isActive ? "Active" : "Offline"}
           </Badge>

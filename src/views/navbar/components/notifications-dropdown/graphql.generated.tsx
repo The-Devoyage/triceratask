@@ -9,7 +9,7 @@ export type NavbarGetNotificationsQueryVariables = Types.Exact<{
 }>;
 
 
-export type NavbarGetNotificationsQuery = { __typename?: 'Query', get_notifications: { __typename?: 'findmany_notification_response', data: Array<{ __typename?: 'notification', uuid: string, created_at: string, user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string } }, notification_message: { __typename?: 'findone_notification_message_response', data: { __typename?: 'notification_message', identifier: string, message: string } }, todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', title: string, uuid: string } }, created_by: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } } }> } };
+export type NavbarGetNotificationsQuery = { __typename?: 'Query', get_notifications: { __typename?: 'findmany_notification_response', data: Array<{ __typename?: 'notification', uuid: string, created_at: string, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string } | null }, notification_message: { __typename?: 'findone_notification_message_response', data: { __typename?: 'notification_message', identifier: string, message: string } }, todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', title: string, uuid: string } }, created_by: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } };
 
 export type NavbarUpdateNotificationsMutationVariables = Types.Exact<{
   update_notifications_input: Types.Update_Notifications_Input;

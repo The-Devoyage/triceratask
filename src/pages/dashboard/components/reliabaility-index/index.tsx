@@ -10,7 +10,7 @@ import dayjs from "src/utils/dayjs";
 
 const currentDate = dayjs().toISOString();
 
-export const GoalMetChart = () => {
+export const ReliabilityIndex = () => {
   const darkMode = useReactiveVar(darkModeVar);
 
   const { data: totalData, loading } = useGoalMetChartGetTodosCountQuery({
@@ -74,7 +74,7 @@ export const GoalMetChart = () => {
       <div className="flex justify-between">
         <h3 className="text-2xl font-bold">Reliability Index</h3>
         <Tooltip
-          content={`You are ${percentage}% likely to meet goals on time.`}
+          content={`Based on previous achievements, you are ${percentage}% likely to meet goals on time.`}
         >
           <FaInfoCircle />
         </Tooltip>

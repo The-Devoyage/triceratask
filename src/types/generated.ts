@@ -521,13 +521,13 @@ export type Createone_Todo_Response = {
 
 export type Createone_User_Connection_Response = {
   __typename?: 'createone_user_connection_response';
-  data: User_Connection;
+  data?: Maybe<User_Connection>;
   meta?: Maybe<Meta>;
 };
 
 export type Createone_User_Response = {
   __typename?: 'createone_user_response';
-  data: User;
+  data?: Maybe<User>;
   meta?: Maybe<Meta>;
 };
 
@@ -568,13 +568,13 @@ export type Findmany_Todo_Response = {
 
 export type Findmany_User_Connection_Response = {
   __typename?: 'findmany_user_connection_response';
-  data: Array<User_Connection>;
+  data: Array<Maybe<User_Connection>>;
   meta?: Maybe<Meta>;
 };
 
 export type Findmany_User_Response = {
   __typename?: 'findmany_user_response';
-  data: Array<User>;
+  data: Array<Maybe<User>>;
   meta?: Maybe<Meta>;
 };
 
@@ -615,13 +615,13 @@ export type Findone_Todo_Response = {
 
 export type Findone_User_Connection_Response = {
   __typename?: 'findone_user_connection_response';
-  data: User_Connection;
+  data?: Maybe<User_Connection>;
   meta?: Maybe<Meta>;
 };
 
 export type Findone_User_Response = {
   __typename?: 'findone_user_response';
-  data: User;
+  data?: Maybe<User>;
   meta?: Maybe<Meta>;
 };
 
@@ -2044,13 +2044,13 @@ export type Updatemany_Todo_Response = {
 
 export type Updatemany_User_Connection_Response = {
   __typename?: 'updatemany_user_connection_response';
-  data: Array<User_Connection>;
+  data: Array<Maybe<User_Connection>>;
   meta?: Maybe<Meta>;
 };
 
 export type Updatemany_User_Response = {
   __typename?: 'updatemany_user_response';
-  data: Array<User>;
+  data: Array<Maybe<User>>;
   meta?: Maybe<Meta>;
 };
 

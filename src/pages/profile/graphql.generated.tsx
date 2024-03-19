@@ -9,14 +9,14 @@ export type UpdateUserProfileMutationVariables = Types.Exact<{
 }>;
 
 
-export type UpdateUserProfileMutation = { __typename?: 'Mutation', update_users: { __typename?: 'updatemany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, email?: string | null, phone?: string | null }> } };
+export type UpdateUserProfileMutation = { __typename?: 'Mutation', update_users: { __typename?: 'updatemany_user_response', data: Array<{ __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, email?: string | null, phone?: string | null } | null> } };
 
 export type GetUserProfileQueryVariables = Types.Exact<{
   get_user_input: Types.Get_User_Input;
 }>;
 
 
-export type GetUserProfileQuery = { __typename?: 'Query', get_user: { __typename?: 'findone_user_response', data: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null, email?: string | null, phone?: string | null } } };
+export type GetUserProfileQuery = { __typename?: 'Query', get_user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null, created_at: string, share_active?: boolean | null, status?: string | null, email?: string | null, phone?: string | null } | null } };
 
 
 export const UpdateUserProfileDocument = gql`
