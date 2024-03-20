@@ -9,7 +9,7 @@ export type UpcomingTasksByGoalQueryVariables = Types.Exact<{
 }>;
 
 
-export type UpcomingTasksByGoalQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, goal_date?: string | null, completed: boolean }>, meta?: { __typename?: 'meta', total_count: number } | null } };
+export type UpcomingTasksByGoalQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, goal_date?: string | null, completed: boolean, deleted_at?: string | null }>, meta?: { __typename?: 'meta', total_count: number } | null } };
 
 
 export const UpcomingTasksByGoalDocument = gql`
@@ -20,6 +20,7 @@ export const UpcomingTasksByGoalDocument = gql`
       title
       goal_date
       completed
+      deleted_at
     }
     meta {
       total_count

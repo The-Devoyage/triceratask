@@ -9,7 +9,7 @@ export type GoalMetChartGetTodosCountQueryVariables = Types.Exact<{
 }>;
 
 
-export type GoalMetChartGetTodosCountQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, completed_at?: string | null, goal_date?: string | null }>, meta?: { __typename?: 'meta', total_count: number } | null } };
+export type GoalMetChartGetTodosCountQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, completed_at?: string | null, goal_date?: string | null, deleted_at?: string | null }>, meta?: { __typename?: 'meta', total_count: number } | null } };
 
 
 export const GoalMetChartGetTodosCountDocument = gql`
@@ -19,6 +19,7 @@ export const GoalMetChartGetTodosCountDocument = gql`
       uuid
       completed_at
       goal_date
+      deleted_at
     }
     meta {
       total_count

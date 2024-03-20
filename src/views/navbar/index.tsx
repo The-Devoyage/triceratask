@@ -1,7 +1,7 @@
 import { useReactiveVar } from "@apollo/client";
 import { Avatar, Button, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import { HiMenu, HiPlus } from "react-icons/hi";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { appRoutes } from "src/routes";
 import {
   darkModeVar,
@@ -77,8 +77,7 @@ export const AppNavbar = () => {
           onClick={() =>
             isLoggedIn
               ? navigate({
-                  pathname: appRoutes.listTodos.path,
-                  search: createSearchParams({ completed: "false" }).toString(),
+                  pathname: appRoutes.dashboard.path,
                 })
               : navigate(appRoutes.home.path)
           }

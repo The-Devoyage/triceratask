@@ -10,14 +10,14 @@ export type TodosListGetTodosQueryVariables = Types.Exact<{
 }>;
 
 
-export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, created_at: string, updated_at: string, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } }>, meta?: { __typename?: 'meta', request_id: string, count: number, total_count: number, page: number, total_pages: number, service_name: string, executed_at: string, service_version?: string | null, user_uuid?: string | null } | null } };
+export type TodosListGetTodosQuery = { __typename?: 'Query', get_todos: { __typename?: 'findmany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, deleted_at?: string | null, created_at: string, updated_at: string, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } }>, meta?: { __typename?: 'meta', request_id: string, count: number, total_count: number, page: number, total_pages: number, service_name: string, executed_at: string, service_version?: string | null, user_uuid?: string | null } | null } };
 
 export type TodoListBulkUpdateMutationVariables = Types.Exact<{
   update_todos_input: Types.Update_Todos_Input;
 }>;
 
 
-export type TodoListBulkUpdateMutation = { __typename?: 'Mutation', update_todos: { __typename?: 'updatemany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, completed: boolean }> } };
+export type TodoListBulkUpdateMutation = { __typename?: 'Mutation', update_todos: { __typename?: 'updatemany_todo_response', data: Array<{ __typename?: 'todo', uuid: string, completed: boolean, deleted_at?: string | null }> } };
 
 
 export const TodosListGetTodosDocument = gql`
@@ -30,6 +30,7 @@ export const TodosListGetTodosDocument = gql`
       completed
       completed_at
       goal_date
+      deleted_at
       access(access: $get_todo_accesss_input) {
         data {
           uuid
@@ -94,6 +95,7 @@ export const TodoListBulkUpdateDocument = gql`
     data {
       uuid
       completed
+      deleted_at
     }
   }
 }

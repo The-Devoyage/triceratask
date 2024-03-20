@@ -45,16 +45,34 @@ export const TodosListHeader = () => {
           }}
         >
           <Dropdown.Item
-            onClick={() => handleBulkEdit(selected, true)}
+            onClick={() =>
+              handleBulkEdit(selected, {
+                completed: true,
+              })
+            }
             disabled={selected.length === 0}
           >
             Mark Completed
           </Dropdown.Item>
           <Dropdown.Item
-            onClick={() => handleBulkEdit(selected, false)}
+            onClick={() =>
+              handleBulkEdit(selected, {
+                completed: false,
+              })
+            }
             disabled={selected.length === 0}
           >
             Mark Incomplete
+          </Dropdown.Item>
+          <Dropdown.Item
+            onClick={() =>
+              handleBulkEdit(selected, {
+                is_deleted: true,
+              })
+            }
+            disabled={selected.length === 0}
+          >
+            Delete
           </Dropdown.Item>
         </Dropdown>
       </Table.HeadCell>

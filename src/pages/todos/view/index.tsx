@@ -116,7 +116,9 @@ const ViewContent = () => {
                 onClick={handleUpdate}
                 isProcessing={updating}
                 disabled={
-                  todo?.completed || (!userAccess?.edit && !userAccess?.manage)
+                  todo?.completed ||
+                  (!userAccess?.edit && !userAccess?.manage) ||
+                  todo?.deleted_at !== null
                 }
                 className="border-l"
               >

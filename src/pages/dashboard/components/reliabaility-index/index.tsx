@@ -41,10 +41,13 @@ export const ReliabilityIndex = () => {
       },
     },
   });
-  const totalCount = totalData?.get_todos?.meta?.total_count || 0;
+  const totalCount =
+    totalData?.get_todos?.data?.filter((t) => t.deleted_at === null).length ??
+    0;
   const completedCount =
-    totalData?.get_todos?.data?.filter((t) =>
-      dayjs(t.completed_at).isBefore(t.goal_date)
+    totalData?.get_todos?.data?.filter(
+      (t) =>
+        dayjs(t.completed_at).isBefore(t.goal_date) && t.deleted_at === null
     ).length ?? 0;
   const percentage = Math.round((completedCount / totalCount) * 100) || 0;
 

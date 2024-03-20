@@ -15,6 +15,7 @@ export const VIEW_GET_TODO = gql`
         created_at
         goal_date
         is_encrypted
+        deleted_at
         created_by(created_by: { query: {} }) {
           data {
             uuid

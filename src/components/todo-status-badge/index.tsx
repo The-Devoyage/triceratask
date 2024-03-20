@@ -1,18 +1,26 @@
 import { Badge, Tooltip } from "flowbite-react";
 import { FC } from "react";
+import { FiTrash2 } from "react-icons/fi";
 import { HiBadgeCheck } from "react-icons/hi";
 import { TbProgressBolt } from "react-icons/tb";
 import { Todo } from "src/types/generated";
 import dayjs from "src/utils/dayjs";
 
 interface Props {
-  todo?: Pick<Todo, "completed" | "completed_at" | "goal_date"> | null;
+  todo?: Pick<
+    Todo,
+    "completed" | "completed_at" | "goal_date" | "deleted_at"
+  > | null;
 }
 
 export const TodoStatusBadge: FC<Props> = ({ todo }) => {
   const goalDate = todo?.goal_date;
 
   const getStatus = () => {
+    if (todo?.deleted_at) {
+      return "Deleted";
+    }
+
     if (todo?.completed) {
       return "Completed";
     }
@@ -29,6 +37,10 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
   };
 
   const getColor = () => {
+    if (todo?.deleted_at) {
+      return "light";
+    }
+
     if (todo?.completed) {
       return "success";
     }
@@ -46,6 +58,17 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
     return "indigo";
   };
 
+  const getBadge = () => {
+    if (todo?.deleted_at) {
+      return FiTrash2;
+    }
+
+    if (todo?.completed) {
+      return HiBadgeCheck;
+    }
+    return TbProgressBolt;
+  };
+
   return (
     <Tooltip
       theme={{
@@ -61,7 +84,7 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
     >
       <Badge
         color={getColor()}
-        icon={todo?.completed ? HiBadgeCheck : TbProgressBolt}
+        icon={getBadge()}
         size="sm"
         className="rounded-md gap-0 md:gap-1 flex justify-center align-center text-xs"
         theme={{

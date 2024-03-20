@@ -13,6 +13,7 @@ export const GET_TODOS = gql`
         completed
         completed_at
         goal_date
+        deleted_at
         access(access: $get_todo_accesss_input) {
           data {
             uuid
@@ -49,6 +50,7 @@ export const TODO_LIST_BULK_UPDATE = gql`
       data {
         uuid
         completed
+        deleted_at
       }
     }
   }

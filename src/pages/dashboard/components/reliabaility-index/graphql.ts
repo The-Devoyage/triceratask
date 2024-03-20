@@ -7,6 +7,7 @@ export const GOAL_MET_CHART_GET_TODOS_COUNT = gql`
         uuid
         completed_at
         goal_date
+        deleted_at
       }
       meta {
         total_count

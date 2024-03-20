@@ -8,6 +8,7 @@ export const UPCOMING_GOALS = gql`
         title
         goal_date
         completed
+        deleted_at
       }
       meta {
         total_count

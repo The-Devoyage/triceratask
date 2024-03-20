@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Button, Label, TextInput, Card, Checkbox } from "flowbite-react";
+import {
+  Button,
+  Label,
+  TextInput,
+  Card,
+  Checkbox,
+  Badge,
+} from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Todo, Update_Todos_Input } from "src/types/generated";
@@ -17,6 +24,7 @@ import { EncryptedTextarea } from "src/components/encrypted-textarea";
 import Crypto from "crypto-js";
 import { useToaster } from "src/utils/useToaster";
 import { TodoTimelineGetHistoriesDocument } from "../view/components/todo-timeline/graphql.generated";
+import { FiTrash2 } from "react-icons/fi";
 
 export const Edit = () => {
   const [isDecrypted, setIsDecrypted] = useState(true);
@@ -25,6 +33,7 @@ export const Edit = () => {
   const { register, handleSubmit, reset, setValue, watch } = useForm<
     Update_Todos_Input["values"] & { password: string }
   >();
+  register("is_deleted");
   const [updateTodo] = useUpdateTodosMutation({
     refetchQueries: [TodoTimelineGetHistoriesDocument],
   });
@@ -126,10 +135,18 @@ export const Edit = () => {
     <>
       <Card className="mb-3">
         <div className="flex justify-between align-center">
-          <h4 className="text-3xl font-bold">Manage Task</h4>
+          <div className="flex items-center space-x-3">
+            <h4 className="text-3xl font-bold">Manage Task</h4>
+            <Badge color="failure" className="text-xs">
+              Deleted
+            </Badge>
+          </div>
           <div>
             <Label className="mr-2">Completed</Label>
-            <Checkbox {...register("completed")} />
+            <Checkbox
+              {...register("completed")}
+              disabled={data?.get_todo?.data.deleted_at !== null}
+            />
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,6 +155,7 @@ export const Edit = () => {
             <TextInput
               placeholder="Title"
               className="mb-4"
+              disabled={data?.get_todo?.data.deleted_at !== null}
               {...register("title", {
                 required: true,
               })}
@@ -157,7 +175,9 @@ export const Edit = () => {
                   ? "Encrypted description. Enter password to decrypt."
                   : watch("description") ?? ""
               }
-              disabled={!isDecrypted}
+              disabled={
+                !isDecrypted || data?.get_todo?.data.deleted_at !== null
+              }
               isDecrypted={isDecrypted}
               passwordInputProps={{
                 ...register("password"),
@@ -167,10 +187,28 @@ export const Edit = () => {
             />
           </div>
           <div className="flex justify-between items-end">
-            <Button type="submit" className="flex justify-center items-center">
-              <FaSquareCheck className="h-5 md:mr-2" />
-              <span className="hidden md:block">Update Task</span>
-            </Button>
+            <Button.Group>
+              <Button
+                type="submit"
+                className="flex justify-center items-center"
+                disabled={data?.get_todo?.data.deleted_at !== null}
+              >
+                <FaSquareCheck className="h-5 md:mr-2" />
+                <span className="hidden md:block">Update Task</span>
+              </Button>
+              <Button
+                color="failure"
+                onClick={() => {
+                  setValue("is_deleted", true);
+                  handleSubmit(onSubmit)();
+                }}
+                className="flex justify-center items-center"
+                disabled={data?.get_todo?.data.deleted_at !== null}
+              >
+                <FiTrash2 className="h-5 md:mr-2" />
+                <span className="hidden md:block">Delete</span>
+              </Button>
+            </Button.Group>
             <div className="flex flex-col">
               <Label>Goal Date</Label>
               <input
@@ -178,6 +216,7 @@ export const Edit = () => {
                 {...register("goal_date", {
                   valueAsDate: true,
                 })}
+                disabled={data?.get_todo?.data.deleted_at !== null}
                 className="rounded-md dark:bg-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 p-2 dark:[color-scheme:dark]"
               />
             </div>

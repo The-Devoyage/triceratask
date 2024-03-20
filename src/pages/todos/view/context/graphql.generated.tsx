@@ -10,7 +10,7 @@ export type ViewGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, is_encrypted?: boolean | null, created_by: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null }, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } } } };
+export type ViewGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, created_at: string, goal_date?: string | null, is_encrypted?: boolean | null, deleted_at?: string | null, created_by: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null }, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } } } };
 
 
 export const ViewGetTodoDocument = gql`
@@ -25,6 +25,7 @@ export const ViewGetTodoDocument = gql`
       created_at
       goal_date
       is_encrypted
+      deleted_at
       created_by(created_by: {query: {}}) {
         data {
           uuid

@@ -46,7 +46,10 @@ export interface TodosListContext {
   selected: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
   handleFilter: (v: HandleFilterParams) => void;
-  handleBulkEdit: (uuid: Todo["uuid"][], completed: Todo["completed"]) => void;
+  handleBulkEdit: (
+    uuid: Todo["uuid"][],
+    values: Partial<Pick<Todo, "completed" | "is_deleted">>
+  ) => void;
   searchParams?: URLSearchParams;
 }
 
@@ -239,16 +242,17 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
   );
 
   const handleBulkEdit = useCallback(
-    (uuid: Todo["uuid"][], completed: Todo["completed"]) => {
+    (
+      uuid: Todo["uuid"][],
+      values: Partial<Pick<Todo, "completed" | "is_deleted">>
+    ) => {
       updateTodos[0]({
         variables: {
           update_todos_input: {
             query: {
               OR: uuid.map((u) => ({ uuid: u })),
             },
-            values: {
-              completed,
-            },
+            values,
           },
         },
         onCompleted: () => {

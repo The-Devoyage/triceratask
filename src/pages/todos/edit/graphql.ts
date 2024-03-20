@@ -29,6 +29,7 @@ export const EDIT_GET_TODO = gql`
         completed_at
         goal_date
         is_encrypted
+        deleted_at
         access(access: $get_todo_accesss_input) {
           data {
             uuid

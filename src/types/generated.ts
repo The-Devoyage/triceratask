@@ -1086,8 +1086,10 @@ export type Get_Todo_Query_Input = {
   completed_at?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
+  deleted_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_deleted?: InputMaybe<Scalars['Boolean']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['String']['input']>;
@@ -1110,8 +1112,10 @@ export type Get_Todos_Querys_Input = {
   completed_at?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
+  deleted_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_deleted?: InputMaybe<Scalars['Boolean']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['String']['input']>;
@@ -1283,9 +1287,11 @@ export type Todo = {
   completed_by?: Maybe<Scalars['Int']['output']>;
   created_at: Scalars['String']['output'];
   created_by: Findone_User_Response;
+  deleted_at?: Maybe<Scalars['String']['output']>;
   description: Scalars['String']['output'];
   goal_date?: Maybe<Scalars['String']['output']>;
   history: Findmany_Todo_History_Response;
+  is_deleted?: Maybe<Scalars['Boolean']['output']>;
   is_encrypted?: Maybe<Scalars['Boolean']['output']>;
   title: Scalars['String']['output'];
   updated_at: Scalars['String']['output'];
@@ -1927,8 +1933,10 @@ export type Update_Todos_Query_Input = {
   completed_at?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['String']['input']>;
   created_by?: InputMaybe<Scalars['Int']['input']>;
+  deleted_at?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_deleted?: InputMaybe<Scalars['Boolean']['input']>;
   is_encrypted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['String']['input']>;
@@ -1939,6 +1947,7 @@ export type Update_Todos_Values_Input = {
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   goal_date?: InputMaybe<Scalars['String']['input']>;
+  is_deleted?: InputMaybe<Scalars['Boolean']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 

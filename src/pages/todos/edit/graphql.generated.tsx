@@ -17,7 +17,7 @@ export type EditGetTodoQueryVariables = Types.Exact<{
 }>;
 
 
-export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, is_encrypted?: boolean | null, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, revoked: boolean, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } } } };
+export type EditGetTodoQuery = { __typename?: 'Query', get_todo: { __typename?: 'findone_todo_response', data: { __typename?: 'todo', uuid: string, title: string, description: string, completed: boolean, completed_at?: string | null, goal_date?: string | null, is_encrypted?: boolean | null, deleted_at?: string | null, access: { __typename?: 'findmany_todo_access_response', data: Array<{ __typename?: 'todo_access', uuid: string, manage: boolean, edit: boolean, revoked: boolean, user: { __typename?: 'findone_user_response', data?: { __typename?: 'user', uuid: string, identifier: string, profile_img?: string | null } | null } }> } } } };
 
 
 export const UpdateTodosDocument = gql`
@@ -71,6 +71,7 @@ export const EditGetTodoDocument = gql`
       completed_at
       goal_date
       is_encrypted
+      deleted_at
       access(access: $get_todo_accesss_input) {
         data {
           uuid

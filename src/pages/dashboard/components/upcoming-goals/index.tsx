@@ -44,7 +44,7 @@ export const UpcomingGoals = () => {
       },
     },
   });
-  const todos = data?.get_todos.data;
+  const todos = data?.get_todos.data.filter((t) => t.deleted_at === null);
 
   if (loading) {
     return (
