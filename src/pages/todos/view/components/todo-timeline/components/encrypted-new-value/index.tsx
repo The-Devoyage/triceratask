@@ -7,6 +7,9 @@ import { useWindowSize } from "src/utils/useWindowSize";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { TodoTimelineGetHistoriesQuery } from "../../graphql.generated";
+import dayjs from "src/utils/dayjs";
+
+const dateColumns = ["created_at", "updated_at", "completed_at", "goal_date"];
 
 export const EncryptedNewValue: FC<{
   history: TodoTimelineGetHistoriesQuery["get_todo_historys"]["data"][0];
@@ -15,6 +18,7 @@ export const EncryptedNewValue: FC<{
   const { isDecrypted, password } = useContext(ViewTodoContext);
   const [decrypted, setDecrypted] = useState<string | null>(null);
   const { isMobile } = useWindowSize();
+  const isDate = dateColumns.includes(history?.property);
 
   useEffect(() => {
     if (!attemptDecrypt) setDecrypted(history?.new_value ?? "");
@@ -41,6 +45,9 @@ export const EncryptedNewValue: FC<{
     newValue: string | null | undefined,
     truncate: boolean
   ) => {
+    if (isDate) {
+      return dayjs.tz(newValue).local().format("MMMM D, YYYY h:mm A");
+    }
     if (newValue === "0") return "No";
     if (newValue === "1") return "Yes";
 

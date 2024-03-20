@@ -137,9 +137,11 @@ export const Edit = () => {
         <div className="flex justify-between align-center">
           <div className="flex items-center space-x-3">
             <h4 className="text-3xl font-bold">Manage Task</h4>
-            <Badge color="failure" className="text-xs">
-              Deleted
-            </Badge>
+            {data?.get_todo?.data.deleted_at && (
+              <Badge color="failure" className="text-xs">
+                Deleted
+              </Badge>
+            )}
           </div>
           <div>
             <Label className="mr-2">Completed</Label>

@@ -70,17 +70,13 @@ const client = new ApolloClient({
           get_todo_historys: {
             keyArgs: [["get_todo_historys_input", ["query"]]],
             merge(existing, incoming) {
-              const uniqueHistories = [
-                ...new Map(
-                  [
-                    ...(existing?.data ?? []),
-                    ...(incoming?.data ?? []),
-                  ].map((item) => [item.uuid, item])
-                ).values(),
-              ];
+              if (!existing) {
+                return incoming;
+              }
+
               return {
                 ...incoming,
-                data: uniqueHistories,
+                data: [...existing.data, ...incoming.data],
               };
             },
           },

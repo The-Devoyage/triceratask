@@ -67,8 +67,9 @@ export const TodoTimeline: FC<{
   }
 
   return (
-    <Card className="p-2">
-      <Timeline>
+    <Card>
+      <h2 className="text-2xl font-bold mb-3">Timeline</h2>
+      <Timeline className="m-2">
         {Object.entries(histories || {})
           .sort(([a], [b]) => dayjs(b).diff(dayjs(a)))
           .map(([date, histories], i) => (
@@ -132,7 +133,10 @@ export const TodoTimeline: FC<{
             });
             setPage(page + 1);
           }}
-          visible={data?.get_todo_historys?.meta?.total_pages !== page}
+          visible={
+            (data?.get_todo_historys?.meta?.total_count ?? 0) >
+            (data?.get_todo_historys?.data?.length ?? 0)
+          }
         />
         <CreatedTimelineItem todo={todo} />
       </Timeline>
