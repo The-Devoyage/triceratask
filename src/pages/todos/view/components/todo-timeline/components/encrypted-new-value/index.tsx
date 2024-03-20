@@ -9,7 +9,13 @@ import remarkGfm from "remark-gfm";
 import { TodoTimelineGetHistoriesQuery } from "../../graphql.generated";
 import dayjs from "src/utils/dayjs";
 
-const dateColumns = ["created_at", "updated_at", "completed_at", "goal_date"];
+const dateColumns = [
+  "created_at",
+  "updated_at",
+  "completed_at",
+  "goal_date",
+  "deleted_at",
+];
 
 export const EncryptedNewValue: FC<{
   history: TodoTimelineGetHistoriesQuery["get_todo_historys"]["data"][0];
