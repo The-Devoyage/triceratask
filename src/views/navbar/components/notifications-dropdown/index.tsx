@@ -49,12 +49,12 @@ export const NotificationsDropdown = () => {
   const [updateNotifications] = useNavbarUpdateNotificationsMutation();
   const notifications = data?.get_notifications.data ?? [];
 
-  const markRead = (uuid: Notification["uuid"], callback?: () => void) => {
+  const markRead = (uuid: Notification["uuid"][], callback?: () => void) => {
     updateNotifications({
       variables: {
         update_notifications_input: {
           query: {
-            uuid,
+            OR: uuid.map((u) => ({ uuid: u })),
           },
           values: {
             read: true,
@@ -78,7 +78,7 @@ export const NotificationsDropdown = () => {
       case NOTIFICATION_TYPES.TODO_ACCESS_UPDATED:
       case NOTIFICATION_TYPES.TODO_ACCESS_REENABLED:
         return () => {
-          markRead(notification.uuid, () => {
+          markRead([notification.uuid], () => {
             // If on same page, reload
             if (
               window.location.pathname ===
@@ -100,7 +100,7 @@ export const NotificationsDropdown = () => {
         };
       case NOTIFICATION_TYPES.TODO_ACCESS_REVOKED:
         return () => {
-          markRead(notification.uuid);
+          markRead([notification.uuid]);
         };
     }
   };
@@ -121,7 +121,19 @@ export const NotificationsDropdown = () => {
         </>
       }
     >
-      <Dropdown.Header>Notifications</Dropdown.Header>
+      <Dropdown.Header className="flex justify-between items-center p-2 px-4">
+        <h2 className="text-lg font-bold text-center">Notifications</h2>
+        <Button
+          size="xs"
+          outline
+          disabled={!notifications.length}
+          onClick={() => {
+            markRead(notifications.map((n) => n.uuid));
+          }}
+        >
+          Clear all
+        </Button>
+      </Dropdown.Header>
       {notifications.length ? (
         notifications?.map((notification) => (
           <Dropdown.Item
@@ -149,7 +161,7 @@ export const NotificationsDropdown = () => {
                     outline
                     onClick={(e) => {
                       e.stopPropagation();
-                      markRead(notification.uuid);
+                      markRead([notification.uuid]);
                     }}
                   >
                     <HiCheck className="h-3" />

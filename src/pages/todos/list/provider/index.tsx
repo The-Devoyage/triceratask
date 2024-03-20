@@ -73,7 +73,7 @@ export const TodosListProvider: FC<TodosListProviderProps> = ({ children }) => {
   const getTodos = useTodosListGetTodosLazyQuery({
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
-    pollInterval: 1000 * 60 * 5,
+    pollInterval: 1000 * 30,
   });
   const updateTodos = useTodoListBulkUpdateMutation();
   const [selected, setSelected] = useState<string[]>([]); // uuids of todos being updated
