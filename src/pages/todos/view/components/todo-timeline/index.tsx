@@ -77,7 +77,7 @@ export const TodoTimeline: FC<{
               <Timeline.Point icon={MdBookmarkAdded} />
               <Timeline.Content>
                 <Timeline.Time className="flex justify-between">
-                  {dayjs().to(date)}
+                  {dayjs.tz(date).local().format("MMMM D, YYYY h:mm A")}
                   <div className="flex overflow-hidden justify-end p-1">
                     <UserAvatar
                       user={histories[0]?.created_by.data}

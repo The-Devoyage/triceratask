@@ -14,10 +14,10 @@ export const TodosListBody = () => {
     TodosListContext
   );
   const { loading: updating } = updateTodos?.[1] || {};
-  const { loading, data } = getTodos?.[1] || {};
+  const { loading, data, called } = getTodos?.[1] || {};
   const todos = data?.get_todos.data;
 
-  if (loading) {
+  if (loading && !called) {
     return (
       <Table.Body>
         <TodosLoading />

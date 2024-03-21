@@ -21,6 +21,14 @@ export const TodoStatusBadge: FC<Props> = ({ todo }) => {
       return "Deleted";
     }
 
+    if (
+      todo?.completed &&
+      goalDate &&
+      dayjs(goalDate).isBefore(dayjs(todo?.completed_at))
+    ) {
+      return "Past Due";
+    }
+
     if (todo?.completed) {
       return "Completed";
     }

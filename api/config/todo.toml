@@ -129,14 +129,16 @@ name = "access_denied"
 if_expr = '''
   is_edit = len(input("values", "title")) > 0 || len(input("values", "description")) > 0 || len(input("values", "goal_date")) > 0;
   is_manage = len(input("values", "title")) == 0 && len(input("values", "description")) == 0 && len(input("values", "goal_date")) == 0;
+  is_delete = len(input("values", "is_deleted")) > 0;
   todo_uuids = input("query", "uuid");
   todo_edit_acesses = context("todo_access.edit");
   block_edit = is_edit && (len(todo_uuids) != len(todo_edit_acesses) || !every(todo_edit_acesses, true));
+  block_delete = is_delete && (len(todo_uuids) != len(todo_edit_acesses) || !every(todo_edit_acesses, true));
 
   todo_manage_acesses = context("todo_access.manage");
   block_manage = is_manage && (len(todo_uuids) != len(todo_manage_acesses) || !every(todo_manage_acesses, true));
 
-  block_edit || block_manage
+  block_edit || block_manage || block_delete
 '''
 then_msg = "You do not have permission to update this task."
 [[entities.data_source.resolvers.update_many.guards.context]]
